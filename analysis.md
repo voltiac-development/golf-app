@@ -42,19 +42,28 @@ With the usage of websockets, a duo or more should be placed within a socket roo
 <br>
 ## Use cases
 <br>
-| Use case | UC-01) Actor creates new account |
-| -------- | -------------------------------- |
-| Actor | App user |
-| Precondition | The actor is not logged in. |
-| App Flow | <ol><li>Actor enters their username, firstname, lastname, email and password.</li><li>Actor clicks register.</li></ol> |
-| Voltiac flow | <ol><li>Actor clicks on register with Voltiac.</li><li>Actor gets redirected to Voltiac authenticator.</li><li>Actor logs in with Voltiac account.</li><li>Actor gets send back to app.</li></ol> |
-| Result | Actor is logged in. |
-| Exceptions | **App flow**<br>  E-mail or username is already taken [2].<br>    Go back to [1].<br>  Not all fields are entered [2].<br>     Go back to [1]. |
+| Use Case     | UC-01) Actor creates new account                                                                                                                                             |
+|--------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Actor        | App user                                                                                                                                                                     |
+| Precondition | String                                                                                                                                                                       |
+| App Flow     | 1. Actor enters their username, firstname, lastname, email and password.<br>2. Actor clicks register.                                                                        |
+| Voltiac Flow | 1. Actor clicks on register with Voltiac.<br>2. Actor gets redirected to Voltiac authenticator.<br>3. Actor logs in with Voltiac account.<br>4. Actor gets send back to app. |
+| Result       | Actor is logged in.                                                                                                                                                          |
+| Exceptions   | **App Flow**<br> E-mail or username is already taken [2].<br>  Go back to [1].<br> Not all fields are entered [2].<br>  Go back to [1].                                      |
 <br>
 | Use case | UC-02) Actor logs in. |
 | -------- | --------------------- |
 | Actor | App User |
 | Precondition | Actor is not logged in. |
+| App Flow | <ol><li>Actor enters username.</li><li>Actor enters password.</li><li>Actor pressed login.</li></ol> |
+| Voltiac Flow | <ol><li>Actor clicks on login with Voltiac.</li><li>Actor gets redirected to Voltiac authenticator.</li><li>Actor logs in with Voltiac account.</li><li>Actor gets send back to app.</li></ol> |
+| Result | Actor gets logged in. |
+| Exceptions | Username and / or password not entered [3].<br>    Go back to [1].<br>Username and password combo incorrect [3].<br>    Go back to [1]. |
+<br>
+| Use case | UC-03) Actor adds new course. |
+| -------- | ----------------------------- |
+| Actor | App User |
+| Precondition | Actor is logged in |
 | App Flow | <ol><li>Actor enters username.</li><li>Actor enters password.</li><li>Actor pressed login.</li></ol> |
 | Voltiac Flow | <ol><li>Actor clicks on login with Voltiac.</li><li>Actor gets redirected to Voltiac authenticator.</li><li>Actor logs in with Voltiac account.</li><li>Actor gets send back to app.</li></ol> |
 | Result | Actor gets logged in. |
