@@ -14,7 +14,10 @@ Courses are added by users themselves. When a course is not available when they 
 ## Requirements
 
 * [ ] An user should be able to create a new account.
+    * [ ] Username and e-mail should be unique.
+    * [ ] When Voltiac account email already exists, link with password authentication.
 * [ ] An user should be able to log in.
+    * [ ] E-mail & password or Voltiac auth should be used for logging in.
 * [ ] An user should be able to add his/her favorite course.
 * [ ] An user should be able to edit his/her information.
 * [ ] An user should be able to view there recent scores.
@@ -70,3 +73,45 @@ With the usage of websockets, a duo or more should be placed within a socket roo
 | Secondary flow | 1. Actor enters name, adress and website.<br>2. Actor enters tee boxes.<br>3. Actor enters PAR, SI and distances. |
 | Result | New course is added to the app. |
 | Exceptions | **Both flows**<br>Adress or website is already known [1].<br> Show course information to user.<br>No teeboxes are selected [2].<br> Go back to [2].<br>PAR, SI or distances are below 0 [3].<br> Go back to [3].<br><br>**Base flow**<br>Some handicaps are not taken into account [4].<br> Go back to [4]. |
+
+| Use Case | UC-04) Actor edits own information |
+|-|-|
+| Actor | App user |
+| Precondition | Actor is logged in. |
+| Base flow | 1. Actor enters name, email and username.<br>2. Actor enters adress information.<br>3. Actor enters favorite course. |
+| Secondary flow | 1. Actor enters name, email and username.<br>2. Actor enters adress information.<br>3. Actor enters favorite course.<br>4. Actor enters password twice. |
+| Result | Actors information is updated. |
+| Exceptions | **Secondary flow**<br>Passwords do not match [4].<br> Go back to [1]. |
+
+| Use Case | UC-05) Actor views specific score |
+|-|-|
+| Actor | App user |
+| Precondition | Actor is logged in. |
+| Base flow | 1. Actor selects recent scores.<br>2. System retrieves recent scores.<br>3. Actor select specific score. |
+| Result | Actors score is retrieved. |
+| Exceptions |  |
+
+| Use Case | UC-06) Actor adds new friend |
+|-|-|
+| Actor | App user |
+| Precondition | Actor is logged in. |
+| Base flow | 1. Actor enters name, email or username.<br>2. System searches for possible accounts.<br>3. Actor selects account. |
+| Result | System sends friend request. |
+| Exceptions | No accounts found [2].<br> Go back to [1]. |
+
+| Use Case | UC-07) Actor removes a friend |
+|-|-|
+| Actor | App user |
+| Precondition | Actor is logged in. |
+| Base flow | 1. Actor enters name, email or username.<br>2. System searches for possible accounts.<br>3. Actor selects account. |
+| Result | System removes friend. |
+| Exceptions | No accounts found [2].<br> Go back to [1]. |
+
+| Use Case | UC-08) Actor starts new round |
+|-|-|
+| Actor | App user |
+| Precondition | Actor is logged in. |
+| Base flow | 1. Actor selects course.<br>2. Actor chooses a friend.<br>3. Actor selects teebox for self and friend.<br>4. Actor enters handicap for self and friend.<br>5. Actor and friend confirm information. |
+| Secondary flow | 1. Actor selects course.<br>2. Actor selects teebox.<br>3. Actor enters handicap.<br>4. Actor confirms information. |
+| Result | System starts round. |
+| Exceptions | **Both flows**<br>Some information not entered [5].<br> Go back to [3].<br><br>**Base flow**<br>Friend not found [2].<br> Go back to [1]. |
