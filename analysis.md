@@ -42,6 +42,7 @@ With the usage of websockets, a duo or more should be placed within a socket roo
 <br>
 ## Use cases
 <br>
+
 | Use Case     | UC-01) Actor creates new account                                                                                                                                             |
 |--------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Actor        | App user                                                                                                                                                                     |
