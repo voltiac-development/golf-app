@@ -115,3 +115,4 @@ With the usage of websockets, a duo or more should be placed within a socket roo
 | Secondary flow | 1. Actor selects course.<br>2. Actor selects teebox.<br>3. Actor enters handicap.<br>4. Actor confirms information. |
 | Result | System starts round. |
 | Exceptions | **Both flows**<br>Some information not entered [5].<br> Go back to [3].<br><br>**Base flow**<br>Friend not found [2].<br> Go back to [1]. |
+
