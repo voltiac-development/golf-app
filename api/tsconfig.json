@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "target": "ESNext",
+        "watch": true,
+        "lib": [
+            "DOM",
+            "ES2017"
+        ],
+        "moduleResolution": "Node",
+        "esModuleInterop": true,
+        "outDir": "dist",
+        "strict": false,
+    }
+}
