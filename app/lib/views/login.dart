@@ -22,81 +22,107 @@ class LoginState extends State<LoginScreen> {
       primary: Colors.white,
     );
     return Scaffold(
-      backgroundColor: Theme.of(context).primaryColor,
-      appBar: AppBar(
-        title: Center(
-            child: Text(
-          "GOLFCADDIE",
-          style:
-              TextStyle(fontWeight: FontWeight.w200, color: Color(0xFFffffff)),
-        )),
-        elevation: 0,
-      ),
-      body: Container(
-        decoration: BoxDecoration(
-            color: Color(0xFFffffff),
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(30), topRight: Radius.circular(30))),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(
-                width: max(250, MediaQuery.of(context).size.width * 0.50),
-                child: TextField(
-                  controller: emailController,
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: 'E-mail',
-                      icon: Icon(Icons.mail_outline),
-                      contentPadding: EdgeInsets.all(8),
-                      isDense: true),
-                )),
-            SizedBox(height: 10, width: MediaQuery.of(context).size.width),
-            SizedBox(
-                width: max(250, MediaQuery.of(context).size.width * 0.50),
-                child: TextField(
-                  controller: passwordController,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Wachtwoord',
-                    icon: Icon(Icons.lock_outline),
-                    contentPadding: EdgeInsets.all(8),
-                    isDense: true,
-                  ),
-                  autocorrect: false,
-                  obscureText: true,
-                )),
-            SizedBox(height: 10),
-            ElevatedButton(
-              style: style,
-              onPressed: () {
-                checkRegister(context);
-              },
-              child: Padding(
-                padding: EdgeInsets.only(top: 5, bottom: 5),
-                child: Text('Inloggen'),
-              ),
-            ),
-          ],
+        backgroundColor: Theme.of(context).primaryColor,
+        appBar: AppBar(
+          title: Center(
+              child: Text(
+            "GOLFCADDIE",
+            style: TextStyle(
+                fontWeight: FontWeight.w200, color: Color(0xFFffffff)),
+          )),
+          elevation: 0,
         ),
-      ),
-      bottomNavigationBar: BottomAppBar(
+        body: Container(
+          decoration: BoxDecoration(
+              color: Color(0xFFffffff),
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(30), topRight: Radius.circular(30))),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                  width: max(250, MediaQuery.of(context).size.width * 0.50),
+                  child: TextField(
+                    controller: emailController,
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        hintText: 'E-mail',
+                        icon: Icon(Icons.mail_outline),
+                        contentPadding: EdgeInsets.all(8),
+                        isDense: true),
+                  )),
+              SizedBox(height: 10, width: MediaQuery.of(context).size.width),
+              SizedBox(
+                  width: max(250, MediaQuery.of(context).size.width * 0.50),
+                  child: TextField(
+                    controller: passwordController,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: 'Wachtwoord',
+                      icon: Icon(Icons.lock_outline),
+                      contentPadding: EdgeInsets.all(8),
+                      isDense: true,
+                    ),
+                    autocorrect: false,
+                    obscureText: true,
+                  )),
+              SizedBox(height: 10),
+              ElevatedButton(
+                style: style,
+                onPressed: () {
+                  checkRegister(context);
+                },
+                child: Padding(
+                  padding: EdgeInsets.only(top: 5, bottom: 5),
+                  child: Text('Inloggen'),
+                ),
+              ),
+            ],
+          ),
+        ),
+        bottomNavigationBar: BottomAppBar(
           elevation: 0,
           child: Padding(
               padding: EdgeInsets.only(top: 5, bottom: 5),
-              child: GestureDetector(
-                child: Text(
-                  'registreren',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Theme.of(context).accentColor,
+              child: Row(
+                children: [
+                  SizedBox(
+                    width: 135,
+                    child: GestureDetector(
+                      child: Text(
+                        'registreren',
+                        textAlign: TextAlign.right,
+                        style: TextStyle(
+                          color: Theme.of(context).accentColor,
+                        ),
+                      ),
+                      onTapDown: (details) {
+                        Navigator.of(context).pushNamed('register');
+                      },
+                    ),
                   ),
-                ),
-                onTapDown: (details) {
-                  Navigator.of(context).pushNamed('register');
-                },
-              ))),
-    );
+                  SizedBox(
+                    width: 10,
+                  ),
+                  SizedBox(
+                    child: GestureDetector(
+                      child: Text(
+                        'wachtwoord vergeten',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.red[400],
+                        ),
+                      ),
+                      onTapDown: (details) {
+                        Navigator.of(context).pushNamed('forgotpassword');
+                      },
+                    ),
+                    width: 135,
+                  )
+                ],
+                mainAxisAlignment: MainAxisAlignment.center,
+              )),
+        ));
   }
 
   void checkRegister(final context) {

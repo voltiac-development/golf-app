@@ -13,6 +13,7 @@ class LoginState extends State<RegisterScreen> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final nameController = TextEditingController();
+  String favCourse = "De Dorpswaard";
   String? errorHint;
 
   @override
@@ -76,6 +77,39 @@ class LoginState extends State<RegisterScreen> {
                   ),
                   autocorrect: false,
                   obscureText: true,
+                )),
+            SizedBox(height: 10),
+            SizedBox(
+                width: max(250, MediaQuery.of(context).size.width * 0.50),
+                child: DropdownButtonFormField(
+                  isDense: true,
+                  //TODO ADD API CALL
+                  items: <String>['De Dorpswaard', 'Havelij', 'The Duke']
+                      .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(
+                        value,
+                        style: TextStyle(fontSize: 15),
+                      ),
+                    );
+                  }).toList(),
+                  onChanged: (newValue) {
+                    // do other stuff with _category
+                  },
+                  value: favCourse,
+                  decoration: InputDecoration(
+                    isDense: true,
+                    focusColor: Theme.of(context).primaryColor,
+                    contentPadding: EdgeInsets.all(8),
+                    icon: Icon(Icons.track_changes),
+                    border: new OutlineInputBorder(
+                        borderSide: BorderSide(
+                            color: Theme.of(context).primaryColor,
+                            width: 2,
+                            style: BorderStyle.solid)),
+                    filled: false,
+                  ),
                 )),
             SizedBox(height: 10),
             ElevatedButton(

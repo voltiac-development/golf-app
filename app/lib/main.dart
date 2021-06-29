@@ -6,6 +6,7 @@ import 'views/dashboard.dart';
 //Custom screens
 import 'views/login.dart';
 import 'views/register.dart';
+import 'views/allscores.dart';
 
 void main() {
   runApp(MyApp());
@@ -24,7 +25,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       routes: {
         'dashboard': (_) => DashboardScreen(),
-        'register': (_) => RegisterScreen()
+        'register': (_) => RegisterScreen(),
+        'allscores': (_) => AllScoresScreen(),
       },
     );
   }

@@ -1,18 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../components/button.dart';
+
+import '../components/courseButton.dart';
 import '../components/appbar.dart';
 
-class DashboardScreen extends StatelessWidget {
+class AllScoresScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar:
+            DefaultAppBar(title: 'SCORES BEKIJKEN', person: true, back: true),
         backgroundColor: Theme.of(context).primaryColor,
-        appBar: DefaultAppBar(
-          title: 'GOLFCADDIE',
-          person: true,
-          back: true,
-        ),
         body: Container(
           decoration: BoxDecoration(
               color: Color(0xFFffffff),
