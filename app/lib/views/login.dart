@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({Key? key}) : super(key: key);
@@ -40,6 +41,43 @@ class LoginState extends State<LoginScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              Text(
+                "log-in met: ",
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 10),
+              ),
+              GestureDetector(
+                onTap: () {
+                  print('voltiac pressed');
+                },
+                child: Container(
+                  child: Container(
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 5, right: 5),
+                      child: Image(
+                        image: AssetImage('transparentBlack.png'),
+                        height: 30,
+                        width: 55,
+                      ),
+                    ),
+                    decoration: BoxDecoration(
+                        border:
+                            Border.all(color: Theme.of(context).primaryColor),
+                        borderRadius: BorderRadius.all(Radius.circular(25)),
+                        color: Colors.white),
+                  ),
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                          color: Colors.grey.withOpacity(0.3),
+                          spreadRadius: 1,
+                          blurRadius: 10,
+                          offset: Offset.fromDirection(10)),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(height: 15),
               SizedBox(
                   width: max(250, MediaQuery.of(context).size.width * 0.50),
                   child: TextField(
@@ -70,7 +108,7 @@ class LoginState extends State<LoginScreen> {
               ElevatedButton(
                 style: style,
                 onPressed: () {
-                  checkRegister(context);
+                  checkLogin(context);
                 },
                 child: Padding(
                   padding: EdgeInsets.only(top: 5, bottom: 5),
@@ -125,8 +163,11 @@ class LoginState extends State<LoginScreen> {
         ));
   }
 
-  void checkRegister(final context) {
+  void checkLogin(final context) {
     print(emailController.text + " " + passwordController.text);
+    http
+        .get(Uri.parse('https://jsonplaceholder.typicode.com/albums/1'))
+        .then((value) => print(value.body));
     Navigator.of(context).pushNamed('dashboard');
   }
 }
