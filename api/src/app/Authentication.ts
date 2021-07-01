@@ -3,6 +3,7 @@ import { LoginResponse, RegisterResponse } from "../interfaces/Authentication.js
 import { HTTPError } from '../errors/HTTPError.js'
 import { createProfile, verifyPassword, clean } from "./Account.js";
 import { generateJWT } from "./Session.js";
+import { sendNewUserMail } from "./Notification.js";
 
 export async function login(email: string, password: string): Promise<LoginResponse> {
     const { data, error } = await fetchUserData(email);
@@ -26,6 +27,7 @@ export async function login(email: string, password: string): Promise<LoginRespo
         response.error = new HTTPError(401, "Username and/or Password are incorrect.")
     }
 
+    // await sendNewUserMail(data.name, "https://voltiac.dev", data.email);
     return response;
 }
 
