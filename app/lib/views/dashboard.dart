@@ -11,7 +11,7 @@ class DashboardScreen extends StatelessWidget {
         appBar: DefaultAppBar(
           title: 'GOLFCADDIE',
           person: true,
-          back: true,
+          back: false,
         ),
         body: Container(
           decoration: BoxDecoration(

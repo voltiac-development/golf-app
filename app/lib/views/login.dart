@@ -20,6 +20,8 @@ class LoginState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance!.addPostFrameCallback((_) => checkRoute(context));
+
     final ButtonStyle style = OutlinedButton.styleFrom(
       textStyle: const TextStyle(fontSize: 16),
       backgroundColor: Theme.of(context).accentColor,
@@ -167,7 +169,6 @@ class LoginState extends State<LoginScreen> {
   }
 
   void checkLogin(final context) {
-    print(emailController.text + " " + passwordController.text);
     http.post(Uri.parse(AppUtils.apiUrl + 'auth/login'), body: {
       'email': emailController.text,
       'password': passwordController.text
@@ -184,5 +185,11 @@ class LoginState extends State<LoginScreen> {
         ));
       }
     });
+  }
+
+  void checkRoute(BuildContext context) {
+    if (Storage().getItem('jwt') == null || Storage().getItem('jwt') == "") {
+      Navigator.of(context).pushNamed('dashboard');
+    }
   }
 }

@@ -4,7 +4,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../env.dart';
 
 class Storage {
-  String getItem(String item) {
+  String? getItem(String item) {
     if (!AppUtils.development)
       return new FlutterSecureStorage().read(key: 'caddie_' + item).toString();
     else

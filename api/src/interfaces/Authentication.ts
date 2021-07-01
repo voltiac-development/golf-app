@@ -27,3 +27,9 @@ export interface RegisterResponse {
     data: Object,
     error: HTTPError
 }
+
+export interface ForgottenKey {
+    keyId: string,
+    uid: string,
+    createdAt: number
+}

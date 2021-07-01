@@ -1,5 +1,5 @@
 import express from 'express';
-import { login, register } from '../app/Authentication.js';
+import { login, processForgot, register, requestForgot } from '../app/Authentication.js';
 var router = express.Router();
 
 /**
@@ -64,6 +64,46 @@ router.post("/login", async (req, res, next) => {
  */
 router.post("/register", async (req, res, next) => {
     let { data, error } = await register(req.body["email"], req.body["name"], req.body["password"], req.body["password_verify"], req.body["fav_course"]);
+
+    if (error) {
+        res.status(error.getStatusCode());
+        res.json(error.getErrorMessage());
+        return;
+    }
+
+    if (data) {
+        res.json(data);
+        return;
+    }
+
+    res.status(500)
+    res.json({
+        error: "Unkown error"
+    })
+})
+
+router.post('/forgot', async (req, res, next) => {
+    let { data, error } = await requestForgot(req.body['email']);
+
+    if (error) {
+        res.status(error.getStatusCode());
+        res.json(error.getErrorMessage());
+        return;
+    }
+
+    if (data) {
+        res.json(data);
+        return;
+    }
+    console.log(data, error)
+    res.status(500)
+    res.json({
+        error: "Unkown error"
+    })
+})
+
+router.patch('/forgot:id', async (req, res, next) => {
+    let { data, error } = await processForgot(req.params['id'], req.body['uid'], req.body['password']);
 
     if (error) {
         res.status(error.getStatusCode());

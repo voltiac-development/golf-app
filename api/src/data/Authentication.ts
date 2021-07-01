@@ -1,4 +1,4 @@
-import { Account } from "../interfaces/Authentication.js";
+import { Account, ForgottenKey } from "../interfaces/Authentication.js";
 import { Session } from "../interfaces/Session.js"
 import { sql } from "./knex.js";
 
@@ -72,6 +72,24 @@ export async function addSessionToDatabase(sessionId: string, userId: string, cr
 
     try {
         await sql<Session>('sessions').insert({sessionId: sessionId, uid: userId, createdAt: createdAt})
+    } catch (e) {
+        r.error = e;
+    }
+
+    return {
+        data: r.data,
+        error: r.error
+    };
+}
+
+export async function addForgotRequestKey(id: string, keyId: string): Promise<{data: string, error: Error}> {
+    let r = {
+        data: keyId,
+        error: null,
+    }
+
+    try {
+        await sql<ForgottenKey>('forgotten').insert({keyId: keyId, uid: id, createdAt: Date.now()});
     } catch (e) {
         r.error = e;
     }

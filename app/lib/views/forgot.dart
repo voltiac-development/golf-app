@@ -1,11 +1,15 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_golf/components/appbar.dart';
+import 'package:flutter_golf/env.dart';
+import 'package:http/http.dart' as http;
 
 class ForgotScreen extends StatelessWidget {
   final emailController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     final ButtonStyle style = OutlinedButton.styleFrom(
@@ -53,6 +57,19 @@ class ForgotScreen extends StatelessWidget {
   }
 
   void requestForgotten(final context) async {
-    print(emailController.text);
+    http.post(Uri.parse(AppUtils.apiUrl + 'auth/forgot'), body: {
+      'email': emailController.text,
+    }).then((value) async {
+      Map<String, dynamic> response = jsonDecode(value.body);
+      if (response['error'] == null) {
+        //Success
+        Navigator.of(context).pop();
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(response['error']),
+          backgroundColor: Colors.red,
+        ));
+      }
+    });
   }
 }
