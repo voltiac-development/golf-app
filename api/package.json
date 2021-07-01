@@ -1,8 +1,9 @@
 {
-  "name": "golf-app-api",
+  "type": "module",
+  "name": "authentication",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "dist/app.js",
   "scripts": {
     "run:dev": "npm run gen-docs:private -- --watch",
     "run:windows": "SET NODE_ENV=PRODUCTION && npm run ts-compile && npm run gen-docs:public && node src/app.js",
@@ -11,7 +12,8 @@
     "gen-docs:public": "apidoc -o doc/public/ -i dist/ -p false",
     "gen-docs:private": "apidoc -o doc/private/ -i dist/ -p true"
   },
-  "author": "VOLTIAC DEVELOPMENT",
+  "keywords": [],
+  "author": "",
   "license": "ISC",
   "dependencies": {
     "@types/jsonwebtoken": "^8.5.2",
@@ -23,6 +25,8 @@
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
+    "knex": "^0.95.6",
+    "mysql": "^2.18.1",
     "uuid": "^8.3.2"
   },
   "devDependencies": {

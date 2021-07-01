@@ -12,12 +12,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // * Import routes
-// import profile from './routes/Profile.js';
-// import authentication from './routes/Authentication.js';
+import authentication from './routes/Authentication.js';
 
 // * Enable routes
-// app.use("/profile", profile);
-// app.use("/auth", authentication);
+app.use("/auth", authentication);
 
 /**
  * @api {get} / Request Server Status
