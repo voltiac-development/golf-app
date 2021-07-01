@@ -12,6 +12,7 @@ export interface Account {
     verified: boolean,
     phone_number: string,
     role: roles,
+    favcourse: string,
 }
 
 export interface LoginResponse {

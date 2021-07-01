@@ -63,7 +63,7 @@ router.post("/login", async (req, res, next) => {
  *      }
  */
 router.post("/register", async (req, res, next) => {
-    let { data, error } = await register(req.body["email"], req.body["name"], req.body["password"], req.body["password_verify"]);
+    let { data, error } = await register(req.body["email"], req.body["name"], req.body["password"], req.body["password_verify"], req.body["fav_course"]);
 
     if (error) {
         res.status(error.getStatusCode());

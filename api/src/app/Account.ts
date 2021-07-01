@@ -3,7 +3,7 @@ import { v4 as uuid } from 'uuid';
 import { Account } from '../interfaces/Authentication';
 import jwt from 'jsonwebtoken';
 
-export async function createProfile(email: string, name: string, password: string): Promise<Account> {
+export async function createProfile(email: string, name: string, password: string, favcourse: string): Promise<Account> {
     return {
         id: uuid(),
         email: email,
@@ -14,6 +14,7 @@ export async function createProfile(email: string, name: string, password: strin
         verified: false,
         phone_number: "",
         role: "USER",
+        favcourse: favcourse
     }
 }
 

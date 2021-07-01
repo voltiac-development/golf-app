@@ -29,7 +29,13 @@ export async function login(email: string, password: string): Promise<LoginRespo
     return response;
 }
 
-export async function register(email: string, username: string, password: string, password_verify: string): Promise<RegisterResponse> {
+export async function register(email: string, username: string, password: string, password_verify: string, favcourse: string): Promise<RegisterResponse> {
+    if(password !== password_verify){
+        return {
+            data: null,
+            error: new HTTPError(401, "Wachtwoorden komen niet overeen"),
+        } 
+    }
     const { data, error } = await fetchUserData(email);
 
     let response: RegisterResponse = {
@@ -40,10 +46,14 @@ export async function register(email: string, username: string, password: string
     if (data) {
         response.error = new HTTPError(409, "A user exists with your email.");
     } else {
-        const account = await createProfile(email, username, password);
+        const account = await createProfile(email, username, password, favcourse);
 
         if ((await addUserToDatabase(account)).data) {
-            response.data = true;
+            let jwt = await generateJWT(account);
+            response.data = {
+                jwtToken: jwt,
+                userData: clean(account)
+            }
         } else {
             response.error = new HTTPError(500, "The server wasn't able to store your data.");
         }

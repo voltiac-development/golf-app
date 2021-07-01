@@ -173,7 +173,6 @@ class LoginState extends State<LoginScreen> {
       'password': passwordController.text
     }).then((value) async {
       Map<String, dynamic> response = jsonDecode(value.body);
-      print(response);
       if (response['error'] == null) {
         //Success
         Storage().setItem('jwt', response['jwtToken']);

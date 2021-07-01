@@ -1,8 +1,13 @@
 import 'dart:math';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 
 import '../components/appbar.dart';
+
+import 'package:http/http.dart' as http;
+import '../env.dart';
+import '../vendor/storage.dart';
 
 class RegisterScreen extends StatefulWidget {
   @override
@@ -12,6 +17,7 @@ class RegisterScreen extends StatefulWidget {
 class LoginState extends State<RegisterScreen> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final passwordControllerVerify = TextEditingController();
   final nameController = TextEditingController();
   String favCourse = "De Dorpswaard";
   String? errorHint;
@@ -81,6 +87,21 @@ class LoginState extends State<RegisterScreen> {
             SizedBox(height: 10),
             SizedBox(
                 width: max(250, MediaQuery.of(context).size.width * 0.50),
+                child: TextField(
+                  controller: passwordControllerVerify,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: 'Wachtwoord controleren',
+                    icon: Icon(Icons.lock_outline),
+                    contentPadding: EdgeInsets.all(8),
+                    isDense: true,
+                  ),
+                  autocorrect: false,
+                  obscureText: true,
+                )),
+            SizedBox(height: 10),
+            SizedBox(
+                width: max(250, MediaQuery.of(context).size.width * 0.50),
                 child: DropdownButtonFormField(
                   isDense: true,
                   //TODO ADD API CALL
@@ -115,11 +136,7 @@ class LoginState extends State<RegisterScreen> {
             ElevatedButton(
               style: style,
               onPressed: () {
-                print(nameController.text +
-                    " : " +
-                    emailController.text +
-                    " : " +
-                    passwordController.text);
+                checkRegister(context);
               },
               child: Padding(
                 padding: EdgeInsets.only(top: 5, bottom: 5),
@@ -130,5 +147,27 @@ class LoginState extends State<RegisterScreen> {
         ),
       ),
     );
+  }
+
+  void checkRegister(final context) {
+    http.post(Uri.parse(AppUtils.apiUrl + 'auth/register'), body: {
+      'email': emailController.text,
+      'password': passwordController.text,
+      'name': nameController.text,
+      'password_verify': passwordControllerVerify.text,
+      'fav_course': favCourse
+    }).then((value) async {
+      Map<String, dynamic> response = jsonDecode(value.body);
+      if (response['error'] == null) {
+        //Success
+        Storage().setItem('jwt', response['jwtToken']);
+        Navigator.of(context).pushNamed('dashboard');
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(response['error']),
+          backgroundColor: Colors.red,
+        ));
+      }
+    });
   }
 }
