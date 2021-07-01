@@ -6,3 +6,9 @@ export interface JWTToken {
     sub: string,
     auth_level: string,
 }
+
+export interface Session {
+    sessionId: string,
+    uid: string,
+    createdAt: number
+}

@@ -1,7 +1,10 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import '../env.dart';
+import '../vendor/storage.dart';
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({Key? key}) : super(key: key);
@@ -165,9 +168,22 @@ class LoginState extends State<LoginScreen> {
 
   void checkLogin(final context) {
     print(emailController.text + " " + passwordController.text);
-    http
-        .get(Uri.parse('https://jsonplaceholder.typicode.com/albums/1'))
-        .then((value) => print(value.body));
-    Navigator.of(context).pushNamed('dashboard');
+    http.post(Uri.parse(AppUtils.apiUrl + 'auth/login'), body: {
+      'email': emailController.text,
+      'password': passwordController.text
+    }).then((value) async {
+      Map<String, dynamic> response = jsonDecode(value.body);
+      print(response);
+      if (response['error'] == null) {
+        //Success
+        Storage().setItem('jwt', response['jwtToken']);
+        Navigator.of(context).pushNamed('dashboard');
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(response['error']),
+          backgroundColor: Colors.red,
+        ));
+      }
+    });
   }
 }

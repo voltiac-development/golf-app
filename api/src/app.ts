@@ -6,7 +6,19 @@ import chalk from 'chalk';
 import cookieParser from 'cookie-parser';
 
 const app = express();
-app.use(cors());
+const whitelist = ['http://localhost:8081']
+
+app.use(cors({
+    origin: function (origin, callback) {
+        if (whitelist.indexOf(origin) !== -1 || !origin) {
+          callback(null, true)
+        } else {
+          callback(new Error('Not allowed by CORS'))
+        }
+    },
+    credentials: true,
+    methods: 'GET, POST, DELETE, OPTIONS, PATCH, PUT'
+}))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());

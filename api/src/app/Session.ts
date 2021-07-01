@@ -2,13 +2,15 @@ import jwt from "jsonwebtoken";
 import { v4 as uuid } from 'uuid';
 import { Account } from "../interfaces/Authentication.js";
 import { JWTToken } from "../interfaces/Session.js";
+import { addSessionToDatabase } from '../data/Authentication.js'
 
-export function generateJWT(account: Account): String {
-    // TODO: Generate session and store in database for future verification
+export async function generateJWT(account: Account): Promise<string> {
+    let sessionId = uuid()
+    await addSessionToDatabase(sessionId, account.id, Date.now())
     return jwt.sign({
         exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24 * 30),
         iat: Date.now(),
-        jti: uuid(),
+        jti: sessionId,
         iss: "Voltiac",
         sub: account.email,
         auth_level: account.role,

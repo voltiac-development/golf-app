@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../components/button.dart';
 import '../components/appbar.dart';
+import '../vendor/storage.dart';
 
 class DashboardScreen extends StatelessWidget {
   @override

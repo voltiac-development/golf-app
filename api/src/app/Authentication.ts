@@ -17,7 +17,7 @@ export async function login(email: string, password: string): Promise<LoginRespo
     }
 
     if (data && await verifyPassword(password, data.password)) {
-        let jwt = generateJWT(data);
+        let jwt = await generateJWT(data);
         response.data = {
             jwtToken: jwt,
             userData: clean(data)
