@@ -1,9 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_golf/components/popupcard.dart';
+import 'package:flutter_golf/vendor/heroDialogRoute.dart';
 import '../components/button.dart';
 import '../components/appbar.dart';
 
 class DashboardScreen extends StatelessWidget {
+  final ButtonStyle style = OutlinedButton.styleFrom(
+      textStyle: const TextStyle(fontSize: 20),
+      backgroundColor: Color(0xFF9CCD6C),
+      primary: Colors.white,
+      fixedSize: Size(250, 10),
+      elevation: 2,
+      alignment: Alignment.centerLeft);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,7 +43,7 @@ class DashboardScreen extends StatelessWidget {
                 BtnWidget(
                     text: "BAAN OPZOEKEN",
                     icon: Icons.track_changes,
-                    routeTo: 'searchcourse')
+                    routeTo: 'searchcourse'),
               ],
             ),
           ),

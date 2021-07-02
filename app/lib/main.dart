@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_golf/components/popupcard.dart';
 import 'package:flutter_golf/vendor/storage.dart';
 import 'package:flutter_golf/views/forgot.dart';
 
@@ -30,6 +31,7 @@ class MyApp extends StatelessWidget {
         'register': (_) => RegisterScreen(),
         'allscores': (_) => AllScoresScreen(),
         'forgotpassword': (_) => ForgotScreen(),
+        'test': (_) => PopupCard()
       },
     );
   }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_golf/components/popupcard.dart';
+import 'package:flutter_golf/vendor/heroDialogRoute.dart';
 
 class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
@@ -34,21 +36,28 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
         style: TextStyle(fontWeight: FontWeight.w200, color: Color(0xFFffffff)),
       )),
       actions: <Widget>[
-        Padding(
-          padding: EdgeInsets.only(right: 20.0),
-          child: IconButton(
-            icon: const Icon(Icons.person_outline),
-            color: Color(0xFFffffff),
-            disabledColor: Theme.of(context).primaryColor,
-            tooltip: 'Account',
-            onPressed: this.person
-                ? () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Account tonen')));
-                  }
-                : null,
-          ),
-        ),
+        Hero(
+            tag: 'profile_edit',
+            child: Padding(
+              padding: EdgeInsets.only(right: 20.0),
+              child: IconButton(
+                icon: const Icon(Icons.person_outline),
+                color: Color(0xFFffffff),
+                disabledColor: Theme.of(context).primaryColor,
+                tooltip: 'Account',
+                onPressed: this.person
+                    ? () {
+                        Navigator.of(context).push(
+                          HeroDialogRoute(
+                            builder: (context) => Center(
+                              child: PopupCard(),
+                            ),
+                          ),
+                        );
+                      }
+                    : null,
+              ),
+            )),
       ],
       elevation: 0,
     );
