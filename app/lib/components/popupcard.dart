@@ -5,12 +5,13 @@ import 'package:flutter/widgets.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_golf/components/personalCard/textField.dart';
 
 final ButtonStyle style = OutlinedButton.styleFrom(
     textStyle: const TextStyle(fontSize: 16),
     backgroundColor: Colors.white,
     primary: Colors.black,
-    fixedSize: Size(125, 10),
+    fixedSize: Size(135, 10),
     alignment: Alignment.center);
 
 class PopupCard extends StatelessWidget {
@@ -63,6 +64,8 @@ class CustomRectTween extends RectTween {
 }
 
 class Test1 extends StatelessWidget {
+  TextEditingController testController = new TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -84,34 +87,11 @@ class Test1 extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 15),
-              SizedBox(
-                  width: max(250, MediaQuery.of(context).size.width * 0.50),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.white)),
-                      enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.white)),
-                      focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.white)),
-                      hintText: 'Naam',
-                      labelStyle: TextStyle(color: Colors.white),
-                      hintStyle: TextStyle(color: Colors.white),
-                      icon: Icon(
-                        Icons.person_outline,
-                        color: Colors.white,
-                      ),
-                      contentPadding: EdgeInsets.all(8),
-                      isDense: true,
-                    ),
-                    style: TextStyle(
-                      color: Colors.white,
-                      decorationColor: Colors.white,
-                    ),
-                    autocorrect: false,
-                    obscureText: false,
-                    cursorColor: Colors.white,
-                  )),
+              WhiteTextField(
+                  hint: 'Naam',
+                  obfuscated: false,
+                  controller: testController,
+                  icon: Icons.lock_outline),
               SizedBox(height: 10),
               SizedBox(
                   width: max(250, MediaQuery.of(context).size.width * 0.50),
@@ -200,17 +180,26 @@ class Test1 extends StatelessWidget {
                     cursorColor: Colors.white,
                   )),
               SizedBox(height: 20),
-              OutlinedButton.icon(
-                style: style,
-                icon: Icon(Icons.save_alt_outlined),
-                label: Text(
-                  'Bijwerken',
-                  textAlign: TextAlign.center,
+              SizedBox(
+                width: 135,
+                child: OutlinedButton.icon(
+                  style: style,
+                  icon: Icon(Icons.save_alt_outlined),
+                  label: Text(
+                    'Bijwerken',
+                    textAlign: TextAlign.center,
+                  ),
+                  onPressed: () {
+                    this.setData();
+                  },
                 ),
-                onPressed: () {},
-              ),
+              )
             ],
           )),
     );
+  }
+
+  void setData() {
+    print(testController.text);
   }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_golf/components/popupcard.dart';
+import 'package:flutter_golf/components/personalCard/popupcard.dart';
 import 'package:flutter_golf/vendor/heroDialogRoute.dart';
 
 class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
