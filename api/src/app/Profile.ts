@@ -20,7 +20,14 @@ export async function getCurrentUserDetails(cookie: string): Promise<{ data: obj
         }
 
         if (data) {
-            r.data = clean((await fetchUserData(data.sub)).data);
+            let id = await GetIdFromSession(data.jti);
+            console.log(id)
+            if(id.data){
+                let d = await getUserFromId(id.data);
+                console.log(d)
+                r.data = clean(d.data);
+            }
+
         }
     }
 
@@ -34,7 +41,7 @@ export async function editCurrentUserDetails(cookie: string, name: string, email
     }
     
     if(newPassword != newVerifiedPassword){
-        r.error = "Wachtwoorden komen niet overeen."
+        r.error = new HTTPError(401, "Wachtwoorden komen niet overeen.")
         return r;
     }
 
@@ -51,11 +58,12 @@ export async function editCurrentUserDetails(cookie: string, name: string, email
             let id = await GetIdFromSession(data.jti);
             let accountData = await getUserFromId(id.data);
             let account = accountData.data;
+
             let newAccount: Account = {
                 id: id.data,
                 email: email,
                 name: name,
-                password: await encrypt(newPassword),
+                password: newPassword != "" ? await encrypt(newPassword) : account.password,
                 created_on: account.created_on,
                 verified: account.verified,
                 last_access: Date.now(),

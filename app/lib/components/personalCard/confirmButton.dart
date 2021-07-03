@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_golf/env.dart';
@@ -29,13 +31,12 @@ class WhiteConfirmButton extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           onPressed: () {
-            // TODO API CALL
-            sendNewEdit();
+            sendNewEdit(context);
           }),
     );
   }
 
-  void sendNewEdit() {
+  void sendNewEdit(BuildContext context) {
     http.post(Uri.parse(AppUtils.apiUrl + 'profile/me'),
         headers: AppUtils.getHeaders(),
         body: {
@@ -44,7 +45,19 @@ class WhiteConfirmButton extends StatelessWidget {
           "newPassword": newPassword.text,
           "verifiedPassword": newVerifiedPassword.text
         }).then((value) {
-      print(value.body);
+      if (value.body != "\"SUCCESS\"") {
+        Map<String, dynamic> body = jsonDecode(value.body);
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(body['error']),
+          backgroundColor: Theme.of(context).colorScheme.error,
+        ));
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+              content: Text("Profiel successvol aangepast."),
+              backgroundColor: Theme.of(context).colorScheme.primary),
+        );
+      }
     });
   }
 }
