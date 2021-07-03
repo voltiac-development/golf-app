@@ -1,5 +1,5 @@
 import express from 'express';
-import { getCurrentUserDetails } from '../app/Profile.js';
+import { editCurrentUserDetails, getCurrentUserDetails } from '../app/Profile.js';
 var router = express.Router();
 
 /**
@@ -28,16 +28,18 @@ var router = express.Router();
  *      }
  */
 router.get("/me", async (req, res, next) => {
-    let { data, error } = await getCurrentUserDetails(req.cookies["VOLTIAC.AUTH"]);
+    let { data, error } = await getCurrentUserDetails(req.cookies["gc_auth"]);
 
     if (error) {
         res.status(error.getStatusCode());
         res.json(error.getErrorMessage());
+        next()
         return;
     }
 
     if (data) {
         res.json(data);
+        next()
         return;
     }
 
@@ -45,6 +47,30 @@ router.get("/me", async (req, res, next) => {
     res.json({
         error: "Unkown error"
     })
+    next()
+});
+
+router.post('/me', async (req, res, next) => {
+    let { data, error } = await editCurrentUserDetails(req.cookies["gc_auth"], req.body['name'], req.body['email'], req.body['newPassword'], req.body['verifiedPassword']);
+
+    if (error) {
+        res.status(error.getStatusCode());
+        res.json(error.getErrorMessage());
+        next()
+        return;
+    }
+
+    if (data) {
+        res.json(data);
+        next()
+        return;
+    }
+
+    res.status(500)
+    res.json({
+        error: "Unkown error"
+    })
+    next()
 });
 
 export default router;

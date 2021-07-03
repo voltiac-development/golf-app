@@ -15,7 +15,7 @@ export async function login(email: string, password: string): Promise<LoginRespo
     }
  
     if (error) {
-        response.error = new HTTPError(404, "User not found with the provided email.");
+        response.error = new HTTPError(404, "Geen gebruiker gevonden met deze e-mail.");
     }
 
     if (data && await verifyPassword(password, data.password)) {
@@ -25,7 +25,7 @@ export async function login(email: string, password: string): Promise<LoginRespo
             userData: clean(data)
         }
     } else if (data) {
-        response.error = new HTTPError(401, "Username and/or Password are incorrect.")
+        response.error = new HTTPError(401, "Gebruikersnaam en/of wachtwoord kloppen niet.")
     }
 
     // await sendNewUserMail(data.name, "https://voltiac.dev", data.email);
@@ -47,7 +47,7 @@ export async function register(email: string, username: string, password: string
     }
 
     if (data) {
-        response.error = new HTTPError(409, "A user exists with your email.");
+        response.error = new HTTPError(409, "Een gebuiker bestaat al met dit e-mail.");
     } else {
         const account = await createProfile(email, username, password, favcourse);
 
@@ -58,7 +58,7 @@ export async function register(email: string, username: string, password: string
                 userData: clean(account)
             }
         } else {
-            response.error = new HTTPError(500, "The server wasn't able to store your data.");
+            response.error = new HTTPError(500, "Probleem met de server. Probeer later opnieuw.");
         }
     }
 
@@ -74,7 +74,7 @@ export async function requestForgot(email: string): Promise<RegisterResponse> {
     }
 
     if (!data) {
-        response.error = new HTTPError(409, "User not found.");
+        response.error = new HTTPError(409, "Gebruiker niet gevonden.");
     } else {
         let r = await addForgotRequestKey(data.id, uuid.v4() + "_" + uuid.v4() + "_" + uuid.v4())
         let key = r.data;

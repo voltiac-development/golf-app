@@ -18,7 +18,7 @@ export async function createProfile(email: string, name: string, password: strin
     }
 }
 
-async function encrypt(password: string): Promise<string> {
+export async function encrypt(password: string): Promise<string> {
     return await bcrypt.hash(password, 10);
 }
 

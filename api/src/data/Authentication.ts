@@ -42,7 +42,7 @@ export async function addUserToDatabase(account: Account): Promise<{ data: Accou
     };
 }
 
-export async function fetchSessionData(sessionID: string): Promise<{ data: String, error: Error }> {
+export async function fetchSessionData(sessionID: string): Promise<{ data: Session, error: Error }> {
     let r = {
         data: null,
         error: null,
@@ -90,6 +90,49 @@ export async function addForgotRequestKey(id: string, keyId: string): Promise<{d
 
     try {
         await sql<ForgottenKey>('forgotten').insert({keyId: keyId, uid: id, createdAt: Date.now()});
+    } catch (e) {
+        r.error = e;
+    }
+
+    return {
+        data: r.data,
+        error: r.error
+    };
+}
+
+export async function getUserFromId(id: string): Promise<{ data: Account, error: Error }> {
+    let userData = null, error = null;
+
+    try {
+        userData = await sql<Account>('accounts').select('*').where({id: id})
+        if(userData.length > 0)
+            userData = userData[0]
+        else{
+            userData = null;
+            error = "Not found";
+        }
+    } catch (e) {
+        error = e;
+    }
+
+    return {
+        data: userData,
+        error
+    }
+}
+
+export async function updateUserData(account:Account) {
+    let r = {
+        data: null,
+        error: null,
+    }
+
+    try {
+        let result = await sql<Account>('accounts').update(account).where({id: account.id})
+        if(result.length > 0)
+            r.data = result[0]
+        else
+            r.error = "NOT_FOUND";
     } catch (e) {
         r.error = e;
     }

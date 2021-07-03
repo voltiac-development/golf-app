@@ -30,11 +30,13 @@ router.post("/login", async (req, res, next) => {
     if (error) {
         res.status(error.getStatusCode());
         res.json(error.getErrorMessage());
+        next()
         return;
     }
 
     if (data) {
         res.json(data);
+        next()
         return;
     }
 
@@ -42,6 +44,7 @@ router.post("/login", async (req, res, next) => {
     res.json({
         error: "Unkown error"
     })
+    next()
 });
 
 /**
@@ -68,11 +71,13 @@ router.post("/register", async (req, res, next) => {
     if (error) {
         res.status(error.getStatusCode());
         res.json(error.getErrorMessage());
+        next()
         return;
     }
 
     if (data) {
         res.json(data);
+        next()
         return;
     }
 
@@ -80,6 +85,7 @@ router.post("/register", async (req, res, next) => {
     res.json({
         error: "Unkown error"
     })
+    next()
 })
 
 router.post('/forgot', async (req, res, next) => {
@@ -88,11 +94,13 @@ router.post('/forgot', async (req, res, next) => {
     if (error) {
         res.status(error.getStatusCode());
         res.json(error.getErrorMessage());
+        next()
         return;
     }
 
     if (data) {
         res.json(data);
+        next()
         return;
     }
     console.log(data, error)
@@ -100,6 +108,7 @@ router.post('/forgot', async (req, res, next) => {
     res.json({
         error: "Unkown error"
     })
+    next()
 })
 
 router.patch('/forgot:id', async (req, res, next) => {
@@ -120,6 +129,7 @@ router.patch('/forgot:id', async (req, res, next) => {
     res.json({
         error: "Unkown error"
     })
+    next()
 })
 
 export default router;

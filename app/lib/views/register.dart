@@ -26,7 +26,7 @@ class LoginState extends State<RegisterScreen> {
   Widget build(BuildContext context) {
     final ButtonStyle style = OutlinedButton.styleFrom(
       textStyle: const TextStyle(fontSize: 16),
-      backgroundColor: Theme.of(context).accentColor,
+      backgroundColor: Theme.of(context).colorScheme.secondary,
       primary: Colors.white,
     );
 

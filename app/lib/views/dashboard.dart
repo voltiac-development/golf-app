@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_golf/components/popupcard.dart';
-import 'package:flutter_golf/vendor/heroDialogRoute.dart';
 import '../components/button.dart';
 import '../components/appbar.dart';
 

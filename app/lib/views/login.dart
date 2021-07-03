@@ -24,7 +24,7 @@ class LoginState extends State<LoginScreen> {
 
     final ButtonStyle style = OutlinedButton.styleFrom(
       textStyle: const TextStyle(fontSize: 16),
-      backgroundColor: Theme.of(context).accentColor,
+      backgroundColor: Theme.of(context).colorScheme.secondary,
       primary: Colors.white,
     );
     return Scaffold(
@@ -136,7 +136,7 @@ class LoginState extends State<LoginScreen> {
                         'registreren',
                         textAlign: TextAlign.right,
                         style: TextStyle(
-                          color: Theme.of(context).accentColor,
+                          color: Theme.of(context).colorScheme.secondary,
                         ),
                       ),
                       onTapDown: (details) {

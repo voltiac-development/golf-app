@@ -25,9 +25,11 @@ app.use(cookieParser());
 
 // * Import routes
 import authentication from './routes/Authentication.js';
+import profile from './routes/Profile.js'
 
 // * Enable routes
 app.use("/auth", authentication);
+app.use('/profile', profile);
 
 /**
  * @api {get} / Request Server Status
@@ -44,7 +46,8 @@ app.use("/auth", authentication);
  */
 app.get("/", (req, res) => {
     res.json({
-        "msg": "Running"
+        "msg": "SERVER ONLINE",
+        "at": Date.now()
     });
 })
 
@@ -55,6 +58,17 @@ if (process.env.NODE_ENV.toUpperCase().trim() == "PRODUCTION") {
 else {
     app.use("/docs", express.static(path.join(path.resolve(), "doc/private")))
 }
+
+app.get('*', (req, res) => {
+    if(!res.headersSent){
+        res.status(404).json({
+            msg: "ENDPOINT_NOT_FOUND",
+            at: Date.now()
+        })
+    }else{
+        console.log(res.statusCode)
+    }
+})
 
 app.listen(process.env.PORT, () => {
     console.clear();

@@ -25,7 +25,7 @@ class PopupCard extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Material(
           borderRadius: BorderRadius.circular(15),
-          color: Theme.of(context).accentColor,
+          color: Theme.of(context).colorScheme.secondary,
           child: SizedBox(
             child: Padding(
               padding: const EdgeInsets.all(16.0),
@@ -71,7 +71,7 @@ class Test1 extends StatelessWidget {
       child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(25)),
-            color: Theme.of(context).accentColor,
+            color: Theme.of(context).colorScheme.secondary,
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,

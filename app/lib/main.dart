@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_golf/components/popupcard.dart';
-import 'package:flutter_golf/vendor/storage.dart';
 import 'package:flutter_golf/views/forgot.dart';
 
 //Custom components
@@ -21,9 +20,20 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'golf-app',
       theme: ThemeData(
-          primaryColor: Color(0xFF00B0F0),
-          accentColor: Color(0xFF9CCD6C),
-          backgroundColor: Color(0xFF115792)),
+          colorScheme: ColorScheme(
+              secondary: Color(0xFF9CCD6C),
+              background: Color(0xFF00B0F0),
+              primary: Color(0xFF00B0F0),
+              primaryVariant: Color(0xFF00B0F0),
+              secondaryVariant: Color(0xFF9CCD6C),
+              error: Colors.red,
+              onSurface: Color(0xFF115792),
+              onError: Colors.white,
+              onBackground: Colors.white,
+              onPrimary: Colors.white,
+              onSecondary: Colors.white,
+              brightness: Brightness.light,
+              surface: Color(0xFF00B0F0))),
       home: LoginScreen(),
       debugShowCheckedModeBanner: false,
       routes: {
