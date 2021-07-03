@@ -129,10 +129,8 @@ export async function updateUserData(account:Account) {
 
     try {
         let result = await sql<Account>('accounts').update(account).where({id: account.id})
-        if(result.length > 0)
-            r.data = result[0]
-        else
-            r.error = "NOT_FOUND";
+        delete account.password;
+        r.data = account;
     } catch (e) {
         r.error = e;
     }

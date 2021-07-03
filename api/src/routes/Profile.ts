@@ -28,7 +28,7 @@ var router = express.Router();
  *      }
  */
 router.get("/me", async (req, res, next) => {
-    let { data, error } = await getCurrentUserDetails(req.cookies["gc_auth"]);
+    let { data, error } = await getCurrentUserDetails(req.header('gc.auth'));
 
     if (error) {
         res.status(error.getStatusCode());
@@ -51,7 +51,7 @@ router.get("/me", async (req, res, next) => {
 });
 
 router.post('/me', async (req, res, next) => {
-    let { data, error } = await editCurrentUserDetails(req.cookies["gc_auth"], req.body['name'], req.body['email'], req.body['newPassword'], req.body['verifiedPassword']);
+    let { data, error } = await editCurrentUserDetails(req.header('gc.auth'), req.body['name'], req.body['email'], req.body['newPassword'], req.body['verifiedPassword']);
 
     if (error) {
         res.status(error.getStatusCode());

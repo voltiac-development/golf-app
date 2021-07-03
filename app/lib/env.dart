@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter_golf/vendor/storage.dart';
 
 class AppUtils {
   static String get apiUrl {
@@ -10,5 +11,11 @@ class AppUtils {
 
   static bool get development {
     return kDebugMode;
+  }
+
+  static Map<String, String> getHeaders() {
+    return {
+      "GC.AUTH": Storage().getItem('jwt').toString(),
+    };
   }
 }

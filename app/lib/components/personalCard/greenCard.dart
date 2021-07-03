@@ -1,6 +1,12 @@
+import 'dart:convert';
+import 'dart:html';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_golf/components/personalCard/confirmButton.dart';
 import 'package:flutter_golf/components/personalCard/textField.dart';
+import 'package:flutter_golf/env.dart';
+import 'package:http/http.dart' as http;
 
 class GreenCard extends StatelessWidget {
   final TextEditingController nameController = TextEditingController();
@@ -8,8 +14,13 @@ class GreenCard extends StatelessWidget {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController checkPasswordController = TextEditingController();
 
+  GreenCard() {
+    setValues();
+  }
+
   @override
   Widget build(BuildContext context) {
+    // setValues();
     return SizedBox(
       height: 250,
       width: 300,
@@ -61,5 +72,16 @@ class GreenCard extends StatelessWidget {
             ],
           )),
     );
+  }
+
+  void setValues() {
+    http
+        .get(Uri.parse(AppUtils.apiUrl + 'profile/me'),
+            headers: AppUtils.getHeaders())
+        .then((value) {
+      Map<String, dynamic> body = jsonDecode(value.body);
+      nameController.text = body['name'];
+      emailController.text = body['email'];
+    });
   }
 }

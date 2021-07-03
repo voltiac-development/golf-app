@@ -48,8 +48,9 @@ export async function editCurrentUserDetails(cookie: string, name: string, email
         }
 
         if (data) {
-            let id = await GetIdFromSession(data.sub);
-            let account = (await getUserFromId(id.data)).data;
+            let id = await GetIdFromSession(data.jti);
+            let accountData = await getUserFromId(id.data);
+            let account = accountData.data;
             let newAccount: Account = {
                 id: id.data,
                 email: email,
@@ -62,8 +63,8 @@ export async function editCurrentUserDetails(cookie: string, name: string, email
                 role: account.role,
                 favcourse: account.favcourse
             }
-
-            r.data = await (await updateUserData(account)).data;
+            await updateUserData(newAccount);
+            r.data = "SUCCESS";
         }
     }
 
