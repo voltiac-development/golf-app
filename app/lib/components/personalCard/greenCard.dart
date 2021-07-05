@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'dart:html';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_golf/components/personalCard/confirmButton.dart';
@@ -8,11 +6,17 @@ import 'package:flutter_golf/components/personalCard/textField.dart';
 import 'package:flutter_golf/env.dart';
 import 'package:http/http.dart' as http;
 
-class GreenCard extends StatelessWidget {
+class GreenCardState extends StatefulWidget {
+  @override
+  State<GreenCardState> createState() => GreenCard();
+}
+
+class GreenCard extends State<GreenCardState> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController checkPasswordController = TextEditingController();
+  String errorValue = "";
 
   GreenCard() {
     setValues();
@@ -40,6 +44,14 @@ class GreenCard extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 15),
+              SizedBox(
+                height: 30,
+                child: Text(
+                  this.errorValue,
+                  style: TextStyle(
+                      color: Colors.red, fontWeight: FontWeight.normal),
+                ),
+              ),
               WhiteTextField(
                   hint: 'Naam',
                   obfuscated: false,
@@ -68,7 +80,18 @@ class GreenCard extends StatelessWidget {
                   name: nameController,
                   email: emailController,
                   newPassword: passwordController,
-                  newVerifiedPassword: checkPasswordController)
+                  newVerifiedPassword: checkPasswordController,
+                  onError: (e) {
+                    print(e);
+                    setState(() {
+                      this.errorValue = e;
+                    });
+                    Future.delayed(Duration(seconds: 5), () {
+                      setState(() {
+                        this.errorValue = "";
+                      });
+                    });
+                  }),
             ],
           )),
     );

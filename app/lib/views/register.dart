@@ -10,8 +10,23 @@ import '../env.dart';
 import '../vendor/storage.dart';
 
 class RegisterScreen extends StatefulWidget {
+  // List<dynamic>? courses = retrieveCourses();
+
+  // List<dynamic>? retrieveCourses() {
+  //   http.get(Uri.parse(AppUtils.apiUrl + "course/all")).then((value) {
+  //     Map<String, dynamic> response = jsonDecode(value.body);
+  //     if (response['error'] == null) {
+  //       return [response];
+  //     } else {
+  //       return [];
+  //     }
+  //   });
+  // }
+
   @override
-  State<StatefulWidget> createState() => LoginState();
+  State<StatefulWidget> createState() {
+    return LoginState();
+  }
 }
 
 class LoginState extends State<RegisterScreen> {
@@ -19,8 +34,13 @@ class LoginState extends State<RegisterScreen> {
   final passwordController = TextEditingController();
   final passwordControllerVerify = TextEditingController();
   final nameController = TextEditingController();
-  String favCourse = "De Dorpswaard";
+  String favCourse = "";
   String? errorHint;
+  List<dynamic> courses = [];
+
+  LoginState({Key? key}) {
+    retrieveCourses();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -104,13 +124,11 @@ class LoginState extends State<RegisterScreen> {
                 width: max(250, MediaQuery.of(context).size.width * 0.50),
                 child: DropdownButtonFormField(
                   isDense: true,
-                  //TODO ADD API CALL
-                  items: <String>['De Dorpswaard', 'Havelij', 'The Duke']
-                      .map<DropdownMenuItem<String>>((String value) {
+                  items: courses.map<DropdownMenuItem<String>>((dynamic value) {
                     return DropdownMenuItem<String>(
-                      value: value,
+                      value: value['id'],
                       child: Text(
-                        value,
+                        value['name'],
                         style: TextStyle(fontSize: 15),
                       ),
                     );
@@ -167,6 +185,18 @@ class LoginState extends State<RegisterScreen> {
           content: Text(response['error']),
           backgroundColor: Colors.red,
         ));
+      }
+    });
+  }
+
+  void retrieveCourses() {
+    http.get(Uri.parse(AppUtils.apiUrl + "course/all")).then((value) {
+      Map<String, dynamic> response = jsonDecode(value.body);
+      if (response['error'] == null) {
+        this.favCourse = response['courses'][0]['id'];
+        setState(() {
+          this.courses = response['courses'];
+        });
       }
     });
   }

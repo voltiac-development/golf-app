@@ -10,13 +10,15 @@ class WhiteConfirmButton extends StatelessWidget {
   final TextEditingController email;
   final TextEditingController newPassword;
   final TextEditingController newVerifiedPassword;
+  final ValueChanged<String> onError;
 
   WhiteConfirmButton(
       {Key? key,
       required this.name,
       required this.email,
       required this.newPassword,
-      required this.newVerifiedPassword})
+      required this.newVerifiedPassword,
+      required this.onError})
       : super(key: key);
 
   @override
@@ -47,10 +49,7 @@ class WhiteConfirmButton extends StatelessWidget {
         }).then((value) {
       if (value.body != "\"SUCCESS\"") {
         Map<String, dynamic> body = jsonDecode(value.body);
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(body['error']),
-          backgroundColor: Theme.of(context).colorScheme.error,
-        ));
+        this.onError(body['error']);
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(

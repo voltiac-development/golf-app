@@ -25,11 +25,13 @@ app.use(cookieParser());
 
 // * Import routes
 import authentication from './routes/Authentication.js';
-import profile from './routes/Profile.js'
+import profile from './routes/Profile.js';
+import course from './routes/Course.js';
 
 // * Enable routes
 app.use("/auth", authentication);
 app.use('/profile', profile);
+app.use('/course', course);
 
 /**
  * @api {get} / Request Server Status

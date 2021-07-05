@@ -41,7 +41,7 @@ export async function editCurrentUserDetails(cookie: string, name: string, email
     }
     
     if(newPassword != newVerifiedPassword){
-        r.error = new HTTPError(401, "Wachtwoorden komen niet overeen.")
+        r.error = new HTTPError(400, "Wachtwoorden komen niet overeen.")
         return r;
     }
 

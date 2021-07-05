@@ -27,7 +27,7 @@ class PopupScreen extends State<PopupCard> {
               child: SingleChildScrollView(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
-                  children: [GreenCard()],
+                  children: [GreenCardState()],
                 ),
               ),
             ),
