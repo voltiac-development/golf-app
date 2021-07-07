@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_golf/views/forgot.dart';
+import 'package:flutter_golf/views/searchCourse.dart';
 
 //Custom components
 import 'views/dashboard.dart';
@@ -40,6 +41,7 @@ class MyApp extends StatelessWidget {
         'register': (_) => RegisterScreen(),
         'allscores': (_) => AllScoresScreen(),
         'forgotpassword': (_) => ForgotScreen(),
+        'searchcourse': (_) => SearchCourseScreen(),
       },
     );
   }

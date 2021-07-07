@@ -10,7 +10,7 @@ class AllScoresScreen extends StatelessWidget {
     return Scaffold(
         appBar:
             DefaultAppBar(title: 'SCORES BEKIJKEN', person: true, back: true),
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: Theme.of(context).colorScheme.primary,
         body: Container(
           decoration: BoxDecoration(
               color: Color(0xFFffffff),

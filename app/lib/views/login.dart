@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_golf/components/login/voltiac.dart';
 import 'package:http/http.dart' as http;
 import '../env.dart';
 import '../vendor/storage.dart';
@@ -28,7 +29,7 @@ class LoginState extends State<LoginScreen> {
       primary: Colors.white,
     );
     return Scaffold(
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: Theme.of(context).colorScheme.primary,
         appBar: AppBar(
           title: Center(
               child: Text(
@@ -46,42 +47,7 @@ class LoginState extends State<LoginScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                "log-in met: ",
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 10),
-              ),
-              GestureDetector(
-                onTap: () {
-                  print('voltiac pressed');
-                },
-                child: Container(
-                  child: Container(
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 5, right: 5),
-                      child: Image(
-                        image: AssetImage('transparentBlack.png'),
-                        height: 30,
-                        width: 55,
-                      ),
-                    ),
-                    decoration: BoxDecoration(
-                        border:
-                            Border.all(color: Theme.of(context).primaryColor),
-                        borderRadius: BorderRadius.all(Radius.circular(25)),
-                        color: Colors.white),
-                  ),
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                          color: Colors.grey.withOpacity(0.3),
-                          spreadRadius: 1,
-                          blurRadius: 10,
-                          offset: Offset.fromDirection(10)),
-                    ],
-                  ),
-                ),
-              ),
+              VoltiacLogin(),
               SizedBox(height: 15),
               SizedBox(
                   width: max(250, MediaQuery.of(context).size.width * 0.50),

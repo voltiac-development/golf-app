@@ -61,7 +61,7 @@ else {
     app.use("/docs", express.static(path.join(path.resolve(), "doc/private")))
 }
 
-app.get('*', (req, res) => {
+app.use('*', (req, res) => {
     if(!res.headersSent){
         res.status(404).json({
             msg: "ENDPOINT_NOT_FOUND",

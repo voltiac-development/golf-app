@@ -17,7 +17,7 @@ class ForgotScreen extends StatelessWidget {
       primary: Colors.white,
     );
     return Scaffold(
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: Theme.of(context).colorScheme.primary,
         appBar:
             DefaultAppBar(title: 'WACHTWOORD RESET', person: false, back: true),
         body: Container(

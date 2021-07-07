@@ -18,7 +18,8 @@ class BtnWidget extends StatelessWidget {
         elevation: 2,
         alignment: Alignment.centerLeft);
     return Container(
-      child: OutlinedButton.icon(
+      child: Material(
+          child: OutlinedButton.icon(
         style: style,
         icon: Icon(this.icon),
         label: Text(
@@ -28,7 +29,7 @@ class BtnWidget extends StatelessWidget {
         onPressed: () {
           Navigator.of(context).pushNamed(this.routeTo);
         },
-      ),
+      )),
       margin: const EdgeInsets.only(top: 10.0),
     );
   }

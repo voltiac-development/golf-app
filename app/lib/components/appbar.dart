@@ -19,10 +19,11 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      backgroundColor: Theme.of(context).colorScheme.primary,
       leading: IconButton(
         icon: const Icon(Icons.arrow_back),
         color: Color(0xFFffffff),
-        disabledColor: Theme.of(context).primaryColor,
+        disabledColor: Theme.of(context).colorScheme.primary,
         tooltip: 'Terug',
         onPressed: this.back
             ? () {

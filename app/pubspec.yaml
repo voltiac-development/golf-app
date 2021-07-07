@@ -51,6 +51,7 @@ flutter:
   assets:
     - assets/backgroundDefault.png
     - assets/transparentBlack.png
+    - assets/drpswaard.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

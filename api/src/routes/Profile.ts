@@ -56,13 +56,11 @@ router.post('/me', async (req, res, next) => {
     if (error) {
         res.status(error.getStatusCode());
         res.json(error.getErrorMessage());
-        next()
         return;
     }
 
     if (data) {
         res.json(data);
-        next()
         return;
     }
 
@@ -70,7 +68,6 @@ router.post('/me', async (req, res, next) => {
     res.json({
         error: "Unkown error"
     })
-    next()
 });
 
 export default router;
