@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_golf/views/forgot.dart';
-import 'package:flutter_golf/views/searchCourse.dart';
-
-//Custom components
-import 'views/dashboard.dart';
 
 //Custom screens
 import 'views/login.dart';
 import 'views/register.dart';
 import 'views/allscores.dart';
+import 'views/dashboard.dart';
+import 'package:flutter_golf/views/forgot.dart';
+import 'package:flutter_golf/views/friends.dart';
+import 'package:flutter_golf/views/searchCourse.dart';
 
 void main() {
   runApp(MyApp());
@@ -42,6 +41,7 @@ class MyApp extends StatelessWidget {
         'allscores': (_) => AllScoresScreen(),
         'forgotpassword': (_) => ForgotScreen(),
         'searchcourse': (_) => SearchCourseScreen(),
+        'friends': (_) => FriendsScreen()
       },
     );
   }

@@ -31,7 +31,7 @@ class DashboardScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 BtnWidget(
-                    text: "SCORE TOEVOEGEN",
+                    text: "RONDE BEGINNEN",
                     icon: Icons.add,
                     routeTo: 'addscore'),
                 BtnWidget(
@@ -42,6 +42,10 @@ class DashboardScreen extends StatelessWidget {
                     text: "BAAN OPZOEKEN",
                     icon: Icons.track_changes,
                     routeTo: 'searchcourse'),
+                BtnWidget(
+                    text: "VRIENDEN",
+                    icon: Icons.people_alt_outlined,
+                    routeTo: 'friends'),
               ],
             ),
           ),

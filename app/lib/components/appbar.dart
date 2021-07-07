@@ -20,16 +20,19 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: Theme.of(context).colorScheme.primary,
-      leading: IconButton(
-        icon: const Icon(Icons.arrow_back),
-        color: Color(0xFFffffff),
-        disabledColor: Theme.of(context).colorScheme.primary,
-        tooltip: 'Terug',
-        onPressed: this.back
-            ? () {
-                Navigator.of(context).pop();
-              }
-            : null,
+      leading: Material(
+        color: Colors.transparent,
+        child: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          color: Color(0xFFffffff),
+          disabledColor: Theme.of(context).colorScheme.primary,
+          tooltip: 'Terug',
+          onPressed: this.back
+              ? () {
+                  Navigator.of(context).pop();
+                }
+              : null,
+        ),
       ),
       title: Center(
           child: Text(
@@ -41,22 +44,25 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
             tag: 'profile_edit',
             child: Padding(
               padding: EdgeInsets.only(right: 20.0),
-              child: IconButton(
-                icon: const Icon(Icons.person_outline),
-                color: Color(0xFFffffff),
-                disabledColor: Theme.of(context).primaryColor,
-                tooltip: 'Account',
-                onPressed: this.person
-                    ? () {
-                        Navigator.of(context).push(
-                          HeroDialogRoute(
-                            builder: (context) => Center(
-                              child: PopupCard(),
+              child: Material(
+                color: Colors.transparent,
+                child: IconButton(
+                  icon: const Icon(Icons.person_outline),
+                  color: Color(0xFFffffff),
+                  disabledColor: Theme.of(context).primaryColor,
+                  tooltip: 'Account',
+                  onPressed: this.person
+                      ? () {
+                          Navigator.of(context).push(
+                            HeroDialogRoute(
+                              builder: (context) => Center(
+                                child: PopupCard(),
+                              ),
                             ),
-                          ),
-                        );
-                      }
-                    : null,
+                          );
+                        }
+                      : null,
+                ),
               ),
             )),
       ],
