@@ -38,9 +38,9 @@ class WhiteConfirmButton extends StatelessWidget {
     );
   }
 
-  void sendNewEdit(BuildContext context) {
+  void sendNewEdit(BuildContext context) async {
     http.post(Uri.parse(AppUtils.apiUrl + 'profile/me'),
-        headers: AppUtils.getHeaders(),
+        headers: await AppUtils.getHeaders(),
         body: {
           "name": name.text,
           "email": email.text,

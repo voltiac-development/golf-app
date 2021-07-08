@@ -28,6 +28,7 @@ var router = express.Router();
  *      }
  */
 router.get("/me", async (req, res, next) => {
+    console.log(req['user'])
     let { data, error } = await getCurrentUserDetails(req.header('gc.auth'));
 
     if (error) {

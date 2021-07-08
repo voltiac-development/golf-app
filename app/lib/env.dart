@@ -13,9 +13,9 @@ class AppUtils {
     return kDebugMode;
   }
 
-  static Map<String, String> getHeaders() {
+  static Future<Map<String, String>> getHeaders() async {
     return {
-      "GC.AUTH": Storage().getItem('jwt').toString(),
+      "GC.AUTH": (await new Storage().getItem('jwt'))!,
     };
   }
 }

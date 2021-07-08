@@ -1,5 +1,4 @@
-import pkg from 'knex'
-const { Knex, knex } = pkg;
+import knex from 'knex'
 
 const config = {
     client: 'mysql',

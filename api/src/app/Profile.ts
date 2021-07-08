@@ -21,10 +21,8 @@ export async function getCurrentUserDetails(cookie: string): Promise<{ data: obj
 
         if (data) {
             let id = await GetIdFromSession(data.jti);
-            console.log(id)
             if(id.data){
                 let d = await getUserFromId(id.data);
-                console.log(d)
                 r.data = clean(d.data);
             }
 

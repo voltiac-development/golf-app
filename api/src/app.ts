@@ -23,15 +23,28 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
+
+import { getCurrentUserDetails } from './app/Profile.js';
+
+app.use(async (req, res, next) => {
+    try{
+        req['user'] = (await getCurrentUserDetails(req.header('gc.auth'))).data;
+    }catch(e){}
+    next();
+});
+
+
 // * Import routes
 import authentication from './routes/Authentication.js';
 import profile from './routes/Profile.js';
 import course from './routes/Course.js';
+import friend from './routes/Friend.js';
 
 // * Enable routes
 app.use("/auth", authentication);
 app.use('/profile', profile);
 app.use('/course', course);
+app.use('/friend', friend);
 
 /**
  * @api {get} / Request Server Status

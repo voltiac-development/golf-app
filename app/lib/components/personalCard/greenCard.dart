@@ -97,10 +97,10 @@ class GreenCard extends State<GreenCardState> {
     );
   }
 
-  void setValues() {
+  void setValues() async {
     http
         .get(Uri.parse(AppUtils.apiUrl + 'profile/me'),
-            headers: AppUtils.getHeaders())
+            headers: await AppUtils.getHeaders())
         .then((value) {
       Map<String, dynamic> body = jsonDecode(value.body);
       nameController.text = body['name'];

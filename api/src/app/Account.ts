@@ -28,6 +28,7 @@ export async function verifyPassword(password: string, hash: string) {
 
 export function clean(account: Account) {
     return {
+        id: account.id,
         name: account.name,
         email: account.email,
         role: account.role,

@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_golf/components/login/voltiac.dart';
 import 'package:http/http.dart' as http;
+import 'package:localstorage/localstorage.dart';
 import '../env.dart';
 import '../vendor/storage.dart';
 
@@ -20,9 +21,22 @@ class LoginState extends State<LoginScreen> {
   String? errorHint;
 
   @override
-  Widget build(BuildContext context) {
-    WidgetsBinding.instance!.addPostFrameCallback((_) => checkRoute(context));
+  void initState() {
+    super.initState();
+    doSomeLongRunningCalculation();
+  }
 
+  Future<void> doSomeLongRunningCalculation() async {
+    String? item = await new Storage().getItem('jwt');
+    if (item != null && item != "" && item != 'null') {
+      Navigator.of(context).pushNamed('dashboard');
+    } else {
+      print(item);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final ButtonStyle style = OutlinedButton.styleFrom(
       textStyle: const TextStyle(fontSize: 16),
       backgroundColor: Theme.of(context).colorScheme.secondary,
@@ -135,6 +149,7 @@ class LoginState extends State<LoginScreen> {
   }
 
   void checkLogin(final context) {
+    print(AppUtils.apiUrl + " / " + passwordController.text);
     http.post(Uri.parse(AppUtils.apiUrl + 'auth/login'), body: {
       'email': emailController.text,
       'password': passwordController.text
@@ -142,6 +157,8 @@ class LoginState extends State<LoginScreen> {
       Map<String, dynamic> response = jsonDecode(value.body);
       if (response['error'] == null) {
         //Success
+        print(response['jwtToken']);
+        print(response);
         Storage().setItem('jwt', response['jwtToken']);
         Navigator.of(context).pushNamed('dashboard');
       } else {
@@ -151,11 +168,5 @@ class LoginState extends State<LoginScreen> {
         ));
       }
     });
-  }
-
-  void checkRoute(BuildContext context) {
-    if (Storage().getItem('jwt') == null || Storage().getItem('jwt') == "") {
-      Navigator.of(context).pushNamed('dashboard');
-    }
   }
 }
