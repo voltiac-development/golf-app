@@ -3,8 +3,10 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_golf/components/appbar.dart';
+import 'package:flutter_golf/components/friends/addFriendPopup.dart';
 import 'package:flutter_golf/components/friends/friendcard.dart';
 import 'package:flutter_golf/models/Friend.dart';
+import 'package:flutter_golf/vendor/heroDialogRoute.dart';
 
 import 'package:http/http.dart' as http;
 
@@ -25,7 +27,7 @@ class FriendsState extends State<FriendsScreen> {
   @override
   Widget build(BuildContext context) {
     final ButtonStyle style = OutlinedButton.styleFrom(
-        backgroundColor: Theme.of(context).colorScheme.onSurface,
+        backgroundColor: Theme.of(context).colorScheme.surface,
         primary: Colors.white,
         fixedSize: Size(175, 8),
         elevation: 2,
@@ -51,14 +53,25 @@ class FriendsState extends State<FriendsScreen> {
                         alignment: Alignment.topCenter,
                         child: Column(
                           children: [
-                            OutlinedButton(
-                              style: style,
-                              child: Text(
-                                'VRIEND TOEVOEGEN',
-                                style: TextStyle(fontSize: 15),
-                                textAlign: TextAlign.center,
+                            Hero(
+                              tag: 'add_friend',
+                              child: OutlinedButton(
+                                style: style,
+                                child: Text(
+                                  'VRIEND TOEVOEGEN',
+                                  style: TextStyle(fontSize: 15),
+                                  textAlign: TextAlign.center,
+                                ),
+                                onPressed: () {
+                                  Navigator.of(context).push(
+                                    HeroDialogRoute(
+                                      builder: (context) => Center(
+                                        child: AddFriendPopup(),
+                                      ),
+                                    ),
+                                  );
+                                },
                               ),
-                              onPressed: () {},
                             ),
                             ...friends
                                 .map((item) => new FriendCard(friend: item))

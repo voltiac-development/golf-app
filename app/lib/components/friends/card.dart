@@ -1,43 +1,36 @@
-import 'dart:convert';
-
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_golf/components/personalCard/confirmButton.dart';
+import 'package:flutter_golf/components/friends/sendButton.dart';
 import 'package:flutter_golf/components/personalCard/textField.dart';
-import 'package:flutter_golf/env.dart';
-import 'package:http/http.dart' as http;
 
-class GreenCardState extends StatefulWidget {
+class FriendCard extends StatefulWidget {
   @override
-  State<GreenCardState> createState() => GreenCard();
+  State<StatefulWidget> createState() => FriendCardState();
 }
 
-class GreenCard extends State<GreenCardState> {
+class FriendCardState extends State<FriendCard> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController checkPasswordController = TextEditingController();
   String errorValue = "";
 
-  GreenCard() {
-    setValues();
-  }
-
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 250,
+      height: 136,
       width: 300,
       child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(25)),
-            color: Theme.of(context).colorScheme.secondary,
+            color: Theme.of(context).colorScheme.surface,
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(
                 child: Text(
-                  'Profiel aanpassen',
+                  'Vriend toevoegen',
                   style: TextStyle(
                       color: Colors.white, fontWeight: FontWeight.w900),
                 ),
@@ -52,34 +45,13 @@ class GreenCard extends State<GreenCardState> {
                 ),
               ),
               WhiteTextField(
-                  hint: 'Naam',
-                  obfuscated: false,
-                  controller: nameController,
-                  icon: Icons.person_outline),
-              SizedBox(height: 10),
-              WhiteTextField(
                   hint: 'E-mail',
                   obfuscated: false,
-                  controller: emailController,
-                  icon: Icons.mail_outline),
-              SizedBox(height: 10),
-              WhiteTextField(
-                  hint: 'Huidig wachtwoord',
-                  obfuscated: true,
-                  controller: passwordController,
-                  icon: Icons.lock_outline),
-              SizedBox(height: 10),
-              WhiteTextField(
-                  hint: 'Nieuw wachtwoord',
-                  obfuscated: true,
-                  controller: checkPasswordController,
-                  icon: Icons.lock_outline),
+                  controller: nameController,
+                  icon: Icons.mail_outlined),
               SizedBox(height: 20),
-              WhiteConfirmButton(
-                  name: nameController,
+              WhiteSendButton(
                   email: emailController,
-                  newPassword: passwordController,
-                  newVerifiedPassword: checkPasswordController,
                   onError: (e) {
                     print(e);
                     setState(() {
@@ -94,16 +66,5 @@ class GreenCard extends State<GreenCardState> {
             ],
           )),
     );
-  }
-
-  void setValues() async {
-    http
-        .get(Uri.parse(AppUtils.apiUrl + 'profile/me'),
-            headers: await AppUtils.getHeaders())
-        .then((value) {
-      Map<String, dynamic> body = jsonDecode(value.body);
-      nameController.text = body['name'];
-      emailController.text = body['email'];
-    });
   }
 }
