@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_golf/components/appbar.dart';
 import 'package:flutter_golf/components/friends/addFriendPopup.dart';
 import 'package:flutter_golf/components/friends/friendcard.dart';
+import 'package:flutter_golf/components/friends/requestFriendPopup.dart';
 import 'package:flutter_golf/models/Friend.dart';
 import 'package:flutter_golf/vendor/heroDialogRoute.dart';
 
@@ -29,7 +30,7 @@ class FriendsState extends State<FriendsScreen> {
     final ButtonStyle style = OutlinedButton.styleFrom(
         backgroundColor: Theme.of(context).colorScheme.surface,
         primary: Colors.white,
-        fixedSize: Size(175, 8),
+        fixedSize: Size(118, 8),
         elevation: 2,
         alignment: Alignment.centerLeft);
     return Scaffold(
@@ -53,25 +54,60 @@ class FriendsState extends State<FriendsScreen> {
                         alignment: Alignment.topCenter,
                         child: Column(
                           children: [
-                            Hero(
-                              tag: 'add_friend',
-                              child: OutlinedButton(
-                                style: style,
-                                child: Text(
-                                  'VRIEND TOEVOEGEN',
-                                  style: TextStyle(fontSize: 15),
-                                  textAlign: TextAlign.center,
-                                ),
-                                onPressed: () {
-                                  Navigator.of(context).push(
-                                    HeroDialogRoute(
-                                      builder: (context) => Center(
-                                        child: AddFriendPopup(),
-                                      ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Hero(
+                                  tag: 'add_friend',
+                                  child: OutlinedButton(
+                                    style: style,
+                                    child: Text(
+                                      'TOEVOEGEN',
+                                      style: TextStyle(fontSize: 15),
+                                      textAlign: TextAlign.center,
                                     ),
-                                  );
-                                },
-                              ),
+                                    onPressed: () {
+                                      Navigator.of(context).push(
+                                        HeroDialogRoute(
+                                          builder: (context) => Center(
+                                            child: AddFriendPopup(),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 3,
+                                ),
+                                Hero(
+                                  tag: 'friend_requests',
+                                  child: OutlinedButton(
+                                    style: OutlinedButton.styleFrom(
+                                        backgroundColor: Theme.of(context)
+                                            .colorScheme
+                                            .surface,
+                                        primary: Colors.white,
+                                        fixedSize: Size(117, 8),
+                                        elevation: 2,
+                                        alignment: Alignment.centerLeft),
+                                    child: Text(
+                                      'VERZOEKEN',
+                                      style: TextStyle(fontSize: 15),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    onPressed: () {
+                                      Navigator.of(context).push(
+                                        HeroDialogRoute(
+                                          builder: (context) => Center(
+                                            child: RequestFriendPopup(),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ],
                             ),
                             ...friends
                                 .map((item) => new FriendCard(friend: item))
