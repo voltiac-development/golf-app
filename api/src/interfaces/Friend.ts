@@ -10,3 +10,9 @@ export interface FriendDatabase {
     friendId: string,
     connectionId: string
 }
+
+export interface FriendRequest {
+    requestId: string,
+    senderId: string,
+    receiverId: string
+}

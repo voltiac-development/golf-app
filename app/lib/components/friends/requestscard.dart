@@ -16,8 +16,6 @@ class RequestsCardState extends State<RequestsCard> {
         child: SizedBox(
           height: 140,
           width: 300,
-          // child: SingleChildScrollView(
-          //     scrollDirection: Axis.horizontal,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
