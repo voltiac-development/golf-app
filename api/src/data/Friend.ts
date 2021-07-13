@@ -7,7 +7,7 @@ export async function fetchAllFriends(uid: string): Promise<{data: [Friend], err
     let friendData = null, error = null;
 
     try {
-        friendData = await sql('friends').select('accounts.id', 'accounts.name', 'accounts.handicap', 'accounts.image').where({'friends.id': uid}).innerJoin('accounts', 'friends.friendId', '=', 'accounts.id')
+        friendData = await sql('friends').select('accounts.id', 'accounts.name', 'accounts.handicap', 'accounts.image', 'accounts.email').where({'friends.id': uid}).innerJoin('accounts', 'friends.friendId', '=', 'accounts.id')
     } catch (e) {
         error = e;
     }
@@ -52,37 +52,41 @@ export async function sendNewRequest(uid: string, friendId: string): Promise<{er
     }
 }
 
-export async function acceptRequest(requestId: string): Promise<{data: Friend, error: HTTPError}> {
-    let requestData = null, error = null, result = null;
+export async function addFriend(uid: string, friendId: string): Promise<{data: String, error: HTTPError}> {
+    let error = null
 
     try {
-        requestData = await sql<FriendRequest>('friendrequests').select('*').where({'requestId': requestId});
-        if(requestData.length > 0){
-            let data = requestData[0], connId = v4();
-            await sql<FriendDatabase>('friends').insert({'id': data.senderId, 'friendId': data.receiverId, connectionId: connId});
-            await sql<FriendDatabase>('friends').insert({'id': data.receiverId, 'friendId': data.senderId, connectionId: v4()});
-            await sql<FriendRequest>('friendrequests').delete().where({'requestId': requestId});
-            result = await sql('friends').select('accounts.id', 'accounts.name', 'accounts.handicap', 'accounts.image').where({'friends.connectionId': connId}).innerJoin('accounts', 'friends.friendId', '=', 'accounts.id')
-        }
-        else error = new HTTPError(400, "Verzoek is niet gevonden.")
-        
+        var connId = v4();
+        await sql<FriendDatabase>('friends').insert({'id': uid, 'friendId': friendId, connectionId: connId});
     } catch (e) {
         error = new HTTPError(500, "Probleem met de server.");
     }
     return {
-        data: result,
+        data: connId,
         error
     }
 }
 
-export async function rejectRequest(requestId: string): Promise<{error: HTTPError}> {
-    let requestData = null, error = null;
+export async function removeRequest(requestId: string): Promise<{error: HTTPError}> {
+    let error = null
+
+    try {
+        await sql<FriendRequest>('friendrequests').delete().where({'requestId': requestId});
+    } catch (e) {
+        error = new HTTPError(500, "Probleem met de server.");
+    }
+    return {
+        error
+    }
+}
+
+export async function getRequestFromId(requestId: string): Promise<{data: FriendRequest, error: HTTPError}> {
+    let requestData = null, error = null, data = null;
 
     try {
         requestData = await sql<FriendRequest>('friendrequests').select('*').where({'requestId': requestId});
         if(requestData.length > 0){
-            let data = requestData[0];
-            await sql<FriendRequest>('friendrequests').delete().where({'requestId': requestId});
+            data = requestData[0];
         }
         else error = new HTTPError(400, "Verzoek is niet gevonden.")
         
@@ -90,6 +94,40 @@ export async function rejectRequest(requestId: string): Promise<{error: HTTPErro
         error = new HTTPError(500, "Probleem met de server.");
     }
     return {
+        data,
+        error
+    }
+}
+
+export async function retrieveFriend(uid: string, friendId: string): Promise<{data: FriendRequest, error: HTTPError}> {
+    let requestData = null, error = null, data = null;
+
+    try {
+        requestData = await sql('friends').select('accounts.id', 'accounts.name', 'accounts.handicap', 'accounts.image').where({'friends.id': uid, 'friends.friendId': friendId}).innerJoin('accounts', 'friends.friendId', '=', 'accounts.id')
+        if(requestData.length > 0){
+            data = requestData[0];
+        }
+        else error = new HTTPError(400, "Verzoek is niet gevonden.")
+        
+    } catch (e) {
+        error = new HTTPError(500, "Probleem met de server.");
+    }
+    return {
+        data,
+        error
+    }
+}
+
+export async function fetchAllRequests(uid: string): Promise<{data: [object], error: HTTPError}> {
+    let requestData = null, error = null;
+
+    try {
+        requestData = await sql('friendrequests').select('accounts.id', 'accounts.name', 'accounts.handicap', 'accounts.image', 'accounts.email').where({'friendrequests.receiverId': uid}).innerJoin('accounts', 'friendrequests.senderId', '=', 'accounts.id')
+    } catch (e) {
+        error = e;
+    }
+    return {
+        data: requestData,
         error
     }
 }

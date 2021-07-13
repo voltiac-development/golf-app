@@ -11,12 +11,12 @@ export async function getCurrentUserDetails(cookie: string): Promise<{ data: obj
     }
 
     if (!cookie) {
-        r.error = new HTTPError(401, "'gc_auth' cookie mist.");
+        r.error = new HTTPError(401, "'gc-auth' cookie mist.");
     } else {
         let { data, error } = validateJWT(cookie);
 
         if (error) {
-            r.error = new HTTPError(403, "'gc_auth' cookie is niet valide.");
+            r.error = new HTTPError(403, "'gc-auth' cookie is niet valide.");
         }
 
         if (data) {
@@ -44,12 +44,12 @@ export async function editCurrentUserDetails(cookie: string, name: string, email
     }
 
     if (!cookie) {
-        r.error = new HTTPError(401, "'gc_auth' cookie mist.");
+        r.error = new HTTPError(401, "'gc-auth' cookie mist.");
     } else {
         let { data, error } = validateJWT(cookie);
 
         if (error) {
-            r.error = new HTTPError(403, "'gc_auth' cookie is niet valide.");
+            r.error = new HTTPError(403, "'gc-auth' cookie is niet valide.");
         }
 
         if (data) {

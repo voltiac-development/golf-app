@@ -49,7 +49,7 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
                 child: IconButton(
                   icon: const Icon(Icons.person_outline),
                   color: Color(0xFFffffff),
-                  disabledColor: Theme.of(context).primaryColor,
+                  disabledColor: Theme.of(context).colorScheme.primary,
                   tooltip: 'Account',
                   onPressed: this.person
                       ? () {

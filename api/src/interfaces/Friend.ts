@@ -2,7 +2,8 @@ export interface Friend {
     id: string,
     name: string,
     handicap: string,
-    image: string, 
+    image: string,
+    email: string
 }
 
 export interface FriendDatabase {

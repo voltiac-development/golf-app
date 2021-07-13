@@ -1,5 +1,5 @@
 import express from 'express';
-import { getAllFriends, getAllRequests, getSpecificFriend } from '../app/Friend.js';
+import { acceptRequest, declineRequest, getAllFriends, getAllRequests, getSpecificFriend } from '../app/Friend.js';
 import { HTTPError } from '../errors/HTTPError.js';
 var router = express.Router();
 
@@ -65,7 +65,7 @@ router.get('/incoming', async (req, res, next) => {
         error: "Unkown error"
     })
     next()
-})
+});
 
 router.get('/get/:id', async (req, res, next) => {
     let { data, error } = await getSpecificFriend(req['user'].id, req['params'].id);
@@ -88,9 +88,56 @@ router.get('/get/:id', async (req, res, next) => {
         error: "Unkown error"
     })
     next()
-})
+});
 
-router.post('/add', async (req, res, next) => {
+router.post('/accept', async (req, res, next) => {
+    let { data, error } = await acceptRequest(req['user'].id, req['body'].friendId);
+
+    if (error) {
+        res.status(error.getStatusCode());
+        res.json(error.getErrorMessage());
+        next()
+        return;
+    }
+
+    if (data) {
+        res.json(data);
+        next()
+        return;
+    }
+
+    res.status(500)
+    res.json({
+        error: "Unkown error"
+    })
+    next()
+});
+
+router.post('/decline', async (req, res, next) => {
+    let { data, error } = await declineRequest(req['user'].id, req['body'].friendId);
+
+    if (error) {
+        res.status(error.getStatusCode());
+        res.json(error.getErrorMessage());
+        next()
+        return;
+    }
+
+    if (data) {
+        res.json(data);
+        next()
+        return;
+    }
+
+    res.status(500)
+    res.json({
+        error: "Unkown error"
+    })
+    next()
+});
+
+//TODO Need implementation
+router.post('/send', async (req, res, next) => {
     let { data, error } = await getSpecificFriend(req['user'].id, req['body'].friendId);
 
     if (error) {
@@ -111,6 +158,6 @@ router.post('/add', async (req, res, next) => {
         error: "Unkown error"
     })
     next()
-})
+});
 
 export default router;

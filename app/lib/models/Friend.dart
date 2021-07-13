@@ -22,3 +22,23 @@ class Friend {
 
   Friend(this.name, this.handicap, this.id, this.image);
 }
+
+class UserRequest {
+  String name;
+  String email;
+  String id;
+
+  String get getName => this.name;
+
+  set setName(String name) => this.name = name;
+
+  String get getId => this.id;
+
+  set setId(String id) => this.id = id;
+
+  String get getEmail => this.email;
+
+  set setEmail(String email) => this.email = email;
+
+  UserRequest(this.name, this.email, this.id);
+}

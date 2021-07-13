@@ -4,7 +4,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_golf/components/login/voltiac.dart';
 import 'package:http/http.dart' as http;
-import 'package:localstorage/localstorage.dart';
 import '../env.dart';
 import '../vendor/storage.dart';
 
@@ -27,9 +26,10 @@ class LoginState extends State<LoginScreen> {
   }
 
   Future<void> doSomeLongRunningCalculation() async {
+    print('f');
     String? item = await new Storage().getItem('jwt');
     if (item != null && item != "" && item != 'null') {
-      Navigator.of(context).pushNamed('dashboard');
+      Navigator.of(context).pushReplacementNamed('dashboard');
     } else {
       print(item);
     }
@@ -37,6 +37,7 @@ class LoginState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    doSomeLongRunningCalculation();
     final ButtonStyle style = OutlinedButton.styleFrom(
       textStyle: const TextStyle(fontSize: 16),
       backgroundColor: Theme.of(context).colorScheme.secondary,
@@ -67,6 +68,7 @@ class LoginState extends State<LoginScreen> {
                   width: max(250, MediaQuery.of(context).size.width * 0.50),
                   child: TextField(
                     controller: emailController,
+                    keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         hintText: 'E-mail',
@@ -149,7 +151,6 @@ class LoginState extends State<LoginScreen> {
   }
 
   void checkLogin(final context) {
-    print(AppUtils.apiUrl + " / " + passwordController.text);
     http.post(Uri.parse(AppUtils.apiUrl + 'auth/login'), body: {
       'email': emailController.text,
       'password': passwordController.text

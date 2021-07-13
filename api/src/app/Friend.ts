@@ -1,4 +1,4 @@
-import { fetchAllFriends, getRequestFromIds, sendNewRequest } from "../data/Friend.js";
+import { addFriend, fetchAllFriends, fetchAllRequests, getRequestFromId, getRequestFromIds, removeRequest, retrieveFriend, sendNewRequest } from "../data/Friend.js";
 import { retrieveRecentRounds } from "../data/Round.js";
 import { HTTPError } from "../errors/HTTPError.js";
 
@@ -20,8 +20,9 @@ export async function getAllFriends(uid: string): Promise<{data: object, error: 
 }
 
 export async function getAllRequests(uid: string): Promise<{data: object, error: HTTPError}> {
-    const { data, error } = await fetchAllFriends(uid);
+    const { data, error } = await fetchAllRequests(uid);
 
+    console.log(data, error, uid)
     let response = {
         data: null,
         error: null
@@ -30,7 +31,7 @@ export async function getAllRequests(uid: string): Promise<{data: object, error:
     if (error) {
         response.error = new HTTPError(404, "Er is een probleem met de database.");
     }else
-        response.data = {'friends': data};
+        response.data = {'requests': data};
 
     return response;
 }
@@ -70,6 +71,73 @@ export async function requestNewFriend(uid: string, friendId: string): Promise<{
         return {data:null, error: new HTTPError(401, "Al een verzoek verstuurd.")}
     
     const { error } = await sendNewRequest(uid, friendId);
+
+    let response = {
+        data: null,
+        error: null
+    }
+
+    if (error) {
+        response.error = new HTTPError(404, "Er is een probleem met de database.");
+    }else
+        response.data = "SUCCESS";
+
+    return response;
+}
+
+export async function acceptRequest(uid: string, friendId: string): Promise<{data: object, error: HTTPError}> {
+    if (friendId == null || uid == null)
+        return {data: null, error: new HTTPError(401, "Verkeerde aanvraag.")}
+
+    let result = null;
+    let response = {
+        data: null,
+        error: null
+    }
+    
+    var { data, e } = await getRequestFromIds(uid, friendId);
+    if (e) {
+        response.error = new HTTPError(404, "Er is een probleem met de database.");
+        return response;
+    }
+    else {
+        e = (await addFriend(data.senderId, data.receiverId)).error;
+        if (e) {
+            response.error = new HTTPError(404, "Er is een probleem met de database.");
+        }
+        e = (await addFriend(data.receiverId, data.senderId)).error;
+        if (e) {
+            response.error = new HTTPError(404, "Er is een probleem met de database.");
+        }
+        e = (await removeRequest(data.requestId)).error;
+        if (e) {
+            response.error = new HTTPError(404, "Er is een probleem met de database.");
+        }
+        result = await retrieveFriend(data.receiverId, data.senderId);
+    }
+
+
+    if (e) {
+        response.error = new HTTPError(404, "Er is een probleem met de database.");
+    }else
+        response.data = result.data;
+
+    return response;
+}
+
+export async function declineRequest(uid: string, friendId: string): Promise<{data: object, error: HTTPError}> {
+    if (friendId == null || uid == null)
+        return {data: null, error: new HTTPError(401, "Verkeerde aanvraag.")}
+    
+    const { data, e } = await getRequestFromIds(uid, friendId);
+    if(e){
+        return {data: null, error: new HTTPError(404, "Verzoek bestaat niet.")}
+    }
+    let error = (await removeRequest(data.requestId)).error;
+
+    if(error){
+        return {data: null, error: new HTTPError(500, 'Er is een probleem met de database.')}
+    }
 
     let response = {
         data: null,

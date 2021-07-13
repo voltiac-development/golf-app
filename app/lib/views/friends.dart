@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_golf/components/appbar.dart';
 import 'package:flutter_golf/components/friends/addFriendPopup.dart';
@@ -11,7 +10,7 @@ import 'package:flutter_golf/vendor/heroDialogRoute.dart';
 
 import 'package:http/http.dart' as http;
 
-import '../env.dart';
+import 'package:flutter_golf/env.dart';
 
 class FriendsScreen extends StatefulWidget {
   @override
@@ -30,7 +29,7 @@ class FriendsState extends State<FriendsScreen> {
     final ButtonStyle style = OutlinedButton.styleFrom(
         backgroundColor: Theme.of(context).colorScheme.surface,
         primary: Colors.white,
-        fixedSize: Size(118, 8),
+        fixedSize: Size(125, 8),
         elevation: 2,
         alignment: Alignment.centerLeft);
     return Scaffold(
@@ -88,7 +87,7 @@ class FriendsState extends State<FriendsScreen> {
                                             .colorScheme
                                             .surface,
                                         primary: Colors.white,
-                                        fixedSize: Size(117, 8),
+                                        fixedSize: Size(125, 8),
                                         elevation: 2,
                                         alignment: Alignment.centerLeft),
                                     child: Text(

@@ -44,35 +44,35 @@ class RequestRow extends StatelessWidget {
               children: [
                 Ink(
                     decoration: const ShapeDecoration(
-                      color: Colors.red,
+                      color: Color(0xFFfffff),
                       shape: CircleBorder(),
                     ),
                     child: IconButton(
-                      onPressed: () {},
+                      onPressed: () => this.onDecline('void'),
                       icon: Icon(
                         Icons.remove,
-                        color: Colors.white,
+                        color: Colors.red,
                         size: 14,
                       ),
-                      splashColor: Colors.red,
-                      splashRadius: 20,
+                      splashColor: Color(0xFFfffff),
+                      splashRadius: 24,
                     )),
                 SizedBox(
                   width: 3,
                 ),
                 Ink(
                     decoration: const ShapeDecoration(
-                      color: Colors.green,
+                      color: Color(0xFFfffff),
                       shape: CircleBorder(),
                     ),
                     child: IconButton(
-                      onPressed: () {},
+                      onPressed: () => this.onAccept('void'),
                       icon: Icon(
                         Icons.add,
-                        color: Colors.white,
+                        color: Colors.green,
                       ),
-                      splashColor: Colors.green,
-                      splashRadius: 20,
+                      splashColor: Color(0xFFfffff),
+                      splashRadius: 24,
                     ))
               ],
             )

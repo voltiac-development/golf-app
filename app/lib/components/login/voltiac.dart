@@ -19,8 +19,8 @@ class VoltiacLogin extends StatelessWidget {
             child: Container(
               child: Padding(
                 padding: EdgeInsets.only(left: 5, right: 5),
-                child: Image(
-                  image: AssetImage('transparentBlack.png'),
+                child: Image.network(
+                  'https://cdn.bartverm.dev/voltiac/transparentBlack.png',
                   height: 30,
                   width: 55,
                 ),

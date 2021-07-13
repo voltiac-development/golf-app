@@ -4,13 +4,14 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../env.dart';
 
 class Storage {
-  Future<String?> getItem(String item) async {
-    if (!AppUtils.development)
-      return new FlutterSecureStorage().read(key: 'caddie_' + item).toString();
-    else {
+  Future<dynamic> getItem(String item) async {
+    if (!AppUtils.development) {
+      final FlutterSecureStorage storage = new FlutterSecureStorage();
+      return storage.read(key: 'caddie_' + item);
+    } else {
       final LocalStorage storage = new LocalStorage('golfcaddie');
       await storage.ready;
-      return storage.getItem(item).toString();
+      return storage.getItem(item);
     }
   }
 

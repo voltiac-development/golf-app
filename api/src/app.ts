@@ -27,8 +27,9 @@ app.use(cookieParser());
 import { getCurrentUserDetails } from './app/Profile.js';
 
 app.use(async (req, res, next) => {
+    console.log(req.headers)
     try{
-        req['user'] = (await getCurrentUserDetails(req.header('gc.auth'))).data;
+        req['user'] = (await getCurrentUserDetails(req.header('gc-auth'))).data;
     }catch(e){}
     next();
 });

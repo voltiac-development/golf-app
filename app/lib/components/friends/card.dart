@@ -45,10 +45,12 @@ class FriendCardState extends State<FriendCard> {
                 ),
               ),
               WhiteTextField(
-                  hint: 'E-mail',
-                  obfuscated: false,
-                  controller: nameController,
-                  icon: Icons.mail_outlined),
+                hint: 'E-mail',
+                obfuscated: false,
+                controller: nameController,
+                icon: Icons.mail_outlined,
+                email: false,
+              ),
               SizedBox(height: 20),
               WhiteSendButton(
                   email: emailController,

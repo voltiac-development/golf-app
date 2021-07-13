@@ -8,13 +8,15 @@ class WhiteTextField extends StatelessWidget {
   final bool obfuscated;
   final TextEditingController controller;
   final IconData icon;
+  final bool email;
 
   WhiteTextField(
       {Key? key,
       required this.hint,
       required this.obfuscated,
       required this.controller,
-      required this.icon})
+      required this.icon,
+      required this.email})
       : super(key: key);
 
   @override
@@ -22,6 +24,8 @@ class WhiteTextField extends StatelessWidget {
     return SizedBox(
         width: max(250, MediaQuery.of(context).size.width * 0.50),
         child: TextField(
+          keyboardType:
+              this.email ? TextInputType.emailAddress : TextInputType.text,
           decoration: InputDecoration(
             border:
                 OutlineInputBorder(borderSide: BorderSide(color: Colors.white)),

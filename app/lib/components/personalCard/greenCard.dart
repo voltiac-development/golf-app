@@ -25,7 +25,9 @@ class GreenCard extends State<GreenCardState> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 250,
+      height: this.errorValue == ""
+          ? MediaQuery.of(context).size.height / 2.7
+          : MediaQuery.of(context).size.height / 2.5,
       width: 300,
       child: Container(
           decoration: BoxDecoration(
@@ -52,28 +54,36 @@ class GreenCard extends State<GreenCardState> {
                 ),
               ),
               WhiteTextField(
-                  hint: 'Naam',
-                  obfuscated: false,
-                  controller: nameController,
-                  icon: Icons.person_outline),
+                hint: 'Naam',
+                obfuscated: false,
+                controller: nameController,
+                icon: Icons.person_outline,
+                email: false,
+              ),
               SizedBox(height: 10),
               WhiteTextField(
-                  hint: 'E-mail',
-                  obfuscated: false,
-                  controller: emailController,
-                  icon: Icons.mail_outline),
+                hint: 'E-mail',
+                obfuscated: false,
+                controller: emailController,
+                icon: Icons.mail_outline,
+                email: true,
+              ),
               SizedBox(height: 10),
               WhiteTextField(
-                  hint: 'Huidig wachtwoord',
-                  obfuscated: true,
-                  controller: passwordController,
-                  icon: Icons.lock_outline),
+                hint: 'Huidig wachtwoord',
+                obfuscated: true,
+                controller: passwordController,
+                icon: Icons.lock_outline,
+                email: false,
+              ),
               SizedBox(height: 10),
               WhiteTextField(
-                  hint: 'Nieuw wachtwoord',
-                  obfuscated: true,
-                  controller: checkPasswordController,
-                  icon: Icons.lock_outline),
+                hint: 'Nieuw wachtwoord',
+                obfuscated: true,
+                controller: checkPasswordController,
+                icon: Icons.lock_outline,
+                email: false,
+              ),
               SizedBox(height: 20),
               WhiteConfirmButton(
                   name: nameController,
@@ -97,13 +107,19 @@ class GreenCard extends State<GreenCardState> {
   }
 
   void setValues() async {
+    Map<String, String> headers = await AppUtils.getHeaders();
     http
-        .get(Uri.parse(AppUtils.apiUrl + 'profile/me'),
-            headers: await AppUtils.getHeaders())
+        .get(Uri.parse(AppUtils.apiUrl + 'profile/me'), headers: headers)
         .then((value) {
       Map<String, dynamic> body = jsonDecode(value.body);
-      nameController.text = body['name'];
-      emailController.text = body['email'];
+      if (body['error'] == null) {
+        nameController.text = body['name'];
+        emailController.text = body['email'];
+      } else {
+        setState(() {
+          this.errorValue = body['error'];
+        });
+      }
     });
   }
 }
