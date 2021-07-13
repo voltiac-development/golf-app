@@ -30,11 +30,13 @@ class WhiteSendButton extends StatelessWidget {
   }
 
   void sendNewEdit(BuildContext context) async {
-    http.patch(Uri.parse(AppUtils.apiUrl + 'friend/add'),
-        headers: await AppUtils.getHeaders(),
+    Map<String, String> headers = await AppUtils.getHeaders();
+    http.post(Uri.parse(AppUtils.apiUrl + 'friend/add'),
+        headers: headers,
         body: {
-          "email": email.text,
+          "friend": email.text,
         }).then((value) {
+      print(value.body);
       if (value.body != "\"SUCCESS\"") {
         Map<String, dynamic> body = jsonDecode(value.body);
         this.onError(body['error']);

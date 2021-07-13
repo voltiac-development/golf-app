@@ -1,3 +1,4 @@
+import { fetchUserData } from "../data/Authentication.js";
 import { addFriend, fetchAllFriends, fetchAllRequests, getRequestFromId, getRequestFromIds, removeRequest, retrieveFriend, sendNewRequest } from "../data/Friend.js";
 import { retrieveRecentRounds } from "../data/Round.js";
 import { HTTPError } from "../errors/HTTPError.js";
@@ -61,14 +62,25 @@ export async function getSpecificFriend(uid: string, friendId: string): Promise<
     return response;
 }
 
-export async function requestNewFriend(uid: string, friendId: string): Promise<{data: object, error: HTTPError}> {
-    if (friendId == null || uid == null)
+export async function requestNewFriend(uid: string, friendEmail: string): Promise<{data: object, error: HTTPError}> {
+    if (friendEmail == null || uid == null)
         return {data: null, error: new HTTPError(401, "Verkeerde aanvraag.")}
     
+    let friendData = await fetchUserData(friendEmail);
+    if(friendData.error)
+        return {data: null, error: new HTTPError(501, friendData.error)};
+    let friendId = friendData.data.id;
     const { data, e } = await getRequestFromIds(uid, friendId);
-
+    
     if(data)
         return {data:null, error: new HTTPError(401, "Al een verzoek verstuurd.")}
+    
+    let friendUserData = await getSpecificFriend(uid, friendId);
+    if(friendUserData.error)
+        return {data: null, error: new HTTPError(500, friendUserData.error)};
+    
+    if(friendUserData.data)
+        return {data:null, error: new HTTPError(401, "U bent al bevriend met deze gebruiker.")}
     
     const { error } = await sendNewRequest(uid, friendId);
 

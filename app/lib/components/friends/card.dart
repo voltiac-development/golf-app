@@ -18,7 +18,6 @@ class FriendCardState extends State<FriendCard> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 140,
       width: 300,
       child: Container(
           decoration: BoxDecoration(
@@ -48,7 +47,7 @@ class FriendCardState extends State<FriendCard> {
               WhiteTextField(
                 hint: 'E-mail',
                 obfuscated: false,
-                controller: nameController,
+                controller: emailController,
                 icon: Icons.mail_outlined,
                 email: false,
               ),

@@ -25,7 +25,7 @@ export async function getRequestFromIds(uid: string, friendId: string): Promise<
         if (requestData.length > 0){
             result = requestData[0];
         }else{
-            result = [];
+            result = null;
         }
         
     } catch (error) {

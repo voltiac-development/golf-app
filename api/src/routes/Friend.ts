@@ -1,5 +1,5 @@
 import express from 'express';
-import { acceptRequest, declineRequest, getAllFriends, getAllRequests, getSpecificFriend } from '../app/Friend.js';
+import { acceptRequest, declineRequest, getAllFriends, getAllRequests, getSpecificFriend, requestNewFriend } from '../app/Friend.js';
 import { HTTPError } from '../errors/HTTPError.js';
 var router = express.Router();
 
@@ -136,9 +136,9 @@ router.post('/decline', async (req, res, next) => {
     next()
 });
 
-//TODO Need implementation
-router.post('/send', async (req, res, next) => {
-    let { data, error } = await getSpecificFriend(req['user'].id, req['body'].friendId);
+router.post('/add', async (req, res, next) => {
+    console.log(req['body'])
+    let { data, error } = await requestNewFriend(req['user'].id, req['body'].friend);
 
     if (error) {
         res.status(error.getStatusCode());
@@ -155,7 +155,7 @@ router.post('/send', async (req, res, next) => {
 
     res.status(500)
     res.json({
-        error: "Unkown error"
+        error: "Unknown error"
     })
     next()
 });
