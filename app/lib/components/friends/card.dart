@@ -18,14 +18,15 @@ class FriendCardState extends State<FriendCard> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 136,
+      height: 140,
       width: 300,
       child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(25)),
             color: Theme.of(context).colorScheme.surface,
           ),
-          child: Column(
+          child: SingleChildScrollView(
+              child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(
@@ -66,7 +67,7 @@ class FriendCardState extends State<FriendCard> {
                     });
                   }),
             ],
-          )),
+          ))),
     );
   }
 }

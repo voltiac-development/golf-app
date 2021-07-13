@@ -4,7 +4,7 @@ import 'package:flutter_golf/vendor/storage.dart';
 class AppUtils {
   static String get apiUrl {
     if (kDebugMode)
-      return 'http://f0391366f388.eu.ngrok.io/';
+      return 'http://196fed92f1c9.eu.ngrok.io/';
     // return 'https://golf.voltiac.dev/';
     else
       return 'https://golf.voltiac.dev/';
