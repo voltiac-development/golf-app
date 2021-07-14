@@ -33,7 +33,7 @@ class DashboardScreen extends StatelessWidget {
                 BtnWidget(
                     text: "RONDE BEGINNEN",
                     icon: Icons.add,
-                    routeTo: 'addscore'),
+                    routeTo: 'startRound'),
                 BtnWidget(
                     text: "SCORES BEKIJKEN",
                     icon: Icons.golf_course_sharp,

@@ -25,9 +25,6 @@ class GreenCard extends State<GreenCardState> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: this.errorValue == ""
-          ? MediaQuery.of(context).size.height / 2.7
-          : MediaQuery.of(context).size.height / 2.5,
       width: 300,
       child: Container(
           decoration: BoxDecoration(

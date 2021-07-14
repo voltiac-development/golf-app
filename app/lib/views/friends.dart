@@ -39,80 +39,94 @@ class FriendsState extends State<FriendsScreen> {
           back: true,
         ),
         backgroundColor: Theme.of(context).colorScheme.primary,
-        body: SingleChildScrollView(
-            child: Container(
-                height: MediaQuery.of(context).size.height - 56,
-                decoration: BoxDecoration(
-                    color: Color(0xFFffffff),
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(30),
-                        topRight: Radius.circular(30))),
-                child: Padding(
-                    padding: EdgeInsets.only(top: 10),
-                    child: Align(
-                        alignment: Alignment.topCenter,
-                        child: Column(
+        body: Container(
+            height: MediaQuery.of(context).size.height - 56,
+            decoration: BoxDecoration(
+                color: Color(0xFFffffff),
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(30),
+                    topRight: Radius.circular(30))),
+            child: Padding(
+                padding: EdgeInsets.only(top: 10),
+                child: Align(
+                    alignment: Alignment.topCenter,
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Hero(
-                                  tag: 'add_friend',
-                                  child: OutlinedButton(
-                                    style: style,
-                                    child: Text(
-                                      'TOEVOEGEN',
-                                      style: TextStyle(fontSize: 15),
-                                      textAlign: TextAlign.center,
+                            Hero(
+                              tag: 'add_friend',
+                              child: OutlinedButton(
+                                style: style,
+                                child: Text(
+                                  'TOEVOEGEN',
+                                  style: TextStyle(fontSize: 15),
+                                  textAlign: TextAlign.center,
+                                ),
+                                onPressed: () {
+                                  Navigator.of(context).push(
+                                    HeroDialogRoute(
+                                      builder: (context) => Center(
+                                        child: AddFriendPopup(),
+                                      ),
                                     ),
-                                    onPressed: () {
-                                      Navigator.of(context).push(
-                                        HeroDialogRoute(
-                                          builder: (context) => Center(
-                                            child: AddFriendPopup(),
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 3,
-                                ),
-                                Hero(
-                                  tag: 'friend_requests',
-                                  child: OutlinedButton(
-                                    style: OutlinedButton.styleFrom(
-                                        backgroundColor: Theme.of(context)
-                                            .colorScheme
-                                            .surface,
-                                        primary: Colors.white,
-                                        fixedSize: Size(125, 8),
-                                        elevation: 2,
-                                        alignment: Alignment.centerLeft),
-                                    child: Text(
-                                      'VERZOEKEN',
-                                      style: TextStyle(fontSize: 15),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                    onPressed: () {
-                                      Navigator.of(context).push(
-                                        HeroDialogRoute(
-                                          builder: (context) => Center(
-                                            child: RequestFriendPopup(),
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                ),
-                              ],
+                                  );
+                                },
+                              ),
                             ),
-                            ...friends
-                                .map((item) => new FriendCard(friend: item))
-                                .toList()
+                            SizedBox(
+                              width: 3,
+                            ),
+                            Hero(
+                              tag: 'friend_requests',
+                              child: OutlinedButton(
+                                style: OutlinedButton.styleFrom(
+                                    backgroundColor:
+                                        Theme.of(context).colorScheme.surface,
+                                    primary: Colors.white,
+                                    fixedSize: Size(125, 8),
+                                    elevation: 2,
+                                    alignment: Alignment.centerLeft),
+                                child: Text(
+                                  'VERZOEKEN',
+                                  style: TextStyle(fontSize: 15),
+                                  textAlign: TextAlign.center,
+                                ),
+                                onPressed: () {
+                                  Navigator.of(context).push(
+                                    HeroDialogRoute(
+                                      builder: (context) => Center(
+                                        child: RequestFriendPopup(),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
                           ],
-                        ))))));
+                        ),
+                        Expanded(
+                          child: CustomScrollView(
+                            slivers: [
+                              SliverFillRemaining(
+                                  hasScrollBody: false,
+                                  child: Column(
+                                    children: [
+                                      ...friends
+                                          .map((item) =>
+                                              new FriendCard(friend: item))
+                                          .toList(),
+                                      SizedBox(
+                                        height: 10,
+                                      )
+                                    ],
+                                  ))
+                            ],
+                          ),
+                        )
+                      ],
+                    )))));
   }
 
   void retrieveFriends() async {

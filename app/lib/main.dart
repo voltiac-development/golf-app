@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_golf/views/startScore.dart';
 
 //Custom screens
 import 'views/login.dart';
@@ -41,7 +42,8 @@ class MyApp extends StatelessWidget {
         'allscores': (_) => AllScoresScreen(),
         'forgotpassword': (_) => ForgotScreen(),
         'searchcourse': (_) => SearchCourseScreen(),
-        'friends': (_) => FriendsScreen()
+        'friends': (_) => FriendsScreen(),
+        'startRound': (_) => StartScoreScreen()
       },
     );
   }

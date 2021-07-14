@@ -30,7 +30,7 @@ class BtnWidget extends StatelessWidget {
           Navigator.of(context).pushNamed(this.routeTo);
         },
       )),
-      margin: const EdgeInsets.only(top: 10.0),
+      margin: const EdgeInsets.only(top: 2.0),
     );
   }
 }
