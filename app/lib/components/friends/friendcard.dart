@@ -42,9 +42,8 @@ class FriendCard extends StatelessWidget {
                               child: new Image.network(
                                 this.friend.getImage,
                                 height: 45,
-                                width: 45 / 362 * 325,
                               ),
-                              color: Theme.of(context).colorScheme.onSecondary,
+                              color: Theme.of(context).colorScheme.secondary,
                             ),
                             SizedBox(
                               width: 3,

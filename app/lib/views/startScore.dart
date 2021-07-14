@@ -21,6 +21,9 @@ class _StartScoreScreenState extends State<StartScoreScreen> {
   List<dynamic> visibleCourses = [];
   String favCourse = "";
 
+  final TextStyle annotation =
+      TextStyle(fontStyle: FontStyle.italic, fontWeight: FontWeight.w100);
+
   _StartScoreScreenState() {
     retrieveCourses();
   }
@@ -32,7 +35,7 @@ class _StartScoreScreenState extends State<StartScoreScreen> {
       appBar: DefaultAppBar(
         back: true,
         person: true,
-        title: "RONDE BEGINNEN",
+        title: "SPEL BEGINNEN",
       ),
       body: Container(
         decoration: BoxDecoration(
@@ -40,10 +43,20 @@ class _StartScoreScreenState extends State<StartScoreScreen> {
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(30), topRight: Radius.circular(30))),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(
+              height: 15,
               width: MediaQuery.of(context).size.width,
+            ),
+            Text(
+              'golfbaan',
+              textAlign: TextAlign.left,
+              style: annotation,
+            ),
+            Padding(
+              padding: EdgeInsets.all(2),
             ),
             SizedBox(
                 width: max(250, MediaQuery.of(context).size.width * 0.50),
@@ -72,6 +85,13 @@ class _StartScoreScreenState extends State<StartScoreScreen> {
                     filled: false,
                   ),
                 )),
+            Padding(
+              padding: EdgeInsets.all(5),
+            ),
+            Text(
+              'mede spelers',
+              style: annotation,
+            )
           ],
         ),
       ),
