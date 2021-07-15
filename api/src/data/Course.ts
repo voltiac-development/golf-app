@@ -1,11 +1,11 @@
 import { Course, RoundTypes } from "../interfaces/Course.js";
 import { sql } from "./knex.js";
 
-export async function fetchAllCourses(): Promise<{data: [Course], error: Error}> {
+export async function fetchAllCourses(): Promise<{data: [object], error: Error}> {
     let courseData = null, error = null;
 
     try {
-        courseData = await sql<Course>('courses').select('*');
+        courseData = await sql<Course>('courses').select('*')
     } catch (e) {
         console.log(e)
         error = e;

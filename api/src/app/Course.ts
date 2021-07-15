@@ -2,7 +2,10 @@ import { fetchAllCourses, fetchRoundTypes, fetchSpecificCourse } from "../data/C
 import { HTTPError } from "../errors/HTTPError.js";
 
 export async function getAllCourses(): Promise<{data: Object, error: HTTPError}> {
-    const { data, error } = await fetchAllCourses();
+    let { data, error } = await fetchAllCourses();
+    for(let i = 0; i < data.length; i++){
+        data[i]['roundTypes'] = (await fetchRoundTypes(data[i]['id'])).data
+    }
 
     let response = {
         data: null,

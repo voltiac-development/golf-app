@@ -148,7 +148,7 @@ class _StartScoreScreenState extends State<StartScoreScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          for (var hole in this.availableHoleTypes)
+                          for (var hole in this.chosenCourse.roundTypes)
                             HoleCard(
                               title: hole['roundVariation'],
                               onTap: (value) => print(value),
@@ -175,7 +175,7 @@ class _StartScoreScreenState extends State<StartScoreScreen> {
             response['courses'][0]['holes'],
             response['courses'][0]['id'],
             response['courses'][0]['image'],
-            [],
+            response['courses'][0]['roundTypes'],
             response['courses'][0]['teeboxes']);
         this.courses = response['courses'];
         if (this.mounted) {
@@ -186,22 +186,12 @@ class _StartScoreScreenState extends State<StartScoreScreen> {
   }
 
   void retrieveCourseInfo() {
-    http
-        .get(Uri.parse(AppUtils.apiUrl + "course/info/" + this.favCourse))
-        .then((value) {
-      Map<String, dynamic> response = jsonDecode(value.body);
-      if (response['error'] == null) {
-        setState(() {
-          this.availableHoleTypes = response['roundTypes'];
-          this.chosenCourse = new CourseInfo(
-              response['name'],
-              response['holes'],
-              response['id'],
-              response['image'],
-              response['roundTypes'],
-              response['teeboxes']);
-        });
-      }
+    dynamic course =
+        this.courses.firstWhere((element) => element['id'] == this.favCourse);
+    CourseInfo c = new CourseInfo(course['name'], course['holes'], course['id'],
+        course['image'], course['roundTypes'], course['teeboxes']);
+    setState(() {
+      this.chosenCourse = c;
     });
   }
 }
