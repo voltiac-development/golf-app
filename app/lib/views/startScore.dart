@@ -3,7 +3,9 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_golf/components/appbar.dart';
+import 'package:flutter_golf/components/startScore/coPlayer.dart';
 import 'package:flutter_golf/components/startScore/holeContainer.dart';
+import 'package:flutter_golf/components/startScore/teeBoxes.dart';
 import 'package:flutter_golf/models/CourseInformation.dart';
 import 'package:flutter_golf/models/Friend.dart';
 
@@ -23,6 +25,8 @@ class _StartScoreScreenState extends State<StartScoreScreen> {
   List<dynamic> visibleCourses = [];
   String favCourse = "";
   bool _toggle = false;
+  List<dynamic> availableHoleTypes = [];
+  CourseInfo chosenCourse = new CourseInfo('name', 0, '', '', [], '');
 
   List<Friend?> players = [null, null, null];
 
@@ -85,8 +89,7 @@ class _StartScoreScreenState extends State<StartScoreScreen> {
                           }).toList(),
                           onChanged: !_toggle
                               ? (newValue) {
-                                  // do other stuff with _category
-                                  print(newValue);
+                                  this.favCourse = newValue.toString();
                                 }
                               : null,
                           value: favCourse,
@@ -109,6 +112,7 @@ class _StartScoreScreenState extends State<StartScoreScreen> {
                 onPressed: () {
                   setState(() {
                     _toggle = !_toggle;
+                    retrieveCourseInfo();
                   });
                 },
                 child: Text(_toggle ? 'Terug' : 'Kies baan')),
@@ -120,69 +124,7 @@ class _StartScoreScreenState extends State<StartScoreScreen> {
                     Padding(
                       padding: EdgeInsets.all(5),
                     ),
-                    Text(
-                      'mede spelers',
-                      style: annotation,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(2),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Padding(
-                            padding: EdgeInsets.only(left: 15, right: 15),
-                            child: IconButton(
-                              icon: Icon(
-                                Icons.looks_one_outlined,
-                                size: 30,
-                                color: this.players[0] == null
-                                    ? Theme.of(context).colorScheme.surface
-                                    : Colors.greenAccent,
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  this.players[0] = new Friend(
-                                      'Bart Vermeulen', 29.9, 'f', 'image');
-                                });
-                              },
-                            )),
-                        Padding(
-                            padding: EdgeInsets.only(left: 15, right: 15),
-                            child: IconButton(
-                              icon: Icon(
-                                Icons.looks_two_outlined,
-                                size: 30,
-                                color: this.players[1] == null
-                                    ? Theme.of(context).colorScheme.surface
-                                    : Colors.greenAccent,
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  this.players[1] = new Friend(
-                                      'Bart Vermeulen', 29.9, 'f', 'image');
-                                });
-                              },
-                            )),
-                        Padding(
-                            padding: EdgeInsets.only(left: 15, right: 15),
-                            child: IconButton(
-                              icon: Icon(
-                                Icons.looks_3_outlined,
-                                size: 30,
-                                color: this.players[2] == null
-                                    ? Theme.of(context).colorScheme.surface
-                                    : Colors.greenAccent,
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  this.players[2] = new Friend(
-                                      'Bart Vermeulen', 29.9, 'f', 'image');
-                                });
-                              },
-                            )),
-                      ],
-                    ),
+                    CoPlayer(),
                     Padding(
                       padding: EdgeInsets.all(2),
                     ),
@@ -190,49 +132,7 @@ class _StartScoreScreenState extends State<StartScoreScreen> {
                       'jouw teebox',
                       style: annotation,
                     ),
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Padding(
-                              padding: EdgeInsets.only(left: 5, right: 5),
-                              child: IconButton(
-                                icon: Icon(Icons.sports_golf,
-                                    size: 30, color: Colors.grey[300]),
-                                onPressed: () {},
-                              )),
-                          Padding(
-                              padding: EdgeInsets.only(left: 5, right: 5),
-                              child: IconButton(
-                                icon: Icon(Icons.sports_golf,
-                                    size: 30, color: Colors.lightBlue),
-                                onPressed: () {},
-                              )),
-                          Padding(
-                              padding: EdgeInsets.only(left: 5, right: 5),
-                              child: IconButton(
-                                icon: Icon(Icons.sports_golf,
-                                    size: 30, color: Colors.yellow),
-                                onPressed: () {},
-                              )),
-                          Padding(
-                              padding: EdgeInsets.only(left: 5, right: 5),
-                              child: IconButton(
-                                icon: Icon(Icons.sports_golf,
-                                    size: 30, color: Colors.red),
-                                onPressed: () {},
-                              )),
-                          Padding(
-                              padding: EdgeInsets.only(left: 5, right: 5),
-                              child: IconButton(
-                                icon: Icon(Icons.sports_golf,
-                                    size: 30, color: Colors.orange),
-                                onPressed: () {},
-                              )),
-                        ],
-                      ),
-                    ),
+                    TeeBoxes(tees: this.chosenCourse.teeBoxes),
                     Padding(
                       padding: EdgeInsets.all(2),
                     ),
@@ -248,18 +148,11 @@ class _StartScoreScreenState extends State<StartScoreScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          HoleCard(
-                            title: '1 - 9',
-                            onTap: (value) => print(value),
-                          ),
-                          HoleCard(
-                            title: '10 - 18',
-                            onTap: (value) => print(value),
-                          ),
-                          HoleCard(
-                            title: '1 - 18',
-                            onTap: (value) => print(value),
-                          )
+                          for (var hole in this.availableHoleTypes)
+                            HoleCard(
+                              title: hole['roundVariation'],
+                              onTap: (value) => print(value),
+                            )
                         ],
                       ),
                     )
@@ -275,13 +168,40 @@ class _StartScoreScreenState extends State<StartScoreScreen> {
     http.get(Uri.parse(AppUtils.apiUrl + "course/all")).then((value) {
       Map<String, dynamic> response = jsonDecode(value.body);
       if (response['error'] == null) {
+        print(response);
         this.favCourse = response['courses'][0]['id'];
-        setState(() {
-          this.courses = response['courses'];
-        });
+        this.chosenCourse = new CourseInfo(
+            response['courses'][0]['name'],
+            response['courses'][0]['holes'],
+            response['courses'][0]['id'],
+            response['courses'][0]['image'],
+            [],
+            response['courses'][0]['teeboxes']);
+        this.courses = response['courses'];
+        if (this.mounted) {
+          setState(() {});
+        }
       }
     });
   }
 
-  void retrieveCourseInfo() {}
+  void retrieveCourseInfo() {
+    http
+        .get(Uri.parse(AppUtils.apiUrl + "course/info/" + this.favCourse))
+        .then((value) {
+      Map<String, dynamic> response = jsonDecode(value.body);
+      if (response['error'] == null) {
+        setState(() {
+          this.availableHoleTypes = response['roundTypes'];
+          this.chosenCourse = new CourseInfo(
+              response['name'],
+              response['holes'],
+              response['id'],
+              response['image'],
+              response['roundTypes'],
+              response['teeboxes']);
+        });
+      }
+    });
+  }
 }

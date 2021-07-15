@@ -3,6 +3,8 @@ class CourseInfo {
   int holes;
   String id;
   String image;
+  List<dynamic> roundTypes;
+  String teeBoxes;
 
   int get getHoles {
     return this.holes;
@@ -36,5 +38,17 @@ class CourseInfo {
     this.image = image;
   }
 
-  CourseInfo(this.name, this.holes, this.id, this.image);
+  CourseInfo(this.name, this.holes, this.id, this.image, this.roundTypes,
+      this.teeBoxes);
+}
+
+class RoundType {
+  String courseId;
+  String roundVariation;
+  String roundTypeId;
+  int startHole;
+  int endHole;
+
+  RoundType(this.courseId, this.roundTypeId, this.roundVariation,
+      this.startHole, this.endHole);
 }

@@ -88,9 +88,8 @@ class SearchCourseState extends State<SearchCourseScreen> {
       Map<String, dynamic> response = jsonDecode(value.body);
       if (response['error'] == null) {
         List<dynamic>.from(response['courses']).forEach((e) {
-          this
-              .courses
-              .add(CourseInfo(e['name'], e['holes'], e['id'], e['image']));
+          this.courses.add(
+              CourseInfo(e['name'], e['holes'], e['id'], e['image'], [], ''));
         });
         setState(() {
           this.visibleCourses = this.courses;
