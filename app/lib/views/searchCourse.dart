@@ -3,9 +3,9 @@ import 'dart:math';
 import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
-import 'package:flutter_golf/components/appbar.dart';
-import 'package:flutter_golf/components/courseCard.dart';
-import 'package:flutter_golf/models/CourseInformation.dart';
+import 'package:golfcaddie/components/appbar.dart';
+import 'package:golfcaddie/components/courseCard.dart';
+import 'package:golfcaddie/models/CourseInformation.dart';
 
 import '../env.dart';
 

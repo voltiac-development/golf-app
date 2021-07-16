@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_golf/components/friends/sendButton.dart';
-import 'package:flutter_golf/components/personalCard/textField.dart';
+import 'package:golfcaddie/components/friends/sendButton.dart';
+import 'package:golfcaddie/components/personalCard/textField.dart';
 
 class FriendCard extends StatefulWidget {
   @override

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_golf/views/startScore.dart';
+import 'package:golfcaddie/views/startScore.dart';
 
 //Custom screens
 import 'views/login.dart';
 import 'views/register.dart';
 import 'views/allscores.dart';
 import 'views/dashboard.dart';
-import 'package:flutter_golf/views/forgot.dart';
-import 'package:flutter_golf/views/friends.dart';
-import 'package:flutter_golf/views/searchCourse.dart';
+import 'package:golfcaddie/views/forgot.dart';
+import 'package:golfcaddie/views/friends.dart';
+import 'package:golfcaddie/views/searchCourse.dart';
 
 void main() {
   runApp(MyApp());

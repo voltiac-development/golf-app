@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_golf/components/friends/requestRow.dart';
-import 'package:flutter_golf/env.dart';
-import 'package:flutter_golf/models/Friend.dart';
+import 'package:golfcaddie/components/friends/requestRow.dart';
+import 'package:golfcaddie/env.dart';
+import 'package:golfcaddie/models/Friend.dart';
 
 import 'package:http/http.dart' as http;
 
@@ -49,7 +49,7 @@ class RequestsCardState extends State<RequestsCard> {
               Text(
                 this.requests.length == 0
                     ? 'Er zijn geen inkomende verzoeken.'
-                    : '',
+                    : this.requests.length.toString(),
                 style:
                     TextStyle(color: Theme.of(context).colorScheme.onPrimary),
               ),
@@ -71,7 +71,6 @@ class RequestsCardState extends State<RequestsCard> {
         headers: await AppUtils.getHeaders(),
         body: {"friendId": request}).then((value) {
       Map<String, dynamic> response = jsonDecode(value.body);
-      print(response);
       if (response['error'] == null) {
         getsRequests();
       }
@@ -79,12 +78,10 @@ class RequestsCardState extends State<RequestsCard> {
   }
 
   void acceptRequest(request) async {
-    print(request);
     Map<String, String> headers = await AppUtils.getHeaders();
     http.post(Uri.parse(AppUtils.apiUrl + "friend/accept"),
         headers: headers, body: {"friendId": request}).then((value) {
       Map<String, dynamic> response = jsonDecode(value.body);
-      print(response);
       if (response['error'] == null) {
         getsRequests();
       }
@@ -97,13 +94,12 @@ class RequestsCardState extends State<RequestsCard> {
         .get(Uri.parse(AppUtils.apiUrl + "friend/incoming"),
             headers: await AppUtils.getHeaders())
         .then((value) {
-      print(value.body);
       Map<String, dynamic> response = jsonDecode(value.body);
       if (response['error'] == null) {
         List<dynamic>.from(response['requests']).forEach((e) {
           this.requests.add(UserRequest(e['name'], e['email'], e['id']));
         });
-        setState(() {});
+        if (this.mounted) setState(() {});
       }
     });
   }

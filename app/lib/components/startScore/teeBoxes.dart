@@ -8,6 +8,8 @@ class Teeboxes extends StatelessWidget {
     Colors.red,
     Colors.orange
   ];
+  final Color hide;
+  final Color highlight;
 
   final List<String> colorTypes = ["WHITE", "BLUE", "YELLOW", "RED", "ORANGE"];
   final List<int> test = [0, 1, 2, 3, 4];
@@ -15,7 +17,11 @@ class Teeboxes extends StatelessWidget {
   final int chosenIndex;
   final ValueChanged<int> onTap;
   Teeboxes(
-      {required this.tees, required this.chosenIndex, required this.onTap});
+      {required this.tees,
+      required this.chosenIndex,
+      required this.onTap,
+      required this.hide,
+      required this.highlight});
 
   @override
   Widget build(BuildContext context) {
@@ -35,16 +41,19 @@ class Teeboxes extends StatelessWidget {
                           onPressed: () {
                             this.onTap(i);
                           },
+                          splashColor: this.hide,
+                          focusColor: this.hide,
+                          highlightColor: this.hide,
                         ),
                         decoration: this.chosenIndex == test[i]
                             ? BoxDecoration(
                                 borderRadius: BorderRadius.circular(15),
                                 border:
-                                    Border.all(width: 1, color: Colors.black))
+                                    Border.all(width: 1, color: this.highlight))
                             : BoxDecoration(
                                 borderRadius: BorderRadius.circular(15),
                                 border:
-                                    Border.all(width: 1, color: Colors.white))),
+                                    Border.all(width: 1, color: this.hide))),
                   )
                 : SizedBox()
         ],

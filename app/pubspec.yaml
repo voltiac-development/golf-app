@@ -1,5 +1,5 @@
-name: flutter_golf
-description: A new Flutter project.
+name: golfcaddie
+description: Een nieuwe manier van scores bijhouden!
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
@@ -31,6 +31,7 @@ dependencies:
   http: ^0.13.3
   flutter_secure_storage: ^4.2.0
   localstorage: ^4.0.0
+  flutter_typeahead: ^3.2.0
 
 dev_dependencies:
   flutter_test:

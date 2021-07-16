@@ -1,10 +1,10 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter_golf/vendor/storage.dart';
+import 'package:golfcaddie/vendor/storage.dart';
 
 class AppUtils {
   static String get apiUrl {
     if (kDebugMode)
-      return 'https://16d9219b1113.eu.ngrok.io/';
+      return 'https://92c3fdc9cf20.eu.ngrok.io/';
     // return 'https://golf.voltiac.dev/';
     else
       return 'https://golf.voltiac.dev/';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_golf/components/friends/card.dart';
-import 'package:flutter_golf/components/personalCard/customAnimation.dart';
+import 'package:golfcaddie/components/friends/card.dart';
+import 'package:golfcaddie/components/personalCard/customAnimation.dart';
 
 class AddFriendPopup extends StatefulWidget {
   @override

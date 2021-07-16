@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_golf/models/CourseInformation.dart';
+import 'package:golfcaddie/models/CourseInformation.dart';
 
 class CourseCard extends StatelessWidget {
   final CourseInfo info;

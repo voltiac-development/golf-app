@@ -1,16 +1,16 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_golf/components/appbar.dart';
-import 'package:flutter_golf/components/friends/addFriendPopup.dart';
-import 'package:flutter_golf/components/friends/friendcard.dart';
-import 'package:flutter_golf/components/friends/requestFriendPopup.dart';
-import 'package:flutter_golf/models/Friend.dart';
-import 'package:flutter_golf/vendor/heroDialogRoute.dart';
+import 'package:golfcaddie/components/appbar.dart';
+import 'package:golfcaddie/components/friends/addFriendPopup.dart';
+import 'package:golfcaddie/components/friends/friendcard.dart';
+import 'package:golfcaddie/components/friends/requestFriendPopup.dart';
+import 'package:golfcaddie/models/Friend.dart';
+import 'package:golfcaddie/vendor/heroDialogRoute.dart';
 
 import 'package:http/http.dart' as http;
 
-import 'package:flutter_golf/env.dart';
+import 'package:golfcaddie/env.dart';
 
 class FriendsScreen extends StatefulWidget {
   @override

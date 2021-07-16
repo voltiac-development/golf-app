@@ -2,12 +2,12 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_golf/components/appbar.dart';
-import 'package:flutter_golf/components/startScore/coPlayer.dart';
-import 'package:flutter_golf/components/startScore/holeContainer.dart';
-import 'package:flutter_golf/components/startScore/teeBoxes.dart';
-import 'package:flutter_golf/models/CourseInformation.dart';
-import 'package:flutter_golf/models/Friend.dart';
+import 'package:golfcaddie/components/appbar.dart';
+import 'package:golfcaddie/components/startScore/coPlayer.dart';
+import 'package:golfcaddie/components/startScore/holeContainer.dart';
+import 'package:golfcaddie/components/startScore/teeBoxes.dart';
+import 'package:golfcaddie/models/CourseInformation.dart';
+import 'package:golfcaddie/models/Friend.dart';
 
 import 'package:http/http.dart' as http;
 import '../env.dart';
@@ -112,10 +112,11 @@ class _StartScoreScreenState extends State<StartScoreScreen> {
                         ? Theme.of(context).colorScheme.error
                         : Theme.of(context).colorScheme.secondary),
                 onPressed: () {
-                  setState(() {
-                    _toggle = !_toggle;
-                    retrieveCourseInfo();
-                  });
+                  WidgetsBinding.instance!
+                      .addPostFrameCallback((_) => setState(() {
+                            _toggle = !_toggle;
+                            retrieveCourseInfo();
+                          }));
                 },
                 child: Text(_toggle ? 'Terug' : 'Kies baan')),
             AnimatedOpacity(
@@ -126,7 +127,7 @@ class _StartScoreScreenState extends State<StartScoreScreen> {
                     Padding(
                       padding: EdgeInsets.all(5),
                     ),
-                    CoPlayer(),
+                    CoPlayer(tees: this.chosenCourse.teeBoxes),
                     Padding(
                       padding: EdgeInsets.all(2),
                     ),
@@ -137,6 +138,8 @@ class _StartScoreScreenState extends State<StartScoreScreen> {
                     Teeboxes(
                       tees: this.chosenCourse.teeBoxes,
                       chosenIndex: this.chosenTee,
+                      highlight: Colors.black,
+                      hide: Colors.white,
                       onTap: (v) {
                         setState(() {
                           this.chosenTee = v;
@@ -171,9 +174,20 @@ class _StartScoreScreenState extends State<StartScoreScreen> {
                             )
                         ],
                       ),
-                    )
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(5),
+                    ),
+                    ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            primary: Theme.of(context).colorScheme.secondary),
+                        onPressed: () => startGame(),
+                        child: Padding(
+                          padding: EdgeInsets.all(5),
+                          child: Text('Spel beginnen'),
+                        ))
                   ],
-                ))
+                )),
           ],
         ),
       ),
@@ -205,4 +219,6 @@ class _StartScoreScreenState extends State<StartScoreScreen> {
       this.chosenCourse = c;
     });
   }
+
+  void startGame() {}
 }

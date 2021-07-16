@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_golf/components/login/voltiac.dart';
+import 'package:golfcaddie/components/login/voltiac.dart';
 import 'package:http/http.dart' as http;
 import '../env.dart';
 import '../vendor/storage.dart';

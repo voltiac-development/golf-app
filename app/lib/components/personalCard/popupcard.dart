@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_golf/components/personalCard/customAnimation.dart';
-import 'package:flutter_golf/components/personalCard/greenCard.dart';
+import 'package:golfcaddie/components/personalCard/customAnimation.dart';
+import 'package:golfcaddie/components/personalCard/greenCard.dart';
 
 class PopupCard extends StatefulWidget {
   @override

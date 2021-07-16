@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_golf/components/appbar.dart';
-import 'package:flutter_golf/env.dart';
+import 'package:golfcaddie/components/appbar.dart';
+import 'package:golfcaddie/env.dart';
 import 'package:http/http.dart' as http;
 
 class ForgotScreen extends StatelessWidget {

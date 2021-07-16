@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_golf/components/personalCard/confirmButton.dart';
-import 'package:flutter_golf/components/personalCard/textField.dart';
-import 'package:flutter_golf/env.dart';
+import 'package:golfcaddie/components/personalCard/confirmButton.dart';
+import 'package:golfcaddie/components/personalCard/textField.dart';
+import 'package:golfcaddie/env.dart';
 import 'package:http/http.dart' as http;
 
 class GreenCardState extends StatefulWidget {
