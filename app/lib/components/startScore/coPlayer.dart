@@ -27,7 +27,7 @@ class _CoPlayerState extends State<CoPlayer> {
     return Column(
       children: [
         Text(
-          'mede spelers',
+          'mede-spelers',
           style: annotation,
         ),
         Padding(
@@ -104,11 +104,7 @@ class _CoPlayerCardState extends State<CoPlayerCard> {
               child: SingleChildScrollView(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
-                  children: [
-                    TeeBoxes(
-                      tees: '',
-                    )
-                  ],
+                  children: [Text('f')],
                 ),
               ),
             ),

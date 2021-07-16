@@ -27,6 +27,7 @@ class _StartScoreScreenState extends State<StartScoreScreen> {
   bool _toggle = false;
   List<dynamic> availableHoleTypes = [];
   CourseInfo chosenCourse = new CourseInfo('name', 0, '', '', [], '');
+  int chosenTee = -1;
 
   List<Friend?> players = [null, null, null];
 
@@ -132,7 +133,15 @@ class _StartScoreScreenState extends State<StartScoreScreen> {
                       'jouw teebox',
                       style: annotation,
                     ),
-                    TeeBoxes(tees: this.chosenCourse.teeBoxes),
+                    Teeboxes(
+                      tees: this.chosenCourse.teeBoxes,
+                      chosenIndex: this.chosenTee,
+                      onTap: (v) {
+                        setState(() {
+                          this.chosenTee = v;
+                        });
+                      },
+                    ),
                     Padding(
                       padding: EdgeInsets.all(2),
                     ),
@@ -168,15 +177,10 @@ class _StartScoreScreenState extends State<StartScoreScreen> {
     http.get(Uri.parse(AppUtils.apiUrl + "course/all")).then((value) {
       Map<String, dynamic> response = jsonDecode(value.body);
       if (response['error'] == null) {
-        print(response);
-        this.favCourse = response['courses'][0]['id'];
-        this.chosenCourse = new CourseInfo(
-            response['courses'][0]['name'],
-            response['courses'][0]['holes'],
-            response['courses'][0]['id'],
-            response['courses'][0]['image'],
-            response['courses'][0]['roundTypes'],
-            response['courses'][0]['teeboxes']);
+        dynamic c = response['courses'][0];
+        this.favCourse = c['id'];
+        this.chosenCourse = new CourseInfo(c['name'], c['holes'], c['id'],
+            c['image'], c['roundTypes'], c['teeboxes']);
         this.courses = response['courses'];
         if (this.mounted) {
           setState(() {});
