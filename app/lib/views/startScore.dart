@@ -28,6 +28,7 @@ class _StartScoreScreenState extends State<StartScoreScreen> {
   List<dynamic> availableHoleTypes = [];
   CourseInfo chosenCourse = new CourseInfo('name', 0, '', '', [], '');
   int chosenTee = -1;
+  String chosenHoleType = "";
 
   List<Friend?> players = [null, null, null];
 
@@ -160,7 +161,13 @@ class _StartScoreScreenState extends State<StartScoreScreen> {
                           for (var hole in this.chosenCourse.roundTypes)
                             HoleCard(
                               title: hole['roundVariation'],
-                              onTap: (value) => print(value),
+                              onTap: (value) {
+                                setState(() {
+                                  this.chosenHoleType = value;
+                                });
+                              },
+                              isSelected:
+                                  this.chosenHoleType == hole['roundVariation'],
                             )
                         ],
                       ),

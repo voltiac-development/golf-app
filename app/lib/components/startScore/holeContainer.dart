@@ -2,8 +2,13 @@ import 'package:flutter/material.dart';
 
 class HoleCard extends StatelessWidget {
   final String title;
+  final bool isSelected;
   final ValueChanged<String> onTap;
-  HoleCard({Key? key, required this.title, required this.onTap})
+  HoleCard(
+      {Key? key,
+      required this.title,
+      required this.onTap,
+      required this.isSelected})
       : super(key: key);
 
   @override
@@ -15,9 +20,14 @@ class HoleCard extends StatelessWidget {
           Container(
               height: 50,
               width: 75,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(12)),
-                  color: Theme.of(context).colorScheme.surface),
+              decoration: this.isSelected
+                  ? BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(12)),
+                      color: Theme.of(context).colorScheme.surface,
+                      border: Border.all(width: 2, color: Colors.black))
+                  : BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(12)),
+                      color: Theme.of(context).colorScheme.surface),
               child: Center(
                   child: Padding(
                 padding: EdgeInsets.only(left: 12, right: 12),
