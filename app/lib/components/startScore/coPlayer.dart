@@ -196,7 +196,7 @@ class _CoPlayerCardState extends State<CoPlayerCard> {
                           ),
                           style: TextStyle(color: Colors.white)),
                       suggestionsCallback: (pattern) async {
-                        return this.friends;
+                        return filterSearch(pattern);
                       },
                       noItemsFoundBuilder: (context) => Padding(
                         padding: EdgeInsets.all(15),
@@ -306,5 +306,15 @@ class _CoPlayerCardState extends State<CoPlayerCard> {
         setState(() {});
       }
     });
+  }
+
+  List<UserRequest> filterSearch(String pattern) {
+    List<UserRequest> returnedFriends = [];
+    this.friends.forEach((element) {
+      if (element.name.contains(pattern) || element.email.contains(pattern))
+        returnedFriends.add(element);
+    });
+
+    return returnedFriends;
   }
 }
