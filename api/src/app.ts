@@ -39,12 +39,14 @@ import authentication from './routes/Authentication.js';
 import profile from './routes/Profile.js';
 import course from './routes/Course.js';
 import friend from './routes/Friend.js';
+import round from './routes/Round.js';
 
 // * Enable routes
 app.use("/auth", authentication);
 app.use('/profile', profile);
 app.use('/course', course);
 app.use('/friend', friend);
+app.use('/round', round);
 
 /**
  * @api {get} / Request Server Status

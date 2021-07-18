@@ -31,6 +31,7 @@ class _StartScoreScreenState extends State<StartScoreScreen> {
   String chosenHoleType = "";
 
   List<Friend?> players = [null, null, null];
+  List<int> tees = [-1, -1, -1];
 
   final TextStyle annotation =
       TextStyle(fontStyle: FontStyle.italic, fontWeight: FontWeight.w100);
@@ -127,7 +128,14 @@ class _StartScoreScreenState extends State<StartScoreScreen> {
                     Padding(
                       padding: EdgeInsets.all(5),
                     ),
-                    CoPlayer(tees: this.chosenCourse.teeBoxes),
+                    CoPlayer(
+                      tees: this.chosenCourse.teeBoxes,
+                      callback: (f) {
+                        this.players = f[0] as List<Friend?>;
+                        this.tees = f[1] as List<int>;
+                        print(f);
+                      },
+                    ),
                     Padding(
                       padding: EdgeInsets.all(2),
                     ),
@@ -220,5 +228,28 @@ class _StartScoreScreenState extends State<StartScoreScreen> {
     });
   }
 
-  void startGame() {}
+  void startGame() async {
+    if (this.tees.length == 3)
+      this.tees.insert(0, this.chosenTee);
+    else
+      this.tees[0] = this.chosenTee;
+    List<String> tees = this.tees.map((e) => e.toString()).toList();
+    List<String?> players = this.players.map((e) {
+      if (e != null)
+        return e.id;
+      else
+        return null;
+    }).toList();
+    Map<String, String> headers = await AppUtils.getHeaders();
+    http.post(Uri.parse(AppUtils.apiUrl + "round/start"),
+        headers: headers,
+        body: {
+          'courseId': this.chosenCourse.id,
+          'tees': tees.toString(),
+          'players': players.toString(),
+          'holeType': this.chosenHoleType
+        }).then((value) {
+      print(value.body);
+    });
+  }
 }
