@@ -10,6 +10,7 @@ import 'package:golfcaddie/models/CourseInformation.dart';
 import 'package:golfcaddie/models/Friend.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
 import '../env.dart';
 
 class StartScoreScreen extends StatefulWidget {
@@ -33,8 +34,7 @@ class _StartScoreScreenState extends State<StartScoreScreen> {
   List<Friend?> players = [null, null, null];
   List<int> tees = [-1, -1, -1];
 
-  final TextStyle annotation =
-      TextStyle(fontStyle: FontStyle.italic, fontWeight: FontWeight.w100);
+  final TextStyle annotation = TextStyle(fontStyle: FontStyle.italic, fontWeight: FontWeight.w100);
 
   _StartScoreScreenState() {
     retrieveCourses();
@@ -50,10 +50,7 @@ class _StartScoreScreenState extends State<StartScoreScreen> {
         title: "SPEL BEGINNEN",
       ),
       body: Container(
-        decoration: BoxDecoration(
-            color: Color(0xFFffffff),
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(30), topRight: Radius.circular(30))),
+        decoration: BoxDecoration(color: Color(0xFFffffff), borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30))),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -76,12 +73,10 @@ class _StartScoreScreenState extends State<StartScoreScreen> {
                       padding: EdgeInsets.all(2),
                     ),
                     SizedBox(
-                        width:
-                            max(250, MediaQuery.of(context).size.width * 0.50),
+                        width: max(250, MediaQuery.of(context).size.width * 0.50),
                         child: DropdownButtonFormField(
                           isDense: true,
-                          items: courses
-                              .map<DropdownMenuItem<String>>((dynamic value) {
+                          items: courses.map<DropdownMenuItem<String>>((dynamic value) {
                             return DropdownMenuItem<String>(
                               value: value['id'],
                               child: Text(
@@ -108,16 +103,12 @@ class _StartScoreScreenState extends State<StartScoreScreen> {
                   ],
                 )),
             ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    primary: _toggle
-                        ? Theme.of(context).colorScheme.error
-                        : Theme.of(context).colorScheme.secondary),
+                style: ElevatedButton.styleFrom(primary: _toggle ? Theme.of(context).colorScheme.error : Theme.of(context).colorScheme.secondary),
                 onPressed: () {
-                  WidgetsBinding.instance!
-                      .addPostFrameCallback((_) => setState(() {
-                            _toggle = !_toggle;
-                            retrieveCourseInfo();
-                          }));
+                  WidgetsBinding.instance!.addPostFrameCallback((_) => setState(() {
+                        _toggle = !_toggle;
+                        retrieveCourseInfo();
+                      }));
                 },
                 child: Text(_toggle ? 'Terug' : 'Kies baan')),
             AnimatedOpacity(
@@ -177,8 +168,7 @@ class _StartScoreScreenState extends State<StartScoreScreen> {
                                   this.chosenHoleType = value;
                                 });
                               },
-                              isSelected:
-                                  this.chosenHoleType == hole['roundVariation'],
+                              isSelected: this.chosenHoleType == hole['roundVariation'],
                             )
                         ],
                       ),
@@ -187,8 +177,7 @@ class _StartScoreScreenState extends State<StartScoreScreen> {
                       padding: EdgeInsets.all(5),
                     ),
                     ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            primary: Theme.of(context).colorScheme.secondary),
+                        style: ElevatedButton.styleFrom(primary: Theme.of(context).colorScheme.secondary),
                         onPressed: () => startGame(),
                         child: Padding(
                           padding: EdgeInsets.all(5),
@@ -208,8 +197,7 @@ class _StartScoreScreenState extends State<StartScoreScreen> {
       if (response['error'] == null) {
         dynamic c = response['courses'][0];
         this.favCourse = c['id'];
-        this.chosenCourse = new CourseInfo(c['name'], c['holes'], c['id'],
-            c['image'], c['roundTypes'], c['teeboxes']);
+        this.chosenCourse = new CourseInfo(c['name'], c['holes'], c['id'], c['image'], c['roundTypes'], c['teeboxes']);
         this.courses = response['courses'];
         if (this.mounted) {
           setState(() {});
@@ -219,37 +207,35 @@ class _StartScoreScreenState extends State<StartScoreScreen> {
   }
 
   void retrieveCourseInfo() {
-    dynamic course =
-        this.courses.firstWhere((element) => element['id'] == this.favCourse);
-    CourseInfo c = new CourseInfo(course['name'], course['holes'], course['id'],
-        course['image'], course['roundTypes'], course['teeboxes']);
+    dynamic course = this.courses.firstWhere((element) => element['id'] == this.favCourse);
+    CourseInfo c = new CourseInfo(course['name'], course['holes'], course['id'], course['image'], course['roundTypes'], course['teeboxes']);
     setState(() {
       this.chosenCourse = c;
     });
   }
 
   void startGame() async {
+    Dio dio = Dio();
     if (this.tees.length == 3)
       this.tees.insert(0, this.chosenTee);
     else
       this.tees[0] = this.chosenTee;
-    List<String> tees = this.tees.map((e) => e.toString()).toList();
-    List<String?> players = this.players.map((e) {
-      if (e != null)
-        return e.id;
-      else
-        return null;
-    }).toList();
+    List<String?> players = this.players.map((e) => e != null ? e.id : null).toList();
     Map<String, String> headers = await AppUtils.getHeaders();
-    http.post(Uri.parse(AppUtils.apiUrl + "round/start"),
-        headers: headers,
-        body: {
-          'courseId': this.chosenCourse.id,
-          'tees': tees.toString(),
-          'players': players.toString(),
-          'holeType': this.chosenHoleType
-        }).then((value) {
-      print(value.body);
+
+    dio
+        .post(AppUtils.apiUrl + "round/start",
+            data: {'courseId': this.chosenCourse.id, 'tees': this.tees, 'players': players, 'holeType': this.chosenHoleType}, options: Options(headers: headers))
+        .then((value) => print(value.data))
+        .catchError((e) {
+      print(e.response.data);
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+          e.response.data['error'],
+          style: TextStyle(color: Theme.of(context).colorScheme.onError),
+        ),
+        backgroundColor: Theme.of(context).colorScheme.error,
+      ));
     });
   }
 }

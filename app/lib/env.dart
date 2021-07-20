@@ -4,8 +4,7 @@ import 'package:golfcaddie/vendor/storage.dart';
 class AppUtils {
   static String get apiUrl {
     if (kDebugMode)
-      return 'https://4cf59ae99902.eu.ngrok.io/';
-    // return 'https://golf.voltiac.dev/';
+      return 'http://192.168.178.87:4444/';
     else
       return 'https://golf.voltiac.dev/';
   }

@@ -13,7 +13,7 @@ export async function startNewRound(uid: string, course: string, tees: number[],
     if (error) {
         response.error = new HTTPError(404, "Er is een probleem met de database.");
     }else
-        response.data = {'courses': data};
+        response.data = {'msg': data};
 
     return response;
 }

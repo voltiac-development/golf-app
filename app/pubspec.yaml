@@ -32,6 +32,7 @@ dependencies:
   flutter_secure_storage: ^4.2.0
   localstorage: ^4.0.0
   flutter_typeahead: ^3.2.0
+  dio: ^4.0.0
 
 dev_dependencies:
   flutter_test:

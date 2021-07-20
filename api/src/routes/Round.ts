@@ -4,9 +4,7 @@ var router = express.Router();
 import JSON5 from 'json5';
 
 router.post('/start', async (req, res, next) => {
-    let body = req['body'];
-    body['players'] = body['players'].replace("[", "").replace("]", "").split(', ')
-    let { data, error } = await startNewRound(req['user'].id, body['courseId'], JSON.parse(body['tees']), body['players'], body['holeType']);
+    let { data, error } = await startNewRound(req['user'].id, req['body']['courseId'], req['body']['tees'], req['body']['players'], req['body']['holeType']);
 
     if (error) {
         res.status(error.getStatusCode());
