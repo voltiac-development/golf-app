@@ -12,9 +12,7 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   /// you can add more fields that meet your needs
 
-  DefaultAppBar(
-      {Key? key, required this.title, required this.person, required this.back})
-      : super(key: key);
+  DefaultAppBar({Key? key, required this.title, required this.person, required this.back}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

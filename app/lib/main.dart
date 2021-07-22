@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:golfcaddie/views/roundInfo.dart';
 import 'package:golfcaddie/views/startScore.dart';
 
 //Custom screens
@@ -39,11 +40,12 @@ class MyApp extends StatelessWidget {
       routes: {
         'dashboard': (_) => DashboardScreen(),
         'register': (_) => RegisterScreen(),
-        'allscores': (_) => AllScoresScreen(),
+        'allscores': (_) => RecentScores(),
         'forgotpassword': (_) => ForgotScreen(),
         'searchcourse': (_) => SearchCourseScreen(),
         'friends': (_) => FriendsScreen(),
-        'startRound': (_) => StartScoreScreen()
+        'startRound': (_) => StartScoreScreen(),
+        'roundinfo': (_) => RoundInfo(),
       },
     );
   }

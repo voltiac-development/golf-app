@@ -10,4 +10,6 @@ export interface RoundInfo {
     teeTwo: number,
     teeThree: number,
     teeFour: number,
+    startsAt: Date,
+    qualifying: number
 }

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:golfcaddie/components/appbar.dart';
 import 'package:golfcaddie/components/startScore/coPlayer.dart';
 import 'package:golfcaddie/components/startScore/holeContainer.dart';
+import 'package:golfcaddie/components/startScore/qualifyingSwitch.dart';
 import 'package:golfcaddie/components/startScore/teeBoxes.dart';
 import 'package:golfcaddie/models/CourseInformation.dart';
 import 'package:golfcaddie/models/Friend.dart';
@@ -33,6 +34,7 @@ class _StartScoreScreenState extends State<StartScoreScreen> {
 
   List<Friend?> players = [null, null, null];
   List<int> tees = [-1, -1, -1];
+  bool qualifying = false;
 
   final TextStyle annotation = TextStyle(fontStyle: FontStyle.italic, fontWeight: FontWeight.w100);
 
@@ -176,6 +178,19 @@ class _StartScoreScreenState extends State<StartScoreScreen> {
                     Padding(
                       padding: EdgeInsets.all(5),
                     ),
+                    Text('qualifying'),
+                    Padding(
+                      padding: EdgeInsets.all(2),
+                    ),
+                    QualifyingSwitch(
+                      state: this.qualifying,
+                      stateChanged: (value) => setState(() {
+                        this.qualifying = value;
+                      }),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(5),
+                    ),
                     ElevatedButton(
                         style: ElevatedButton.styleFrom(primary: Theme.of(context).colorScheme.secondary),
                         onPressed: () => startGame(),
@@ -225,7 +240,8 @@ class _StartScoreScreenState extends State<StartScoreScreen> {
 
     dio
         .post(AppUtils.apiUrl + "round/start",
-            data: {'courseId': this.chosenCourse.id, 'tees': this.tees, 'players': players, 'holeType': this.chosenHoleType}, options: Options(headers: headers))
+            data: {'courseId': this.chosenCourse.id, 'tees': this.tees, 'players': players, 'holeType': this.chosenHoleType, 'qualifying': this.qualifying},
+            options: Options(headers: headers))
         .then((value) => print(value.data))
         .catchError((e) {
       print(e.response.data);
