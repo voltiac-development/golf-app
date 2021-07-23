@@ -8,7 +8,7 @@ import cookieParser from 'cookie-parser';
 const app = express();
 const whitelist = ['http://localhost:8081']
 
-app.use(cors({
+var corsOptions = {
     origin: function (origin, callback) {
         if (whitelist.indexOf(origin) !== -1 || !origin) {
           callback(null, true)
@@ -18,7 +18,9 @@ app.use(cors({
     },
     credentials: true,
     methods: 'GET, POST, DELETE, OPTIONS, PATCH, PUT'
-}))
+}
+
+app.use(cors(corsOptions))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -68,6 +70,13 @@ app.get("/", (req, res) => {
     });
 })
 
+import { Server } from 'http';
+
+var http = new Server(app);
+
+import * as socket from './app/Socket.js';
+socket.default(http, corsOptions);
+
 // Enable API docs 
 if (process.env.NODE_ENV.toUpperCase().trim() == "PRODUCTION") {
     app.use("/docs", express.static(path.join(path.resolve(), "doc/public")))
@@ -76,18 +85,18 @@ else {
     app.use("/docs", express.static(path.join(path.resolve(), "doc/private")))
 }
 
-app.use('*', (req, res) => {
-    if(!res.headersSent){
-        res.status(404).json({
-            msg: "ENDPOINT_NOT_FOUND",
-            at: Date.now()
-        })
-    }else{
-        console.log(res.statusCode)
-    }
-})
+// app.use('*', (req, res) => {
+//     if(!res.headersSent){
+//         res.status(404).json({
+//             msg: "ENDPOINT_NOT_FOUND",
+//             at: Date.now()
+//         })
+//     }else{
+//         console.log(res.statusCode)
+//     }
+// })
 
-app.listen(process.env.PORT, () => {
+http.listen(process.env.PORT, () => {
     console.clear();
     console.log(chalk.green(`Authentication service listening on`), chalk.hex("#ED7014").bold.italic(`http://localhost:${process.env.PORT}`))
     console.log(chalk.yellow("Running node as"), chalk.yellow.bold.underline.italic(process.env.NODE_ENV));

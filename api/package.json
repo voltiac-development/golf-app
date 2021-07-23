@@ -18,6 +18,7 @@
   "dependencies": {
     "@sendgrid/mail": "^7.4.5",
     "@types/jsonwebtoken": "^8.5.2",
+    "@types/socket.io": "^3.0.2",
     "@types/uuid": "^8.3.0",
     "apidoc": "^0.28.1",
     "bcrypt": "^5.0.1",

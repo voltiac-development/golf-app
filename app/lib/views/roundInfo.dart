@@ -165,7 +165,7 @@ class _RoundInfoState extends State<RoundInfo> {
                     ),
                     ElevatedButton(
                         style: ElevatedButton.styleFrom(primary: Theme.of(context).colorScheme.secondary),
-                        onPressed: () => goToScore(),
+                        onPressed: () => goToScore(context),
                         child: Padding(
                             padding: EdgeInsets.all(5),
                             child: SizedBox(
@@ -203,5 +203,5 @@ class _RoundInfoState extends State<RoundInfo> {
     });
   }
 
-  void goToScore() {}
+  void goToScore(context) {}
 }

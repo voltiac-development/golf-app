@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:golfcaddie/components/appbar.dart';
 import 'package:golfcaddie/components/startScore/coPlayer.dart';
 import 'package:golfcaddie/components/startScore/holeContainer.dart';
@@ -52,155 +53,166 @@ class _StartScoreScreenState extends State<StartScoreScreen> {
         title: "SPEL BEGINNEN",
       ),
       body: Container(
+        height: MediaQuery.of(context).size.height,
         decoration: BoxDecoration(color: Color(0xFFffffff), borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30))),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(
-              height: 15,
-              width: MediaQuery.of(context).size.width,
-            ),
-            AnimatedOpacity(
-                duration: Duration(milliseconds: 700),
-                opacity: _toggle ? 0.5 : 1.0,
-                child: Column(
-                  children: [
-                    Text(
-                      'golfbaan',
-                      textAlign: TextAlign.left,
-                      style: annotation,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(2),
-                    ),
-                    SizedBox(
-                        width: max(250, MediaQuery.of(context).size.width * 0.50),
-                        child: DropdownButtonFormField(
-                          isDense: true,
-                          items: courses.map<DropdownMenuItem<String>>((dynamic value) {
-                            return DropdownMenuItem<String>(
-                              value: value['id'],
-                              child: Text(
-                                value['name'],
-                                style: TextStyle(fontSize: 15),
-                              ),
-                            );
-                          }).toList(),
-                          onChanged: !_toggle
-                              ? (newValue) {
-                                  this.favCourse = newValue.toString();
-                                }
-                              : null,
-                          value: favCourse,
-                          decoration: InputDecoration(
-                            isDense: true,
-                            focusColor: Theme.of(context).primaryColor,
-                            contentPadding: EdgeInsets.all(8),
-                            icon: Icon(Icons.track_changes),
-                            enabledBorder: OutlineInputBorder(),
-                            filled: false,
-                          ),
-                        )),
-                  ],
-                )),
-            ElevatedButton(
-                style: ElevatedButton.styleFrom(primary: _toggle ? Theme.of(context).colorScheme.error : Theme.of(context).colorScheme.secondary),
-                onPressed: () {
-                  WidgetsBinding.instance!.addPostFrameCallback((_) => setState(() {
-                        _toggle = !_toggle;
-                        retrieveCourseInfo();
-                      }));
-                },
-                child: Text(_toggle ? 'Terug' : 'Kies baan')),
-            AnimatedOpacity(
-                duration: Duration(milliseconds: 700),
-                opacity: _toggle ? 1.0 : 0.0,
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.all(5),
-                    ),
-                    CoPlayer(
-                      tees: this.chosenCourse.teeBoxes,
-                      callback: (f) {
-                        this.players = f[0] as List<Friend?>;
-                        this.tees = f[1] as List<int>;
-                        print(f);
-                      },
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(2),
-                    ),
-                    Text(
-                      'jouw teebox',
-                      style: annotation,
-                    ),
-                    Teeboxes(
-                      tees: this.chosenCourse.teeBoxes,
-                      chosenIndex: this.chosenTee,
-                      highlight: Colors.black,
-                      hide: Colors.white,
-                      onTap: (v) {
-                        setState(() {
-                          this.chosenTee = v;
-                        });
-                      },
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(2),
-                    ),
-                    Text(
-                      'holes',
-                      style: annotation,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(2),
-                    ),
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          for (var hole in this.chosenCourse.roundTypes)
-                            HoleCard(
-                              title: hole['roundVariation'],
-                              onTap: (value) {
-                                setState(() {
-                                  this.chosenHoleType = value;
-                                });
-                              },
-                              isSelected: this.chosenHoleType == hole['roundVariation'],
-                            )
-                        ],
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: 15,
+                width: MediaQuery.of(context).size.width,
+              ),
+              AnimatedOpacity(
+                  duration: Duration(milliseconds: 700),
+                  opacity: _toggle ? 0.5 : 1.0,
+                  child: Column(
+                    children: [
+                      Text(
+                        'golfbaan',
+                        textAlign: TextAlign.left,
+                        style: annotation,
                       ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(5),
-                    ),
-                    Text('qualifying'),
-                    Padding(
-                      padding: EdgeInsets.all(2),
-                    ),
-                    QualifyingSwitch(
-                      state: this.qualifying,
-                      stateChanged: (value) => setState(() {
-                        this.qualifying = value;
-                      }),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(5),
-                    ),
-                    ElevatedButton(
-                        style: ElevatedButton.styleFrom(primary: Theme.of(context).colorScheme.secondary),
-                        onPressed: () => startGame(),
-                        child: Padding(
-                          padding: EdgeInsets.all(5),
-                          child: Text('Spel beginnen'),
-                        ))
-                  ],
-                )),
-          ],
+                      Padding(
+                        padding: EdgeInsets.all(2),
+                      ),
+                      SizedBox(
+                        width: max(250, MediaQuery.of(context).size.width * 0.50),
+                        child: TypeAheadField(
+                          textFieldConfiguration: TextFieldConfiguration(
+                              controller: courseController,
+                              decoration: InputDecoration(
+                                isDense: true,
+                                focusColor: Theme.of(context).primaryColor,
+                                contentPadding: EdgeInsets.all(8),
+                                border: OutlineInputBorder(borderSide: BorderSide(color: Colors.black, width: 1)),
+                                enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black, width: 1)),
+                                filled: false,
+                              ),
+                              style: TextStyle(color: Colors.black)),
+                          suggestionsCallback: (pattern) async {
+                            return filterSearch(pattern);
+                          },
+                          noItemsFoundBuilder: (context) => Padding(
+                            padding: EdgeInsets.all(15),
+                            child: Text(
+                              'Er zijn geen banen beschikbaar.',
+                            ),
+                          ),
+                          itemBuilder: (context, suggestion) {
+                            CourseInfo u = suggestion as CourseInfo;
+                            return ListTile(
+                              dense: true,
+                              title: Text(u.name),
+                            );
+                          },
+                          onSuggestionSelected: (suggestion) {
+                            this.courseController.text = (suggestion as CourseInfo).name;
+                            this.chosenCourse = suggestion;
+                          },
+                        ),
+                      ),
+                    ],
+                  )),
+              ElevatedButton(
+                  style: ElevatedButton.styleFrom(primary: _toggle ? Theme.of(context).colorScheme.error : Theme.of(context).colorScheme.secondary),
+                  onPressed: () {
+                    WidgetsBinding.instance!.addPostFrameCallback((_) => setState(() {
+                          _toggle = !_toggle;
+                          retrieveCourseInfo();
+                        }));
+                  },
+                  child: Text(_toggle ? 'Terug' : 'Kies baan')),
+              AnimatedOpacity(
+                  duration: Duration(milliseconds: 700),
+                  opacity: _toggle ? 1.0 : 0.0,
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.all(5),
+                      ),
+                      CoPlayer(
+                        tees: this.chosenCourse.teeBoxes,
+                        callback: (f) {
+                          this.players = f[0] as List<Friend?>;
+                          this.tees = f[1] as List<int>;
+                          print(f);
+                        },
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(2),
+                      ),
+                      Text(
+                        'jouw teebox',
+                        style: annotation,
+                      ),
+                      Teeboxes(
+                        tees: this.chosenCourse.teeBoxes,
+                        chosenIndex: this.chosenTee,
+                        highlight: Colors.black,
+                        hide: Colors.white,
+                        onTap: (v) {
+                          setState(() {
+                            this.chosenTee = v;
+                          });
+                        },
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(2),
+                      ),
+                      Text(
+                        'holes',
+                        style: annotation,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(2),
+                      ),
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            for (var hole in this.chosenCourse.roundTypes)
+                              HoleCard(
+                                title: hole['roundVariation'],
+                                onTap: (value) {
+                                  setState(() {
+                                    this.chosenHoleType = value;
+                                  });
+                                },
+                                isSelected: this.chosenHoleType == hole['roundVariation'],
+                              )
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(5),
+                      ),
+                      Text('qualifying'),
+                      Padding(
+                        padding: EdgeInsets.all(2),
+                      ),
+                      QualifyingSwitch(
+                        state: this.qualifying,
+                        stateChanged: (value) => setState(() {
+                          this.qualifying = value;
+                        }),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(5),
+                      ),
+                      ElevatedButton(
+                          style: ElevatedButton.styleFrom(primary: Theme.of(context).colorScheme.secondary),
+                          onPressed: () => startGame(),
+                          child: Padding(
+                            padding: EdgeInsets.all(5),
+                            child: Text('Spel beginnen'),
+                          ))
+                    ],
+                  )),
+            ],
+          ),
         ),
       ),
     );
@@ -253,5 +265,14 @@ class _StartScoreScreenState extends State<StartScoreScreen> {
         backgroundColor: Theme.of(context).colorScheme.error,
       ));
     });
+  }
+
+  List<CourseInfo> filterSearch(String pattern) {
+    List<CourseInfo> returnedCourses = [];
+    this.courses.forEach((element) {
+      if ((element['name'] as String).toLowerCase().contains(pattern.toLowerCase()))
+        returnedCourses.add(CourseInfo(element['name'], element['holes'], element['id'], element['image'], [], element['teeboxes']));
+    });
+    return returnedCourses;
   }
 }
