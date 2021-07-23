@@ -1,5 +1,5 @@
 import express from 'express';
-import { acceptRequest, declineRequest, getAllFriends, getAllRequests, getSpecificFriend, requestNewFriend } from '../app/Friend.js';
+import { acceptRequest, declineRequest, deleteFriend, getAllFriends, getAllRequests, getSpecificFriend, requestNewFriend } from '../app/Friend.js';
 import { HTTPError } from '../errors/HTTPError.js';
 var router = express.Router();
 
@@ -139,6 +139,29 @@ router.post('/decline', async (req, res, next) => {
 router.post('/add', async (req, res, next) => {
     console.log(req['body'])
     let { data, error } = await requestNewFriend(req['user'].id, req['body'].friend);
+
+    if (error) {
+        res.status(error.getStatusCode());
+        res.json(error.getErrorMessage());
+        next()
+        return;
+    }
+
+    if (data) {
+        res.json(data);
+        next()
+        return;
+    }
+
+    res.status(500)
+    res.json({
+        error: "Unknown error"
+    })
+    next()
+});
+
+router.delete('/remove', async (req, res, next) => {
+    let { data, error } = await deleteFriend(req['user'].id, req['body'].friendId);
 
     if (error) {
         res.status(error.getStatusCode());

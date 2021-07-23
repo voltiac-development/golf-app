@@ -5,7 +5,9 @@ export default function (http, corsOptions) {
     var io = new socket.Server(http, {
         cors: corsOptions
     });
-    io.sockets.on('connection', (s) => {
+    io.on('connection', (s) => {
         console.log(s);
+        s.emit('reverd', 'REVEEEEEEERD ALERT')
+        s.disconnect();
     })
 }

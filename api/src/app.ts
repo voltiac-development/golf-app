@@ -85,17 +85,6 @@ else {
     app.use("/docs", express.static(path.join(path.resolve(), "doc/private")))
 }
 
-// app.use('*', (req, res) => {
-//     if(!res.headersSent){
-//         res.status(404).json({
-//             msg: "ENDPOINT_NOT_FOUND",
-//             at: Date.now()
-//         })
-//     }else{
-//         console.log(res.statusCode)
-//     }
-// })
-
 http.listen(process.env.PORT, () => {
     console.clear();
     console.log(chalk.green(`Authentication service listening on`), chalk.hex("#ED7014").bold.italic(`http://localhost:${process.env.PORT}`))

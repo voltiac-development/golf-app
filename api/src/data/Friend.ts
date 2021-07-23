@@ -131,3 +131,17 @@ export async function fetchAllRequests(uid: string): Promise<{data: [object], er
         error
     }
 }
+
+export async function removeFriend(uid: string, friendId: string): Promise<{error: Error}> {
+    let error = null;
+
+    try {
+        await sql<FriendDatabase>('friends').delete().where({id: uid, friendId: friendId})
+        await sql<FriendDatabase>('friends').delete().where({id: friendId, friendId: uid})
+    } catch (e) {
+        error = e;
+    }
+    return {
+        error
+    }
+}

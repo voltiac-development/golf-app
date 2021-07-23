@@ -27,11 +27,7 @@ class FriendsState extends State<FriendsScreen> {
   @override
   Widget build(BuildContext context) {
     final ButtonStyle style = OutlinedButton.styleFrom(
-        backgroundColor: Theme.of(context).colorScheme.surface,
-        primary: Colors.white,
-        fixedSize: Size(125, 8),
-        elevation: 2,
-        alignment: Alignment.centerLeft);
+        backgroundColor: Theme.of(context).colorScheme.surface, primary: Colors.white, fixedSize: Size(125, 8), elevation: 2, alignment: Alignment.centerLeft);
     return Scaffold(
         appBar: DefaultAppBar(
           title: "VRIENDEN",
@@ -41,11 +37,7 @@ class FriendsState extends State<FriendsScreen> {
         backgroundColor: Theme.of(context).colorScheme.primary,
         body: Container(
             height: MediaQuery.of(context).size.height - 56,
-            decoration: BoxDecoration(
-                color: Color(0xFFffffff),
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(30),
-                    topRight: Radius.circular(30))),
+            decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30))),
             child: Padding(
                 padding: EdgeInsets.only(top: 10),
                 child: Align(
@@ -82,8 +74,7 @@ class FriendsState extends State<FriendsScreen> {
                               tag: 'friend_requests',
                               child: OutlinedButton(
                                 style: OutlinedButton.styleFrom(
-                                    backgroundColor:
-                                        Theme.of(context).colorScheme.surface,
+                                    backgroundColor: Theme.of(context).colorScheme.surface,
                                     primary: Colors.white,
                                     fixedSize: Size(125, 8),
                                     elevation: 2,
@@ -113,10 +104,7 @@ class FriendsState extends State<FriendsScreen> {
                                   hasScrollBody: false,
                                   child: Column(
                                     children: [
-                                      ...friends
-                                          .map((item) =>
-                                              new FriendCard(friend: item))
-                                          .toList(),
+                                      ...friends.map((item) => new FriendCard(friend: item)).toList(),
                                       SizedBox(
                                         height: 10,
                                       )
@@ -130,16 +118,11 @@ class FriendsState extends State<FriendsScreen> {
   }
 
   void retrieveFriends() async {
-    http
-        .get(Uri.parse(AppUtils.apiUrl + "friend/all"),
-            headers: await AppUtils.getHeaders())
-        .then((value) {
+    http.get(Uri.parse(AppUtils.apiUrl + "friend/all"), headers: await AppUtils.getHeaders()).then((value) {
       Map<String, dynamic> response = jsonDecode(value.body);
       if (response['error'] == null) {
         List<dynamic>.from(response['friends']).forEach((e) {
-          this
-              .friends
-              .add(Friend(e['name'], e['handicap'], e['id'], e['image']));
+          this.friends.add(Friend(e['name'], e['handicap'], e['id'], e['image']));
         });
         setState(() {});
       }

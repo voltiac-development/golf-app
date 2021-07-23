@@ -1,5 +1,5 @@
 import { fetchUserData } from "../data/Authentication.js";
-import { addFriend, fetchAllFriends, fetchAllRequests, getRequestFromId, getRequestFromIds, removeRequest, retrieveFriend, sendNewRequest } from "../data/Friend.js";
+import { addFriend, fetchAllFriends, fetchAllRequests, getRequestFromId, getRequestFromIds, removeFriend, removeRequest, retrieveFriend, sendNewRequest } from "../data/Friend.js";
 import { retrieveRecentRounds } from "../data/Round.js";
 import { HTTPError } from "../errors/HTTPError.js";
 
@@ -52,9 +52,9 @@ export async function getSpecificFriend(uid: string, friendId: string): Promise<
     if (error) {
         response.error = new HTTPError(404, "Er is een probleem met de database.");
     }else if(friend != null && roundsData.error == null){
-        data['rounds'] = roundsData.data
+        friend['rounds'] = roundsData.data
 
-        response.data = {'friend': data};
+        response.data = {'friend': friend};
     }
     else
         response.error = new HTTPError(404, "U bent niet bevriend met deze persoon.");
@@ -146,6 +146,29 @@ export async function declineRequest(uid: string, friendId: string): Promise<{da
         return {data: null, error: new HTTPError(404, "Verzoek bestaat niet.")}
     }
     let error = (await removeRequest(data.requestId)).error;
+
+    if(error){
+        return {data: null, error: new HTTPError(500, 'Er is een probleem met de database.')}
+    }
+
+    let response = {
+        data: null,
+        error: null
+    }
+
+    if (error) {
+        response.error = new HTTPError(404, "Er is een probleem met de database.");
+    }else
+        response.data = "SUCCESS";
+
+    return response;
+}
+
+export async function deleteFriend(uid: string, friendId: string): Promise<{data: object, error: HTTPError}> {
+    if (friendId == null || uid == null)
+        return {data: null, error: new HTTPError(401, "Verkeerde aanvraag.")}
+    
+    const { error } = await removeFriend(uid, friendId);
 
     if(error){
         return {data: null, error: new HTTPError(500, 'Er is een probleem met de database.')}
