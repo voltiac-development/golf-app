@@ -34,6 +34,8 @@ dependencies:
   flutter_typeahead: ^3.2.0
   dio: ^4.0.0
   day: ^0.7.1
+  socket_io_client: ^2.0.0-beta.4-nullsafety.0
+  web_socket_channel: ^2.1.0
 
 dev_dependencies:
   flutter_test:

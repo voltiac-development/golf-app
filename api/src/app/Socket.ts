@@ -3,11 +3,14 @@ import * as socket from 'socket.io'
 
 export default function (http, corsOptions) {
     var io = new socket.Server(http, {
-        cors: corsOptions
+        cors: {
+            origin: "*",
+            methods: ["GET", "POST"]
+        }
     });
     io.on('connection', (s) => {
         console.log(s);
-        s.emit('reverd', 'REVEEEEEEERD ALERT')
-        s.disconnect();
+        s.emit('reverb', 'REVEEEEEEERD ALERT')
+        // s.disconnect();
     })
 }

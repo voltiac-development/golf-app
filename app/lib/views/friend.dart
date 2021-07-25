@@ -15,6 +15,7 @@ class FriendScreen extends StatefulWidget {
 class _FriendState extends State<FriendScreen> {
   bool callMade = false;
   late Friend friend;
+  List<dynamic> rounds = [];
 
   @override
   Widget build(BuildContext context) {
@@ -33,11 +34,19 @@ class _FriendState extends State<FriendScreen> {
                   )
                 : Column(children: [
                     Text(this.friend.name),
+                    Padding(
+                      padding: EdgeInsets.all(2),
+                    ),
+                    ...this.rounds.map((element) => Text(element['startsAt'])).toList(),
                     ElevatedButton(
+                        style: ElevatedButton.styleFrom(primary: Theme.of(context).colorScheme.error),
                         onPressed: () => removeFriend(),
                         child: Padding(
                           padding: EdgeInsets.all(3),
-                          child: Text('Verwijderen'),
+                          child: Text(
+                            'Verwijderen',
+                            style: TextStyle(color: Theme.of(context).colorScheme.onError),
+                          ),
                         ))
                   ])),
       ),
@@ -48,10 +57,10 @@ class _FriendState extends State<FriendScreen> {
     Dio dio = Dio();
     Map<String, String> headers = await AppUtils.getHeaders();
     dio.get(AppUtils.apiUrl + "friend/get/" + id, options: Options(headers: headers)).then((value) {
-      print(value.data);
       Map<String, dynamic> friend = value.data['friend'];
-      print(friend['name']);
+      print(friend);
       this.friend = Friend(friend['name'], friend['handicap'], friend['id'], friend['image']);
+      this.rounds = friend['rounds'];
       this.callMade = true;
       setState(() {});
     });

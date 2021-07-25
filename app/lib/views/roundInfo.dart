@@ -203,5 +203,7 @@ class _RoundInfoState extends State<RoundInfo> {
     });
   }
 
-  void goToScore(context) {}
+  void goToScore(context) {
+    Navigator.of(context).pushNamed('liveRound', arguments: ModalRoute.of(context)!.settings.arguments as String);
+  }
 }
