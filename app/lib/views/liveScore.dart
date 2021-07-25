@@ -33,27 +33,43 @@ class _LiveScoreScreenState extends State<LiveScoreScreen> {
                 ? new CircularProgressIndicator(
                     color: Theme.of(context).colorScheme.surface,
                   )
-                : Column(children: [Text('callMade')])),
+                : Column(children: [
+                    TabBar(
+                      tabs: [
+                        Tab(
+                          icon: Icon(Icons.directions_car_outlined),
+                        ),
+                        Tab(
+                          icon: Icon(Icons.directions_transit_outlined),
+                        ),
+                        Tab(
+                          icon: Icon(Icons.directions_bike_outlined),
+                        )
+                      ],
+                    ),
+                    TabBarView(
+                      children: [Icon(Icons.directions_car_outlined), Icon(Icons.directions_transit_outlined), Icon(Icons.directions_bike_outlined)],
+                    ),
+                    Row(
+                      children: [],
+                    )
+                  ])),
       ),
     );
   }
 
-  void startSocket(id) {
-    var socket = io.io(AppUtils.apiUrl, io.OptionBuilder().setTransports(['websocket']).build());
-    socket.onConnecting((data) => print(data));
-    socket.onConnectError((data) {
-      print(data);
-      print('connError');
-    });
-    socket.onConnect((data) {
-      print(data);
-      print('conn');
-    });
-    socket.on('reverb', (data) {
-      print(data);
-      print('reverb');
-    });
-    socket.onDisconnect((_) => print('disconnect'));
+  void startSocket(id) async {
+    print(id);
+    io.Socket socket = await AppUtils.createSocket(context);
+    socket.emit('join_game', id);
     this.callMade = true;
+
+    socket.emit('update_score', {'roundId': '9e055a93-c756-498c-93f3-d4e470d31c34'});
+
+    socket.on('update', (data) {
+      print(data);
+      print('UPDATE RECEIVEID');
+    });
+    setState(() {});
   }
 }

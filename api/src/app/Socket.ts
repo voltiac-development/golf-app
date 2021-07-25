@@ -1,5 +1,6 @@
 import * as socket from 'socket.io'
-
+import { getSpecificRound } from './Round.js';
+import { validateJWT, GetIdFromSession } from './Session.js'
 
 export default function (http, corsOptions) {
     var io = new socket.Server(http, {
@@ -8,9 +9,22 @@ export default function (http, corsOptions) {
             methods: ["GET", "POST"]
         }
     });
-    io.on('connection', (s) => {
-        console.log(s);
-        s.emit('reverb', 'REVEEEEEEERD ALERT')
-        // s.disconnect();
-    })
+    io.on('connection', async (s) => {
+        if(s.handshake.auth['gc-auth'] == null)
+            s.disconnect();
+        let jwt = s.handshake.auth['gc-auth'];
+        let result = await validateJWT(jwt);
+        if(result.error != null) s.disconnect();
+        let sessionData = await GetIdFromSession(result.data.jti);
+        if(sessionData.error != null) s.disconnect();
+        s.on('join_game', async (roundId) => {
+            console.log(roundId);
+            let roundData = await getSpecificRound(sessionData.data, roundId);
+            if(roundData.error != null) s.disconnect();
+            s.join(roundId);
+        });
+        s.on('update_score', async (data) => {
+            io.to(data['roundId']).emit('update', data);
+        });
+    });
 }
