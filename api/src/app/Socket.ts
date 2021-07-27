@@ -18,7 +18,6 @@ export default function (http, corsOptions) {
         let sessionData = await GetIdFromSession(result.data.jti);
         if(sessionData.error != null) s.disconnect();
         s.on('join_game', async (roundId) => {
-            console.log(roundId);
             let roundData = await getSpecificRound(sessionData.data, roundId);
             if(roundData.error != null) s.disconnect();
             s.join(roundId);

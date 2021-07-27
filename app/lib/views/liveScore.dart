@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:golfcaddie/components/appbar.dart';
 import 'package:golfcaddie/components/score/table.dart';
@@ -23,6 +24,29 @@ class _LiveScoreScreenState extends State<LiveScoreScreen> {
     Friend('Godelieve Boekestijn', 39.9, '', ''),
   ];
   List<IconData> icons = [Icons.looks_one_outlined, Icons.looks_two_outlined, Icons.looks_3_outlined, Icons.looks_4_outlined];
+  late io.Socket socket;
+
+  List<List<int>> scores = [
+    [3, 3, 4, 4, 3, 1, 1, 0, 3],
+    [3, 3, 4, 6, 3, 1, 1, 0, 3],
+    [3, 3, 4, 4, 3, 1, 1, 0, 3],
+    [3, 3, 4, 4, 3, 1, 1, 0, 3]
+  ];
+
+  List<int> si = [11, 9, 7, 15, 3, 1, 5, 17, 13];
+  List<int> par = [5, 3, 4, 3, 4, 4, 4, 4, 5];
+  List<List<int>> holePhc = [
+    [2, 2, 2, 2, 2, 2, 2, 2, 2],
+    [2, 2, 2, 2, 2, 2, 2, 2, 2],
+    [2, 2, 2, 2, 2, 2, 2, 2, 2],
+    [2, 2, 2, 2, 2, 2, 2, 2, 2]
+  ];
+  List<List<int?>> strokes = [
+    [null, null, null, null, null, null, null, null, null],
+    [6, 4, 4, 3, 5, 7, 7, null, 6],
+    [6, 4, 4, 3, 5, 7, 7, 11, 6],
+    [6, 4, 4, 3, 5, 7, 7, 11, 6]
+  ];
 
   _LiveScoreScreenState();
   @override
@@ -30,8 +54,9 @@ class _LiveScoreScreenState extends State<LiveScoreScreen> {
     if (!callMade) {
       startSocket(ModalRoute.of(context)!.settings.arguments as String);
     }
+
     return DefaultTabController(
-        length: players.length + 1,
+        length: players.length + 2,
         child: Scaffold(
           backgroundColor: Theme.of(context).colorScheme.primary,
           appBar: DefaultAppBar(
@@ -55,10 +80,19 @@ class _LiveScoreScreenState extends State<LiveScoreScreen> {
                                       isScrollable: true,
                                       indicatorColor: Theme.of(context).colorScheme.surface,
                                       tabs: [
+                                        Tab(
+                                            child: Text(
+                                              'baan',
+                                              style: TextStyle(color: Colors.black),
+                                            ),
+                                            icon: Icon(
+                                              Icons.sports_golf_outlined,
+                                              color: Colors.black,
+                                            )),
                                         for (int i = 0; i < players.length; i++)
                                           Tab(
                                               child: Text(
-                                                players[i].name.split(' ')[0],
+                                                players[i].name.split(' ')[0].toLowerCase(),
                                                 style: TextStyle(color: Colors.black),
                                               ),
                                               icon: Icon(
@@ -66,36 +100,51 @@ class _LiveScoreScreenState extends State<LiveScoreScreen> {
                                                 color: Colors.black,
                                               )),
                                         Tab(
-                                            // child: Text(
-                                            //   "",
-                                            //   style: TextStyle(color: Colors.black),
-                                            // ),
+                                            child: Text(
+                                              'versturen',
+                                              style: TextStyle(color: Colors.black),
+                                            ),
                                             icon: Icon(
-                                          Icons.navigate_next_outlined,
-                                          color: Colors.black,
-                                        )),
+                                              Icons.navigate_next_outlined,
+                                              color: Colors.black,
+                                            )),
                                       ],
                                     ),
                                   )),
                               TableHeader(),
                               Expanded(
                                 child: TabBarView(children: [
+                                  Container(
+                                    child: Text('COURSE INFORMATION'),
+                                  ),
                                   for (int i = 0; i < players.length; i++)
                                     SingleChildScrollView(
                                       child: Padding(
                                         padding: EdgeInsets.only(top: 15, bottom: 15),
-                                        child: ScoreTable(),
+                                        child: ScoreTable(
+                                          holePhc: this.holePhc[i],
+                                          par: this.par,
+                                          strokes: this.strokes[i],
+                                          score: scores[i],
+                                          si: this.si,
+                                          onScoreChanged: (value) => setState(() {
+                                            this.strokes[i][value[0]] = value[0] == -1 ? null : value[1];
+                                          }),
+                                        ),
                                       ),
                                     ),
-                                  SizedBox(
-                                      height: 50,
-                                      width: 250,
+                                  SingleChildScrollView(
+                                      child: Center(
+                                    child: Padding(
+                                      padding: EdgeInsets.only(top: 15, bottom: 15),
                                       child: ElevatedButton(
                                           onPressed: () => print('pressed'),
                                           child: Padding(
                                             padding: EdgeInsets.all(5),
                                             child: Text('Score versturen'),
-                                          )))
+                                          )),
+                                    ),
+                                  )),
                                 ]),
                               )
                             ],
@@ -106,13 +155,13 @@ class _LiveScoreScreenState extends State<LiveScoreScreen> {
 
   void startSocket(id) async {
     print(id);
-    io.Socket socket = await AppUtils.createSocket(context);
-    socket.emit('join_game', id);
+    this.socket = await AppUtils.createSocket(context);
+    this.socket.emit('join_game', id);
     this.callMade = true;
 
-    socket.emit('update_score', {'roundId': '9e055a93-c756-498c-93f3-d4e470d31c34'});
+    this.socket.emit('update_score', {'roundId': '9e055a93-c756-498c-93f3-d4e470d31c34'});
 
-    socket.on('update', (data) {
+    this.socket.on('update', (data) {
       print(data);
       print('UPDATE RECEIVEID');
     });

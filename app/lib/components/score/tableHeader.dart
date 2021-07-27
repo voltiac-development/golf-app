@@ -32,9 +32,9 @@ class TableHeader extends StatelessWidget {
                     ),
                   ])),
             ),
-            Padding(
-              padding: EdgeInsets.only(right: 5),
-            ),
+            // Padding(
+            //   padding: EdgeInsets.only(right: 5),
+            // ),
             SizedBox(
               width: 50,
               height: 30,
@@ -59,9 +59,9 @@ class TableHeader extends StatelessWidget {
                     ),
                   ])),
             ),
-            Padding(
-              padding: EdgeInsets.only(right: 5),
-            ),
+            // Padding(
+            //   padding: EdgeInsets.only(right: 5),
+            // ),
             SizedBox(
               width: 70,
               height: 30,
@@ -90,9 +90,9 @@ class TableHeader extends StatelessWidget {
                     ),
                   ])),
             ),
-            Padding(
-              padding: EdgeInsets.only(right: 5),
-            ),
+            // Padding(
+            //   padding: EdgeInsets.only(right: 5),
+            // ),
             SizedBox(
               width: 65,
               height: 30,
@@ -121,9 +121,9 @@ class TableHeader extends StatelessWidget {
                     ),
                   ])),
             ),
-            Padding(
-              padding: EdgeInsets.only(right: 5),
-            ),
+            // Padding(
+            //   padding: EdgeInsets.only(right: 5),
+            // ),
             SizedBox(
               width: 65,
               height: 30,
