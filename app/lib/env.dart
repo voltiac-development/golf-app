@@ -26,13 +26,20 @@ class AppUtils {
 
   static Future<io.Socket> createSocket(BuildContext context) async {
     Map<String, String> headers = await getHeaders();
-    io.Socket socket = io.io(apiUrl, io.OptionBuilder().setTransports(['websocket']).setAuth(headers).build());
+    io.Socket socket = io.io(apiUrl, io.OptionBuilder().setTransports(['websocket']).setAuth(headers).setReconnectionAttempts(2).build());
     socket.onConnectError((data) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(
             'Er is een probleem met de verbinding.',
             style: TextStyle(color: Theme.of(context).colorScheme.onError),
           ),
           backgroundColor: Theme.of(context).colorScheme.error,
+        )));
+    socket.onConnect((data) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(
+            'Verbonden met de server.',
+            style: TextStyle(color: Theme.of(context).colorScheme.onSecondary),
+          ),
+          backgroundColor: Theme.of(context).colorScheme.secondary,
         )));
     return socket;
   }
