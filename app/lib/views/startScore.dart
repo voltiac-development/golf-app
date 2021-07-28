@@ -25,12 +25,12 @@ class _StartScoreScreenState extends State<StartScoreScreen> {
   TextEditingController courseController = new TextEditingController();
   List<dynamic> courses = [];
   List<dynamic> visibleCourses = [];
-  String favCourse = "";
   bool _toggle = false;
   List<dynamic> availableHoleTypes = [];
   CourseInfo chosenCourse = new CourseInfo('name', 0, '', '', [], '');
   int chosenTee = -1;
   String chosenHoleType = "";
+  bool called = false;
 
   List<Friend?> players = [null, null, null];
   List<int> tees = [-1, -1, -1];
@@ -38,12 +38,10 @@ class _StartScoreScreenState extends State<StartScoreScreen> {
 
   final TextStyle annotation = TextStyle(fontStyle: FontStyle.italic, fontWeight: FontWeight.w100);
 
-  _StartScoreScreenState() {
-    retrieveCourses();
-  }
-
   @override
   Widget build(BuildContext context) {
+    if (!this.called) retrieveCourses();
+
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.primary,
       appBar: DefaultAppBar(
@@ -221,12 +219,8 @@ class _StartScoreScreenState extends State<StartScoreScreen> {
     Dio dio = await AppUtils.getDio();
     dio.get("/course/all").then((value) {
       dynamic c = value.data['courses'][0];
-      this.favCourse = c['id'];
       this.chosenCourse = new CourseInfo(c['name'], c['holes'], c['id'], c['image'], c['roundTypes'], c['teeboxes']);
       this.courses = value.data['courses'];
-      if (this.mounted) {
-        setState(() {});
-      }
     }).catchError((e) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(
@@ -236,10 +230,12 @@ class _StartScoreScreenState extends State<StartScoreScreen> {
         backgroundColor: Theme.of(context).colorScheme.error,
       ));
     });
+    this.called = true;
+    setState(() {});
   }
 
   void retrieveCourseInfo() {
-    dynamic course = this.courses.firstWhere((element) => element['id'] == this.favCourse);
+    dynamic course = this.courses.firstWhere((element) => element['id'] == this.chosenCourse.id);
     CourseInfo c = new CourseInfo(course['name'], course['holes'], course['id'], course['image'], course['roundTypes'], course['teeboxes']);
     setState(() {
       this.chosenCourse = c;

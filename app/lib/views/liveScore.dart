@@ -175,6 +175,7 @@ class _LiveScoreScreenState extends State<LiveScoreScreen> {
     print(id);
     this.socket = await AppUtils.createSocket(context);
     this.socket.emit('join_game', id);
+    this.socket.on('init', (data) => print(data));
     this.callMade = true;
 
     this.socket.emit('update_score', {'roundId': '9e055a93-c756-498c-93f3-d4e470d31c34'});

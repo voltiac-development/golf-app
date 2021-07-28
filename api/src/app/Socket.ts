@@ -13,7 +13,7 @@ export default function (http, corsOptions) {
         if(s.handshake.auth['gc-auth'] == null)
             s.disconnect();
         let jwt = s.handshake.auth['gc-auth'];
-        let result = await validateJWT(jwt);
+        let result = validateJWT(jwt);
         if(result.error != null) s.disconnect();
         let sessionData = await GetIdFromSession(result.data.jti);
         if(sessionData.error != null) s.disconnect();
@@ -21,6 +21,7 @@ export default function (http, corsOptions) {
             let roundData = await getSpecificRound(sessionData.data, roundId);
             if(roundData.error != null) s.disconnect();
             s.join(roundId);
+            io.to(s.id).emit('init', roundData.data);
         });
         s.on('update_score', async (data) => {
             io.to(data['roundId']).emit('update', data);

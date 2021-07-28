@@ -4,6 +4,7 @@ var router = express.Router();
 import JSON5 from 'json5';
 
 router.post('/start', async (req, res, next) => {
+    console.log(req['body']);
     let { data, error } = await startNewRound(req['user'].id, req['body']['courseId'], req['body']['tees'], req['body']['players'], req['body']['holeType'], req['body']['qualifying']);
 
     if (error) {
