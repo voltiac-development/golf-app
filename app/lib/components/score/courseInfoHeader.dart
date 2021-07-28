@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class TableHeader extends StatelessWidget {
-  const TableHeader({Key? key}) : super(key: key);
+class CourseInfoHeader extends StatelessWidget {
+  const CourseInfoHeader({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -45,14 +45,14 @@ class TableHeader extends StatelessWidget {
                 color: Theme.of(context).colorScheme.surface,
               ),
               child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.center, children: [
-                Text(
-                  'si',
-                  style: headerStyle,
-                ),
+                Icon(
+                  Icons.sports_golf_outlined,
+                  color: Colors.grey[300],
+                )
               ])),
         ),
         SizedBox(
-          width: 70,
+          width: 50,
           height: 30,
           child: Container(
               decoration: BoxDecoration(
@@ -73,14 +73,14 @@ class TableHeader extends StatelessWidget {
                 color: Theme.of(context).colorScheme.surface,
               ),
               child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.center, children: [
-                Text(
-                  'par',
-                  style: headerStyle,
-                ),
+                Icon(
+                  Icons.sports_golf_outlined,
+                  color: Colors.lightBlue,
+                )
               ])),
         ),
         SizedBox(
-          width: 65,
+          width: 50,
           height: 30,
           child: Container(
               decoration: BoxDecoration(
@@ -101,14 +101,42 @@ class TableHeader extends StatelessWidget {
                 color: Theme.of(context).colorScheme.surface,
               ),
               child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.center, children: [
-                Text(
-                  'strokes',
-                  style: headerStyle,
-                ),
+                Icon(
+                  Icons.sports_golf_outlined,
+                  color: Colors.yellow,
+                )
               ])),
         ),
         SizedBox(
-          width: 65,
+          width: 50,
+          height: 30,
+          child: Container(
+              decoration: BoxDecoration(
+                border: Border(
+                  left: BorderSide(
+                    width: 1,
+                    color: Colors.black,
+                  ),
+                  top: BorderSide(
+                    width: 1,
+                    color: Colors.black,
+                  ),
+                  bottom: BorderSide(
+                    width: 1,
+                    color: Colors.black,
+                  ),
+                ),
+                color: Theme.of(context).colorScheme.surface,
+              ),
+              child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.center, children: [
+                Icon(
+                  Icons.sports_golf_outlined,
+                  color: Colors.red,
+                )
+              ])),
+        ),
+        SizedBox(
+          width: 50,
           height: 30,
           child: Container(
               decoration: BoxDecoration(
@@ -117,10 +145,10 @@ class TableHeader extends StatelessWidget {
                 color: Theme.of(context).colorScheme.surface,
               ),
               child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.center, children: [
-                Text(
-                  'score',
-                  style: headerStyle,
-                ),
+                Icon(
+                  Icons.sports_golf_outlined,
+                  color: Colors.orange,
+                )
               ])),
         ),
       ],

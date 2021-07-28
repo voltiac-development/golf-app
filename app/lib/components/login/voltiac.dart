@@ -25,18 +25,12 @@ class VoltiacLogin extends StatelessWidget {
                   width: 55,
                 ),
               ),
-              decoration: BoxDecoration(
-                  border: Border.all(color: Theme.of(context).primaryColor),
-                  borderRadius: BorderRadius.all(Radius.circular(25)),
-                  color: Colors.white),
+              decoration:
+                  BoxDecoration(border: Border.all(color: Theme.of(context).primaryColor), borderRadius: BorderRadius.all(Radius.circular(25)), color: Colors.white),
             ),
             decoration: BoxDecoration(
               boxShadow: [
-                BoxShadow(
-                    color: Colors.grey.withOpacity(0.3),
-                    spreadRadius: 1,
-                    blurRadius: 10,
-                    offset: Offset.fromDirection(10)),
+                BoxShadow(color: Colors.grey.withOpacity(0.3), spreadRadius: 1, blurRadius: 10, offset: Offset.fromDirection(10)),
               ],
             ),
           ),

@@ -11,7 +11,6 @@ import 'package:golfcaddie/components/startScore/teeBoxes.dart';
 import 'package:golfcaddie/models/CourseInformation.dart';
 import 'package:golfcaddie/models/Friend.dart';
 
-import 'package:http/http.dart' as http;
 import 'package:dio/dio.dart';
 import '../env.dart';
 
@@ -218,9 +217,10 @@ class _StartScoreScreenState extends State<StartScoreScreen> {
     );
   }
 
-  void retrieveCourses() {
-    http.get(Uri.parse(AppUtils.apiUrl + "course/all")).then((value) {
-      Map<String, dynamic> response = jsonDecode(value.body);
+  void retrieveCourses() async {
+    Dio dio = await AppUtils.getDio();
+    dio.get("/course/all").then((value) {
+      Map<String, dynamic> response = jsonDecode(value.data);
       if (response['error'] == null) {
         dynamic c = response['courses'][0];
         this.favCourse = c['id'];
@@ -242,29 +242,26 @@ class _StartScoreScreenState extends State<StartScoreScreen> {
   }
 
   void startGame() async {
-    Dio dio = Dio();
+    Dio dio = await AppUtils.getDio();
     if (this.tees.length == 3)
       this.tees.insert(0, this.chosenTee);
     else
       this.tees[0] = this.chosenTee;
     List<String?> players = this.players.map((e) => e != null ? e.id : null).toList();
-    Map<String, String> headers = await AppUtils.getHeaders();
 
     dio
-        .post(AppUtils.apiUrl + "round/start",
-            data: {'courseId': this.chosenCourse.id, 'tees': this.tees, 'players': players, 'holeType': this.chosenHoleType, 'qualifying': this.qualifying},
-            options: Options(headers: headers))
+        .post("/round/start",
+            data: {'courseId': this.chosenCourse.id, 'tees': this.tees, 'players': players, 'holeType': this.chosenHoleType, 'qualifying': this.qualifying})
         .then((value) => print(value.data))
         .catchError((e) {
-      print(e.response.data);
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(
-          e.response.data['error'],
-          style: TextStyle(color: Theme.of(context).colorScheme.onError),
-        ),
-        backgroundColor: Theme.of(context).colorScheme.error,
-      ));
-    });
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(
+              e.response.data['error'],
+              style: TextStyle(color: Theme.of(context).colorScheme.onError),
+            ),
+            backgroundColor: Theme.of(context).colorScheme.error,
+          ));
+        });
   }
 
   List<CourseInfo> filterSearch(String pattern) {

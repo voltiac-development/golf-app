@@ -67,8 +67,15 @@ class _FriendState extends State<FriendScreen> {
   }
 
   void removeFriend() async {
-    Dio dio = Dio();
-    Map<String, String> headers = await AppUtils.getHeaders();
-    dio.delete(AppUtils.apiUrl + "friend/remove", data: {'friendId': this.friend.getId}, options: Options(headers: headers)).then((value) => print(value.data));
+    Dio dio = await AppUtils.getDio();
+    dio.delete("/friend/remove", data: {'friendId': this.friend.getId}).then((value) => print(value.data)).catchError((e) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(
+              e.response.data['error'],
+              style: TextStyle(color: Theme.of(context).colorScheme.onError),
+            ),
+            backgroundColor: Theme.of(context).colorScheme.error,
+          ));
+        });
   }
 }

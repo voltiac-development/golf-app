@@ -188,18 +188,24 @@ class _RoundInfoState extends State<RoundInfo> {
   }
 
   void retrieveInformation(id) async {
-    Map<String, String> headers = await AppUtils.getHeaders();
-    Dio dio = Dio();
-    dio.get(AppUtils.apiUrl + "round/" + id, options: Options(headers: headers)).then((value) {
+    Dio dio = await AppUtils.getDio();
+    dio.get("/round/" + id).then((value) {
       this.roundInformation = value.data;
       this.callMade = true;
-      print(value.data);
       DateTime date = DateTime.parse(value.data['startsAt'] as String);
       this.gameInformation[0]['title'] = this.roundInformation['holeTypeId'];
       this.gameInformation[1]['title'] = this.roundInformation['qualifying'] == 1 ? "Ja" : "Nee";
       this.gameInformation[2]['title'] =
           date.day.toString() + "-" + date.month.toString() + "-" + date.year.toString() + " (" + date.hour.toString() + ":" + date.minute.toString() + ")";
       setState(() {});
+    }).catchError((e) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+          e.response.data['error'],
+          style: TextStyle(color: Theme.of(context).colorScheme.onError),
+        ),
+        backgroundColor: Theme.of(context).colorScheme.error,
+      ));
     });
   }
 

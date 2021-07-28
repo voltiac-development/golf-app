@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:golfcaddie/components/login/voltiac.dart';
-import 'package:http/http.dart' as http;
 import '../env.dart';
 import '../vendor/storage.dart';
 
@@ -49,16 +49,12 @@ class LoginState extends State<LoginScreen> {
           title: Center(
               child: Text(
             "GOLFCADDIE",
-            style: TextStyle(
-                fontWeight: FontWeight.w200, color: Color(0xFFffffff)),
+            style: TextStyle(fontWeight: FontWeight.w200, color: Color(0xFFffffff)),
           )),
           elevation: 0,
         ),
         body: Container(
-          decoration: BoxDecoration(
-              color: Color(0xFFffffff),
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(30), topRight: Radius.circular(30))),
+          decoration: BoxDecoration(color: Color(0xFFffffff), borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30))),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -153,24 +149,19 @@ class LoginState extends State<LoginScreen> {
         ));
   }
 
-  void checkLogin(final context) {
-    http.post(Uri.parse(AppUtils.apiUrl + 'auth/login'), body: {
-      'email': emailController.text,
-      'password': passwordController.text
-    }).then((value) async {
-      Map<String, dynamic> response = jsonDecode(value.body);
-      if (response['error'] == null) {
-        //Success
-        print(response['jwtToken']);
-        print(response);
-        Storage().setItem('jwt', response['jwtToken']);
-        Navigator.of(context).pushNamed('dashboard');
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(response['error']),
-          backgroundColor: Colors.red,
-        ));
-      }
+  void checkLogin(final context) async {
+    Dio dio = await AppUtils.getDio();
+    dio.post('/auth/login', data: {'email': emailController.text, 'password': passwordController.text}).then((value) async {
+      Storage().setItem('jwt', value.data['jwtToken']);
+      Navigator.of(context).pushNamed('dashboard');
+    }).catchError((e) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+          e.response.data['error'],
+          style: TextStyle(color: Theme.of(context).colorScheme.onError),
+        ),
+        backgroundColor: Theme.of(context).colorScheme.error,
+      ));
     });
   }
 }

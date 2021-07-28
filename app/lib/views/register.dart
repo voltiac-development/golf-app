@@ -1,28 +1,11 @@
 import 'dart:math';
-import 'dart:convert';
-
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-
 import '../components/appbar.dart';
-
-import 'package:http/http.dart' as http;
 import '../env.dart';
 import '../vendor/storage.dart';
 
 class RegisterScreen extends StatefulWidget {
-  // List<dynamic>? courses = retrieveCourses();
-
-  // List<dynamic>? retrieveCourses() {
-  //   http.get(Uri.parse(AppUtils.apiUrl + "course/all")).then((value) {
-  //     Map<String, dynamic> response = jsonDecode(value.body);
-  //     if (response['error'] == null) {
-  //       return [response];
-  //     } else {
-  //       return [];
-  //     }
-  //   });
-  // }
-
   @override
   State<StatefulWidget> createState() {
     return LoginState();
@@ -58,10 +41,7 @@ class LoginState extends State<RegisterScreen> {
       ),
       backgroundColor: Theme.of(context).primaryColor,
       body: Container(
-        decoration: BoxDecoration(
-            color: Color(0xFFffffff),
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(30), topRight: Radius.circular(30))),
+        decoration: BoxDecoration(color: Color(0xFFffffff), borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30))),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -147,11 +127,7 @@ class LoginState extends State<RegisterScreen> {
                     focusColor: Theme.of(context).primaryColor,
                     contentPadding: EdgeInsets.all(8),
                     icon: Icon(Icons.track_changes),
-                    border: new OutlineInputBorder(
-                        borderSide: BorderSide(
-                            color: Theme.of(context).primaryColor,
-                            width: 2,
-                            style: BorderStyle.solid)),
+                    border: new OutlineInputBorder(borderSide: BorderSide(color: Theme.of(context).primaryColor, width: 2, style: BorderStyle.solid)),
                     filled: false,
                   ),
                 )),
@@ -172,37 +148,43 @@ class LoginState extends State<RegisterScreen> {
     );
   }
 
-  void checkRegister(final context) {
-    http.post(Uri.parse(AppUtils.apiUrl + 'auth/register'), body: {
+  void checkRegister(final context) async {
+    Dio dio = await AppUtils.getDio();
+    dio.post('/auth/register', data: {
       'email': emailController.text,
       'password': passwordController.text,
       'name': nameController.text,
       'password_verify': passwordControllerVerify.text,
       'fav_course': favCourse
     }).then((value) async {
-      Map<String, dynamic> response = jsonDecode(value.body);
-      if (response['error'] == null) {
-        //Success
-        Storage().setItem('jwt', response['jwtToken']);
-        Navigator.of(context).pushNamed('dashboard');
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(response['error']),
-          backgroundColor: Colors.red,
-        ));
-      }
+      Storage().setItem('jwt', value.data['jwtToken']);
+      Navigator.of(context).pushNamed('dashboard');
+    }).catchError((e) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+          e.response.data['error'],
+          style: TextStyle(color: Theme.of(context).colorScheme.onError),
+        ),
+        backgroundColor: Theme.of(context).colorScheme.error,
+      ));
     });
   }
 
-  void retrieveCourses() {
-    http.get(Uri.parse(AppUtils.apiUrl + "course/all")).then((value) {
-      Map<String, dynamic> response = jsonDecode(value.body);
-      if (response['error'] == null) {
-        this.favCourse = response['courses'][0]['id'];
-        setState(() {
-          this.courses = response['courses'];
-        });
-      }
+  void retrieveCourses() async {
+    Dio dio = await AppUtils.getDio();
+    dio.get('/course/all').then((value) {
+      this.favCourse = value.data['courses'][0]['id'];
+      setState(() {
+        this.courses = value.data['courses'];
+      });
+    }).catchError((e) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+          e.response.data['error'],
+          style: TextStyle(color: Theme.of(context).colorScheme.onError),
+        ),
+        backgroundColor: Theme.of(context).colorScheme.error,
+      ));
     });
   }
 }

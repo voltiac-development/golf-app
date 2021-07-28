@@ -1,10 +1,8 @@
-import 'dart:convert';
-
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:golfcaddie/env.dart';
 import 'package:golfcaddie/models/Friend.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
-import 'package:http/http.dart' as http;
 import 'package:golfcaddie/components/personalCard/customAnimation.dart';
 import 'package:golfcaddie/components/startScore/teeBoxes.dart';
 
@@ -171,22 +169,28 @@ class _CoPlayerCardState extends State<CoPlayerCard> {
   }
 
   void retrieveFriends() async {
-    http.get(Uri.parse(AppUtils.apiUrl + "friend/all"), headers: await AppUtils.getHeaders()).then((value) {
-      Map<String, dynamic> response = jsonDecode(value.body);
-      if (response['error'] == null) {
-        List<dynamic>.from(response['friends']).forEach((e) {
-          dynamic o = e;
-          try {
-            Friend? f = this.selectedFriends.firstWhere((element) {
-              if (element == null) return false;
-              return element.id == e['id'];
-            });
-          } catch (e) {
-            this.friends.add(UserRequest(o['name'], o['email'], o['id']));
-          }
-        });
-        setState(() {});
-      }
+    Dio dio = await AppUtils.getDio();
+    dio.get('/friend/all').then((value) {
+      List<dynamic>.from(value.data['friends']).forEach((e) {
+        dynamic o = e;
+        try {
+          Friend? f = this.selectedFriends.firstWhere((element) {
+            if (element == null) return false;
+            return element.id == e['id'];
+          });
+        } catch (e) {
+          this.friends.add(UserRequest(o['name'], o['email'], o['id']));
+        }
+      });
+      setState(() {});
+    }).catchError((e) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+          e.response.data['error'],
+          style: TextStyle(color: Theme.of(context).colorScheme.onError),
+        ),
+        backgroundColor: Theme.of(context).colorScheme.error,
+      ));
     });
   }
 

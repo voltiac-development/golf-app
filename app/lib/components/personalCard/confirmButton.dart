@@ -1,9 +1,7 @@
-import 'dart:convert';
-
+import 'package:dio/dio.dart';
 import 'package:golfcaddie/env.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
 class WhiteConfirmButton extends StatelessWidget {
   final TextEditingController name;
@@ -12,13 +10,7 @@ class WhiteConfirmButton extends StatelessWidget {
   final TextEditingController newVerifiedPassword;
   final ValueChanged<String> onError;
 
-  WhiteConfirmButton(
-      {Key? key,
-      required this.name,
-      required this.email,
-      required this.newPassword,
-      required this.newVerifiedPassword,
-      required this.onError})
+  WhiteConfirmButton({Key? key, required this.name, required this.email, required this.newPassword, required this.newVerifiedPassword, required this.onError})
       : super(key: key);
 
   @override
@@ -39,31 +31,20 @@ class WhiteConfirmButton extends StatelessWidget {
   }
 
   void sendNewEdit(BuildContext context) async {
-    http.post(Uri.parse(AppUtils.apiUrl + 'profile/me'),
-        headers: await AppUtils.getHeaders(),
-        body: {
-          "name": name.text,
-          "email": email.text,
-          "newPassword": newPassword.text,
-          "verifiedPassword": newVerifiedPassword.text
-        }).then((value) {
-      if (value.body != "\"SUCCESS\"") {
-        Map<String, dynamic> body = jsonDecode(value.body);
-        this.onError(body['error']);
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-              content: Text("Profiel successvol aangepast."),
-              backgroundColor: Theme.of(context).colorScheme.primary),
-        );
-      }
+    Dio dio = await AppUtils.getDio();
+    dio.post("/profile/me", data: {"name": name.text, "email": email.text, "newPassword": newPassword.text, "verifiedPassword": newVerifiedPassword.text}).then((value) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+          "Profiel is successvol aangepast.",
+          style: TextStyle(color: Theme.of(context).colorScheme.onSecondary),
+        ),
+        backgroundColor: Theme.of(context).colorScheme.secondary,
+      ));
+    }).catchError((e) {
+      this.onError(e.response.data['error']);
     });
   }
 }
 
 final ButtonStyle style = OutlinedButton.styleFrom(
-    textStyle: const TextStyle(fontSize: 16),
-    backgroundColor: Colors.white,
-    primary: Colors.black,
-    fixedSize: Size(135, 10),
-    alignment: Alignment.center);
+    textStyle: const TextStyle(fontSize: 16), backgroundColor: Colors.white, primary: Colors.black, fixedSize: Size(135, 10), alignment: Alignment.center);

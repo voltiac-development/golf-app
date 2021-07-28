@@ -1,5 +1,4 @@
-import 'dart:convert';
-
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:golfcaddie/components/appbar.dart';
 import 'package:golfcaddie/components/friends/addFriendPopup.dart';
@@ -7,8 +6,6 @@ import 'package:golfcaddie/components/friends/friendcard.dart';
 import 'package:golfcaddie/components/friends/requestFriendPopup.dart';
 import 'package:golfcaddie/models/Friend.dart';
 import 'package:golfcaddie/vendor/heroDialogRoute.dart';
-
-import 'package:http/http.dart' as http;
 
 import 'package:golfcaddie/env.dart';
 
@@ -118,14 +115,20 @@ class FriendsState extends State<FriendsScreen> {
   }
 
   void retrieveFriends() async {
-    http.get(Uri.parse(AppUtils.apiUrl + "friend/all"), headers: await AppUtils.getHeaders()).then((value) {
-      Map<String, dynamic> response = jsonDecode(value.body);
-      if (response['error'] == null) {
-        List<dynamic>.from(response['friends']).forEach((e) {
-          this.friends.add(Friend(e['name'], e['handicap'], e['id'], e['image']));
-        });
-        setState(() {});
-      }
+    Dio dio = await AppUtils.getDio();
+    dio.get("/friend/all").then((value) {
+      List<dynamic>.from(value.data['friends']).forEach((e) {
+        this.friends.add(Friend(e['name'], e['handicap'], e['id'], e['image']));
+      });
+      setState(() {});
+    }).catchError((e) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+          e.response.data['error'],
+          style: TextStyle(color: Theme.of(context).colorScheme.onError),
+        ),
+        backgroundColor: Theme.of(context).colorScheme.error,
+      ));
     });
   }
 }

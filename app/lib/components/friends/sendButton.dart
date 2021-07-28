@@ -1,16 +1,13 @@
-import 'dart:convert';
-
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:golfcaddie/env.dart';
-import 'package:http/http.dart' as http;
 
 class WhiteSendButton extends StatelessWidget {
   final TextEditingController email;
   final ValueChanged<String> onError;
 
-  WhiteSendButton({Key? key, required this.email, required this.onError})
-      : super(key: key);
+  WhiteSendButton({Key? key, required this.email, required this.onError}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,30 +27,18 @@ class WhiteSendButton extends StatelessWidget {
   }
 
   void sendNewEdit(BuildContext context) async {
-    Map<String, String> headers = await AppUtils.getHeaders();
-    http.post(Uri.parse(AppUtils.apiUrl + 'friend/add'),
-        headers: headers,
-        body: {
-          "friend": email.text,
-        }).then((value) {
-      print(value.body);
-      if (value.body != "\"SUCCESS\"") {
-        Map<String, dynamic> body = jsonDecode(value.body);
-        this.onError(body['error']);
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-              content: Text("Profiel successvol aangepast."),
-              backgroundColor: Theme.of(context).colorScheme.primary),
-        );
-      }
+    Dio dio = await AppUtils.getDio();
+    dio.post('/friend/add', data: {
+      "friend": email.text,
+    }).then((value) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Profiel successvol aangepast."), backgroundColor: Theme.of(context).colorScheme.primary),
+      );
+    }).catchError((e) {
+      this.onError(e.response['error']);
     });
   }
 }
 
 final ButtonStyle style = OutlinedButton.styleFrom(
-    textStyle: const TextStyle(fontSize: 16),
-    backgroundColor: Colors.white,
-    primary: Colors.black,
-    fixedSize: Size(155, 10),
-    alignment: Alignment.center);
+    textStyle: const TextStyle(fontSize: 16), backgroundColor: Colors.white, primary: Colors.black, fixedSize: Size(155, 10), alignment: Alignment.center);

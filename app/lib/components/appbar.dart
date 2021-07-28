@@ -22,7 +22,7 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
         color: Colors.transparent,
         child: IconButton(
           icon: const Icon(Icons.arrow_back),
-          color: Color(0xFFffffff),
+          color: Theme.of(context).colorScheme.onPrimary,
           disabledColor: Theme.of(context).colorScheme.primary,
           tooltip: 'Terug',
           onPressed: this.back

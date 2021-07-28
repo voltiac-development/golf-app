@@ -1,10 +1,8 @@
-import 'dart:convert';
 import 'dart:math';
-
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:golfcaddie/components/appbar.dart';
 import 'package:golfcaddie/env.dart';
-import 'package:http/http.dart' as http;
 
 class ForgotScreen extends StatelessWidget {
   final emailController = TextEditingController();
@@ -18,14 +16,9 @@ class ForgotScreen extends StatelessWidget {
     );
     return Scaffold(
         backgroundColor: Theme.of(context).colorScheme.primary,
-        appBar:
-            DefaultAppBar(title: 'WACHTWOORD RESET', person: false, back: true),
+        appBar: DefaultAppBar(title: 'WACHTWOORD RESET', person: false, back: true),
         body: Container(
-            decoration: BoxDecoration(
-                color: Color(0xFFffffff),
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(30),
-                    topRight: Radius.circular(30))),
+            decoration: BoxDecoration(color: Color(0xFFffffff), borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30))),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -34,11 +27,7 @@ class ForgotScreen extends StatelessWidget {
                     child: TextField(
                       controller: emailController,
                       decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          hintText: 'E-mail',
-                          icon: Icon(Icons.mail_outline),
-                          contentPadding: EdgeInsets.all(8),
-                          isDense: true),
+                          border: OutlineInputBorder(), hintText: 'E-mail', icon: Icon(Icons.mail_outline), contentPadding: EdgeInsets.all(8), isDense: true),
                     )),
                 SizedBox(height: 10, width: MediaQuery.of(context).size.width),
                 ElevatedButton(
@@ -56,19 +45,16 @@ class ForgotScreen extends StatelessWidget {
   }
 
   void requestForgotten(final context) async {
-    http.post(Uri.parse(AppUtils.apiUrl + 'auth/forgot'), body: {
+    Dio dio = await AppUtils.getDio();
+    dio.post('/auth/forgot', data: {
       'email': emailController.text,
     }).then((value) async {
-      Map<String, dynamic> response = jsonDecode(value.body);
-      if (response['error'] == null) {
-        //Success
-        Navigator.of(context).pop();
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(response['error']),
-          backgroundColor: Colors.red,
-        ));
-      }
+      Navigator.of(context).pop();
+    }).catchError((e) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(e.response.data),
+        backgroundColor: Colors.red,
+      ));
     });
   }
 }

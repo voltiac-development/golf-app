@@ -25,7 +25,7 @@ class _RecentScoresState extends State<RecentScores> {
         appBar: DefaultAppBar(title: 'SCORES BEKIJKEN', person: true, back: true),
         backgroundColor: Theme.of(context).colorScheme.primary,
         body: Container(
-          decoration: BoxDecoration(color: Color(0xFFffffff), borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30))),
+          decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30))),
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -64,12 +64,19 @@ class _RecentScoresState extends State<RecentScores> {
   }
 
   void getRecentRounds() async {
-    Dio dio = Dio();
-    Map<String, String> headers = await AppUtils.getHeaders();
-    dio.get(AppUtils.apiUrl + "round/recent", options: Options(headers: headers, responseType: ResponseType.json)).then((value) {
+    Dio dio = await AppUtils.getDio();
+    dio.get("/round/recent").then((value) {
       setState(() {
         this.rounds = value.data['rounds'];
       });
+    }).catchError((e) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+          e.response.data['error'],
+          style: TextStyle(color: Theme.of(context).colorScheme.onError),
+        ),
+        backgroundColor: Theme.of(context).colorScheme.error,
+      ));
     });
   }
 

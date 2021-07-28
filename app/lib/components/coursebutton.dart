@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 
 class BtnWidget extends StatelessWidget {
-  BtnWidget(
-      {Key? key, required this.text, required this.icon, required this.routeTo})
-      : super(key: key);
+  BtnWidget({Key? key, required this.text, required this.icon, required this.routeTo}) : super(key: key);
 
   final IconData icon;
   final String text;
@@ -12,8 +10,8 @@ class BtnWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final ButtonStyle style = OutlinedButton.styleFrom(
         textStyle: const TextStyle(fontSize: 20),
-        backgroundColor: Color(0xFF9CCD6C),
-        primary: Colors.white,
+        backgroundColor: Theme.of(context).colorScheme.secondary,
+        primary: Theme.of(context).colorScheme.onSecondary,
         fixedSize: Size(250, 10),
         elevation: 2,
         alignment: Alignment.centerLeft);

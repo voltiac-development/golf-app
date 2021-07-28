@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -8,9 +9,9 @@ import 'package:socket_io_client/socket_io_client.dart';
 class AppUtils {
   static String get apiUrl {
     if (kDebugMode)
-      return 'http://192.168.178.87:4444/';
+      return 'http://192.168.178.87:4444';
     else
-      return 'https://golf.voltiac.dev/';
+      return 'https://golf.voltiac.dev';
   }
 
   static bool get development {
@@ -42,5 +43,13 @@ class AppUtils {
           backgroundColor: Theme.of(context).colorScheme.secondary,
         )));
     return socket;
+  }
+
+  static Future<Dio> getDio() async {
+    Dio dio = Dio();
+    Map<String, String> headers = await getHeaders();
+    dio.options.baseUrl = apiUrl;
+    dio.options.headers = headers;
+    return dio;
   }
 }

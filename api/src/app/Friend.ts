@@ -10,9 +10,7 @@ export async function getAllFriends(uid: string): Promise<{data: object, error: 
         data: null,
         error: null
     }
-
     if (error) {
-        console.log(error)
         response.error = new HTTPError(404, "Er is een probleem met de database.");
     }else
         response.data = {'friends': data};

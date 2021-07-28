@@ -1,10 +1,8 @@
-import 'dart:convert';
-
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:golfcaddie/components/personalCard/confirmButton.dart';
 import 'package:golfcaddie/components/personalCard/textField.dart';
 import 'package:golfcaddie/env.dart';
-import 'package:http/http.dart' as http;
 
 class GreenCardState extends StatefulWidget {
   @override
@@ -37,8 +35,7 @@ class GreenCard extends State<GreenCardState> {
               SizedBox(
                 child: Text(
                   'Profiel aanpassen',
-                  style: TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.w900),
+                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.w900),
                 ),
               ),
               SizedBox(height: 15),
@@ -46,8 +43,7 @@ class GreenCard extends State<GreenCardState> {
                 height: this.errorValue == '' ? 0 : 30,
                 child: Text(
                   this.errorValue,
-                  style: TextStyle(
-                      color: Colors.red, fontWeight: FontWeight.normal),
+                  style: TextStyle(color: Colors.red, fontWeight: FontWeight.normal),
                 ),
               ),
               WhiteTextField(
@@ -104,19 +100,14 @@ class GreenCard extends State<GreenCardState> {
   }
 
   void setValues() async {
-    Map<String, String> headers = await AppUtils.getHeaders();
-    http
-        .get(Uri.parse(AppUtils.apiUrl + 'profile/me'), headers: headers)
-        .then((value) {
-      Map<String, dynamic> body = jsonDecode(value.body);
-      if (body['error'] == null) {
-        nameController.text = body['name'];
-        emailController.text = body['email'];
-      } else {
-        setState(() {
-          this.errorValue = body['error'];
-        });
-      }
+    Dio dio = await AppUtils.getDio();
+    dio.get('/profile/me').then((value) {
+      nameController.text = value.data['name'];
+      emailController.text = value.data['email'];
+    }).catchError((e) {
+      setState(() {
+        this.errorValue = e.response.data['error'];
+      });
     });
   }
 }
