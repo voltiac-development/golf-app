@@ -27,25 +27,25 @@ class _LiveScoreScreenState extends State<LiveScoreScreen> {
   late io.Socket socket;
 
   List<List<int>> scores = [
-    [3, 3, 4, 4, 3, 1, 1, 0, 3],
-    [3, 3, 4, 6, 3, 1, 1, 0, 3],
-    [3, 3, 4, 4, 3, 1, 1, 0, 3],
-    [3, 3, 4, 4, 3, 1, 1, 0, 3]
+    [3, 3, 4, 4, 3, 1, 1, 0, 3, 3, 3, 4, 4, 3, 1, 1, 0, 3],
+    [3, 3, 4, 4, 3, 1, 1, 0, 3, 3, 3, 4, 4, 3, 1, 1, 0, 3],
+    [3, 3, 4, 4, 3, 1, 1, 0, 3, 3, 3, 4, 4, 3, 1, 1, 0, 3],
+    [3, 3, 4, 4, 3, 1, 1, 0, 3, 3, 3, 4, 4, 3, 1, 1, 0, 3]
   ];
 
-  List<int> si = [11, 9, 7, 15, 3, 1, 5, 17, 13];
-  List<int> par = [5, 3, 4, 3, 4, 4, 4, 4, 5];
+  List<int> si = [11, 9, 7, 15, 3, 1, 5, 17, 13, 11, 9, 7, 15, 3, 1, 5, 17, 13];
+  List<int> par = [5, 3, 4, 3, 4, 4, 4, 4, 5, 5, 3, 4, 3, 4, 4, 4, 4, 5];
   List<List<int>> holePhc = [
-    [2, 2, 2, 2, 2, 2, 2, 2, 2],
-    [2, 2, 2, 2, 2, 2, 2, 2, 2],
-    [2, 2, 2, 2, 2, 2, 2, 2, 2],
-    [2, 2, 2, 2, 2, 2, 2, 2, 2]
+    [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
+    [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
+    [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
+    [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
   ];
   List<List<int?>> strokes = [
-    [null, null, null, null, null, null, null, null, null],
-    [6, 4, 4, 3, 5, 7, 7, null, 6],
-    [6, 4, 4, 3, 5, 7, 7, 11, 6],
-    [6, 4, 4, 3, 5, 7, 7, 11, 6]
+    [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+    [6, 4, 4, 3, 5, 7, 7, null, 6, 6, 4, 4, 3, 5, 7, 7, null, 6],
+    [6, 4, 4, 3, 5, 7, 7, 11, 6, 6, 4, 4, 3, 5, 7, 7, 11, 6],
+    [6, 4, 4, 3, 5, 7, 7, 11, 6, 6, 4, 4, 3, 5, 7, 7, 11, 6]
   ];
 
   _LiveScoreScreenState();
@@ -111,7 +111,7 @@ class _LiveScoreScreenState extends State<LiveScoreScreen> {
                                       ],
                                     ),
                                   )),
-                              TableHeader(),
+                              // TableHeader(),
                               Expanded(
                                 child: TabBarView(children: [
                                   Container(
@@ -119,18 +119,23 @@ class _LiveScoreScreenState extends State<LiveScoreScreen> {
                                   ),
                                   for (int i = 0; i < players.length; i++)
                                     SingleChildScrollView(
-                                      child: Padding(
-                                        padding: EdgeInsets.only(top: 15, bottom: 15),
-                                        child: ScoreTable(
-                                          holePhc: this.holePhc[i],
-                                          par: this.par,
-                                          strokes: this.strokes[i],
-                                          score: scores[i],
-                                          si: this.si,
-                                          onScoreChanged: (value) => setState(() {
-                                            this.strokes[i][value[0]] = value[0] == -1 ? null : value[1];
-                                          }),
-                                        ),
+                                      child: Column(
+                                        children: [
+                                          TableHeader(),
+                                          Padding(
+                                            padding: EdgeInsets.only(top: 15, bottom: 15),
+                                            child: ScoreTable(
+                                              holePhc: this.holePhc[i],
+                                              par: this.par,
+                                              strokes: this.strokes[i],
+                                              score: scores[i],
+                                              si: this.si,
+                                              onScoreChanged: (value) => setState(() {
+                                                this.strokes[i][value[0]] = value[0] == -1 ? null : value[1];
+                                              }),
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                   SingleChildScrollView(
@@ -138,10 +143,23 @@ class _LiveScoreScreenState extends State<LiveScoreScreen> {
                                     child: Padding(
                                       padding: EdgeInsets.only(top: 15, bottom: 15),
                                       child: ElevatedButton(
+                                          style: ElevatedButton.styleFrom(primary: Theme.of(context).colorScheme.secondary),
                                           onPressed: () => print('pressed'),
                                           child: Padding(
                                             padding: EdgeInsets.all(5),
-                                            child: Text('Score versturen'),
+                                            child: SizedBox(
+                                              width: 150,
+                                              child: Row(
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                children: [
+                                                  Text('Score versturen'),
+                                                  SizedBox(
+                                                    width: 15,
+                                                  ),
+                                                  Icon(Icons.send_outlined)
+                                                ],
+                                              ),
+                                            ),
                                           )),
                                     ),
                                   )),
