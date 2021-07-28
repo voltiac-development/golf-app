@@ -26,13 +26,13 @@ class SearchCourseState extends State<SearchCourseScreen> {
         appBar: DefaultAppBar(title: 'ZOEK BANEN', person: true, back: true),
         backgroundColor: Theme.of(context).colorScheme.primary,
         body: Container(
-            decoration: BoxDecoration(color: Color(0xFFffffff), borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30))),
+            decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30))),
             child: Padding(
               padding: EdgeInsets.only(top: 10),
               child: Align(
                 alignment: Alignment.topCenter,
                 child: Container(
-                  decoration: BoxDecoration(color: Color(0xFFffffff), borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30))),
+                  decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30))),
                   child: Column(
                     children: [
                       SizedBox(

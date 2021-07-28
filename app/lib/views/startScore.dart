@@ -220,16 +220,21 @@ class _StartScoreScreenState extends State<StartScoreScreen> {
   void retrieveCourses() async {
     Dio dio = await AppUtils.getDio();
     dio.get("/course/all").then((value) {
-      Map<String, dynamic> response = jsonDecode(value.data);
-      if (response['error'] == null) {
-        dynamic c = response['courses'][0];
-        this.favCourse = c['id'];
-        this.chosenCourse = new CourseInfo(c['name'], c['holes'], c['id'], c['image'], c['roundTypes'], c['teeboxes']);
-        this.courses = response['courses'];
-        if (this.mounted) {
-          setState(() {});
-        }
+      dynamic c = value.data['courses'][0];
+      this.favCourse = c['id'];
+      this.chosenCourse = new CourseInfo(c['name'], c['holes'], c['id'], c['image'], c['roundTypes'], c['teeboxes']);
+      this.courses = value.data['courses'];
+      if (this.mounted) {
+        setState(() {});
       }
+    }).catchError((e) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+          e.response.data['error'],
+          style: TextStyle(color: Theme.of(context).colorScheme.onError),
+        ),
+        backgroundColor: Theme.of(context).colorScheme.error,
+      ));
     });
   }
 

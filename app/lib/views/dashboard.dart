@@ -22,30 +22,15 @@ class DashboardScreen extends StatelessWidget {
           back: false,
         ),
         body: Container(
-          decoration: BoxDecoration(
-              color: Color(0xFFffffff),
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(30), topRight: Radius.circular(30))),
+          decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30))),
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                BtnWidget(
-                    text: "RONDE BEGINNEN",
-                    icon: Icons.add,
-                    routeTo: 'startRound'),
-                BtnWidget(
-                    text: "SCORES BEKIJKEN",
-                    icon: Icons.golf_course_sharp,
-                    routeTo: 'allscores'),
-                BtnWidget(
-                    text: "BAAN OPZOEKEN",
-                    icon: Icons.track_changes,
-                    routeTo: 'searchcourse'),
-                BtnWidget(
-                    text: "VRIENDEN",
-                    icon: Icons.people_alt_outlined,
-                    routeTo: 'friends'),
+                BtnWidget(text: "RONDE BEGINNEN", icon: Icons.add, routeTo: 'startRound'),
+                BtnWidget(text: "SCORES BEKIJKEN", icon: Icons.golf_course_sharp, routeTo: 'allscores'),
+                BtnWidget(text: "BAAN OPZOEKEN", icon: Icons.track_changes, routeTo: 'searchcourse'),
+                BtnWidget(text: "VRIENDEN", icon: Icons.people_alt_outlined, routeTo: 'friends'),
               ],
             ),
           ),

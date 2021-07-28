@@ -18,7 +18,7 @@ class ForgotScreen extends StatelessWidget {
         backgroundColor: Theme.of(context).colorScheme.primary,
         appBar: DefaultAppBar(title: 'WACHTWOORD RESET', person: false, back: true),
         body: Container(
-            decoration: BoxDecoration(color: Color(0xFFffffff), borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30))),
+            decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30))),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

@@ -49,12 +49,12 @@ class LoginState extends State<LoginScreen> {
           title: Center(
               child: Text(
             "GOLFCADDIE",
-            style: TextStyle(fontWeight: FontWeight.w200, color: Color(0xFFffffff)),
+            style: TextStyle(fontWeight: FontWeight.w200, color: Colors.white),
           )),
           elevation: 0,
         ),
         body: Container(
-          decoration: BoxDecoration(color: Color(0xFFffffff), borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30))),
+          decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30))),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

@@ -35,7 +35,7 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
       title: Center(
           child: Text(
         title,
-        style: TextStyle(fontWeight: FontWeight.w200, color: Color(0xFFffffff)),
+        style: TextStyle(fontWeight: FontWeight.w200, color: Colors.white),
       )),
       actions: <Widget>[
         Hero(
@@ -46,7 +46,7 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
                 color: Colors.transparent,
                 child: IconButton(
                   icon: const Icon(Icons.person_outline),
-                  color: Color(0xFFffffff),
+                  color: Colors.white,
                   disabledColor: Theme.of(context).colorScheme.primary,
                   tooltip: 'Account',
                   onPressed: this.person
