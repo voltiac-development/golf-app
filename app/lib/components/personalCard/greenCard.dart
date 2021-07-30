@@ -53,6 +53,7 @@ class GreenCard extends State<GreenCardState> {
                 obfuscated: false,
                 controller: nameController,
                 icon: Icons.person_outline,
+                number: false,
                 email: false,
               ),
               SizedBox(height: 10),
@@ -61,6 +62,7 @@ class GreenCard extends State<GreenCardState> {
                 obfuscated: false,
                 controller: emailController,
                 icon: Icons.mail_outline,
+                number: false,
                 email: true,
               ),
               SizedBox(height: 10),
@@ -69,6 +71,7 @@ class GreenCard extends State<GreenCardState> {
                 obfuscated: true,
                 controller: passwordController,
                 icon: Icons.lock_clock_outlined,
+                number: false,
                 email: false,
               ),
               SizedBox(height: 10),
@@ -77,6 +80,7 @@ class GreenCard extends State<GreenCardState> {
                 obfuscated: true,
                 controller: newPasswordController,
                 icon: Icons.lock_outline,
+                number: false,
                 email: false,
               ),
               SizedBox(height: 10),
@@ -85,12 +89,14 @@ class GreenCard extends State<GreenCardState> {
                 obfuscated: true,
                 controller: checkPasswordController,
                 icon: Icons.lock_outline,
+                number: false,
                 email: false,
               ),
               SizedBox(height: 10),
               WhiteTextField(
+                number: true,
                 hint: 'Handicap',
-                obfuscated: true,
+                obfuscated: false,
                 controller: handicapController,
                 icon: Icons.sports_golf_outlined,
                 email: false,
@@ -102,6 +108,7 @@ class GreenCard extends State<GreenCardState> {
                   currentPassword: passwordController,
                   newPassword: newPasswordController,
                   newVerifiedPassword: checkPasswordController,
+                  handicap: handicapController,
                   onError: (e) {
                     print(e);
                     setState(() {
@@ -123,6 +130,7 @@ class GreenCard extends State<GreenCardState> {
     dio.get('/profile/me').then((value) {
       nameController.text = value.data['name'];
       emailController.text = value.data['email'];
+      handicapController.text = value.data['handicap'].toString();
     }).catchError((e) {
       setState(() {
         this.errorValue = e.response.data['error'];

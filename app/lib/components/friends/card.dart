@@ -31,8 +31,7 @@ class FriendCardState extends State<FriendCard> {
               SizedBox(
                 child: Text(
                   'Vriend toevoegen',
-                  style: TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.w900),
+                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.w900),
                 ),
               ),
               SizedBox(height: 15),
@@ -40,8 +39,7 @@ class FriendCardState extends State<FriendCard> {
                 height: this.errorValue == '' ? 0 : 30,
                 child: Text(
                   this.errorValue,
-                  style: TextStyle(
-                      color: Colors.red, fontWeight: FontWeight.normal),
+                  style: TextStyle(color: Colors.red, fontWeight: FontWeight.normal),
                 ),
               ),
               WhiteTextField(
@@ -49,7 +47,8 @@ class FriendCardState extends State<FriendCard> {
                 obfuscated: false,
                 controller: emailController,
                 icon: Icons.mail_outlined,
-                email: false,
+                email: true,
+                number: false,
               ),
               SizedBox(height: 20),
               WhiteSendButton(

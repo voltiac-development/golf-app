@@ -9,6 +9,7 @@ class WhiteConfirmButton extends StatelessWidget {
   final TextEditingController currentPassword;
   final TextEditingController newPassword;
   final TextEditingController newVerifiedPassword;
+  final TextEditingController handicap;
   final ValueChanged<String> onError;
 
   WhiteConfirmButton(
@@ -18,6 +19,7 @@ class WhiteConfirmButton extends StatelessWidget {
       required this.email,
       required this.newPassword,
       required this.newVerifiedPassword,
+      required this.handicap,
       required this.onError})
       : super(key: key);
 
@@ -45,7 +47,8 @@ class WhiteConfirmButton extends StatelessWidget {
       "email": email.text,
       "currentPassword": currentPassword.text,
       "newPassword": newPassword.text,
-      "verifiedPassword": newVerifiedPassword.text
+      "verifiedPassword": newVerifiedPassword.text,
+      "handicap": handicap.text,
     }).then((value) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(

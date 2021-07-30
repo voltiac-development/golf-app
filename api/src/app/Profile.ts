@@ -32,7 +32,7 @@ export async function getCurrentUserDetails(cookie: string): Promise<{ data: obj
     return r;
 }
 
-export async function editCurrentUserDetails(cookie: string, name: string, email: string, newPassword: string, newVerifiedPassword: string, currentPassword: string): Promise<{data: object, error: HTTPError}> {
+export async function editCurrentUserDetails(cookie: string, name: string, email: string, newPassword: string, newVerifiedPassword: string, currentPassword: string, handicap: number): Promise<{data: object, error: HTTPError}> {
     let r = {
         data: null,
         error: null,
@@ -58,9 +58,11 @@ export async function editCurrentUserDetails(cookie: string, name: string, email
             let accountData = await getUserFromId(id.data);
             let account = accountData.data;
 
-            if(!await verifyPassword(currentPassword, account.password)) {
-                r.error = new HTTPError(400, 'Huidig wachtwoord komt niet overeen.');
-                return r;
+            if(currentPassword != "" && newPassword != "" && newVerifiedPassword != ""){
+                if(!await verifyPassword(currentPassword, account.password)) {
+                    r.error = new HTTPError(400, 'Huidig wachtwoord komt niet overeen.');
+                    return r;
+                }
             }
 
             let newAccount: Account = {
@@ -74,7 +76,7 @@ export async function editCurrentUserDetails(cookie: string, name: string, email
                 phone_number: account.phone_number,
                 role: account.role,
                 favcourse: account.favcourse,
-                handicap: account.handicap
+                handicap: handicap
             }
             await updateUserData(newAccount);
             r.data = "SUCCESS";

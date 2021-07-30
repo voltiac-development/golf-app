@@ -9,14 +9,9 @@ class WhiteTextField extends StatelessWidget {
   final TextEditingController controller;
   final IconData icon;
   final bool email;
+  final bool number;
 
-  WhiteTextField(
-      {Key? key,
-      required this.hint,
-      required this.obfuscated,
-      required this.controller,
-      required this.icon,
-      required this.email})
+  WhiteTextField({Key? key, required this.hint, required this.obfuscated, required this.controller, required this.icon, required this.email, required this.number})
       : super(key: key);
 
   @override
@@ -24,15 +19,15 @@ class WhiteTextField extends StatelessWidget {
     return SizedBox(
         width: max(250, MediaQuery.of(context).size.width * 0.50),
         child: TextField(
-          keyboardType:
-              this.email ? TextInputType.emailAddress : TextInputType.text,
+          keyboardType: this.email
+              ? TextInputType.emailAddress
+              : this.number
+                  ? TextInputType.number
+                  : TextInputType.text,
           decoration: InputDecoration(
-            border:
-                OutlineInputBorder(borderSide: BorderSide(color: Colors.white)),
-            enabledBorder:
-                OutlineInputBorder(borderSide: BorderSide(color: Colors.white)),
-            focusedBorder:
-                OutlineInputBorder(borderSide: BorderSide(color: Colors.white)),
+            border: OutlineInputBorder(borderSide: BorderSide(color: Colors.white)),
+            enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.white)),
+            focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.white)),
             hintText: this.hint,
             labelStyle: TextStyle(color: Colors.white),
             hintStyle: TextStyle(color: Colors.white),
