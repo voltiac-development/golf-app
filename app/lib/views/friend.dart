@@ -54,15 +54,22 @@ class _FriendState extends State<FriendScreen> {
   }
 
   void getFriendInformation(id) async {
-    Dio dio = Dio();
-    Map<String, String> headers = await AppUtils.getHeaders();
-    dio.get(AppUtils.apiUrl + "friend/get/" + id, options: Options(headers: headers)).then((value) {
+    Dio dio = await AppUtils.getDio();
+    dio.get("/friend/get/" + id).then((value) {
       Map<String, dynamic> friend = value.data['friend'];
       print(friend);
       this.friend = Friend(friend['name'], friend['handicap'], friend['id'], friend['image']);
       this.rounds = friend['rounds'];
       this.callMade = true;
       setState(() {});
+    }).catchError((e) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+          e.response.data['error'],
+          style: TextStyle(color: Theme.of(context).colorScheme.onError),
+        ),
+        backgroundColor: Theme.of(context).colorScheme.error,
+      ));
     });
   }
 
