@@ -48,15 +48,25 @@ class _RecentScoresState extends State<RecentScores> {
                                   e['image'],
                                 ),
                                 Padding(
-                                    padding: EdgeInsets.all(15),
+                                    padding: EdgeInsets.only(left: 15, right: 15),
                                     child: SizedBox(
                                       width: MediaQuery.of(context).size.width * 0.76 - 75,
                                       child: Row(
                                         crossAxisAlignment: CrossAxisAlignment.center,
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Text(Day.fromString(e['startsAt']).format('DD-MM-YYYY'),
-                                              style: TextStyle(color: Theme.of(context).colorScheme.onSecondary, fontWeight: FontWeight.bold)),
+                                          Column(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text(Day.fromString(e['startsAt']).format('DD-MM-YYYY'),
+                                                  style: TextStyle(color: Theme.of(context).colorScheme.onSecondary, fontWeight: FontWeight.bold)),
+                                              Text(
+                                                e['name'],
+                                                style: TextStyle(fontStyle: FontStyle.italic, color: Theme.of(context).colorScheme.onSecondary),
+                                              )
+                                            ],
+                                          ),
                                           Spacer(),
                                           getIconForPlayers(e)
                                         ],
