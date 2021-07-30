@@ -71,6 +71,16 @@ class _FriendState extends State<FriendScreen> {
                     Padding(
                       padding: EdgeInsets.all(2),
                     ),
+                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                      Icon(Icons.sports_golf_outlined, size: 40),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Text(this.friend.handicap.toString(), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20))
+                    ]),
+                    Padding(
+                      padding: EdgeInsets.all(5),
+                    ),
                     ...this
                         .rounds
                         .map((e) => Column(
@@ -123,13 +133,6 @@ class _FriendState extends State<FriendScreen> {
                               ],
                             ))
                         .toList(),
-                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                      Icon(Icons.sports_golf_outlined, size: 40),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      Text(this.friend.handicap.toString(), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20))
-                    ]),
                     ElevatedButton(
                         style: ElevatedButton.styleFrom(primary: Theme.of(context).colorScheme.error),
                         onPressed: () => removeFriend(),
