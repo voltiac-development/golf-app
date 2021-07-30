@@ -52,7 +52,7 @@ router.get("/me", async (req, res, next) => {
 });
 
 router.post('/me', async (req, res, next) => {
-    let { data, error } = await editCurrentUserDetails(req.header('gc-auth'), req.body['name'], req.body['email'], req.body['newPassword'], req.body['verifiedPassword']);
+    let { data, error } = await editCurrentUserDetails(req.header('gc-auth'), req.body['name'], req.body['email'], req.body['newPassword'], req.body['verifiedPassword'], req.body['currentPassword']);
 
     if (error) {
         res.status(error.getStatusCode());

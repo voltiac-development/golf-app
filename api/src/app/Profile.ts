@@ -1,7 +1,7 @@
-import { fetchUserData, getUserFromId, updateUserData } from "../data/Authentication.js";
+import { getUserFromId, updateUserData } from "../data/Authentication.js";
 import { HTTPError } from "../errors/HTTPError.js";
 import { Account } from "../interfaces/Authentication.js";
-import { clean, encrypt } from "./Account.js";
+import { clean, encrypt, verifyPassword } from "./Account.js";
 import { validateJWT, GetIdFromSession } from "./Session.js";
 
 export async function getCurrentUserDetails(cookie: string): Promise<{ data: object; error: HTTPError; }> {
@@ -32,7 +32,7 @@ export async function getCurrentUserDetails(cookie: string): Promise<{ data: obj
     return r;
 }
 
-export async function editCurrentUserDetails(cookie: string, name: string, email: string, newPassword: string, newVerifiedPassword: string): Promise<{data: object, error: HTTPError}> {
+export async function editCurrentUserDetails(cookie: string, name: string, email: string, newPassword: string, newVerifiedPassword: string, currentPassword: string): Promise<{data: object, error: HTTPError}> {
     let r = {
         data: null,
         error: null,
@@ -50,12 +50,18 @@ export async function editCurrentUserDetails(cookie: string, name: string, email
 
         if (error) {
             r.error = new HTTPError(403, "'gc-auth' cookie is niet valide.");
+            return r;
         }
 
         if (data) {
             let id = await GetIdFromSession(data.jti);
             let accountData = await getUserFromId(id.data);
             let account = accountData.data;
+
+            if(!await verifyPassword(currentPassword, account.password)) {
+                r.error = new HTTPError(400, 'Huidig wachtwoord komt niet overeen.');
+                return r;
+            }
 
             let newAccount: Account = {
                 id: id.data,
@@ -67,7 +73,8 @@ export async function editCurrentUserDetails(cookie: string, name: string, email
                 last_access: Date.now(),
                 phone_number: account.phone_number,
                 role: account.role,
-                favcourse: account.favcourse
+                favcourse: account.favcourse,
+                handicap: account.handicap
             }
             await updateUserData(newAccount);
             r.data = "SUCCESS";

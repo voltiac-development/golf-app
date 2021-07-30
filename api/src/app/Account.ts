@@ -14,7 +14,8 @@ export async function createProfile(email: string, name: string, password: strin
         verified: false,
         phone_number: "",
         role: "USER",
-        favcourse: favcourse
+        favcourse: favcourse,
+        handicap: 54.0
     }
 }
 
@@ -32,6 +33,8 @@ export function clean(account: Account) {
         name: account.name,
         email: account.email,
         role: account.role,
-        verified: account.verified
+        verified: account.verified,
+        handicap: account.handicap,
+        course: account.favcourse
     }
 }

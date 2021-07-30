@@ -13,6 +13,7 @@ export interface Account {
     phone_number: string,
     role: roles,
     favcourse: string,
+    handicap: number,
 }
 
 export interface LoginResponse {
