@@ -23,3 +23,7 @@ enum TeeBoxes {
     RED,
     ORANGE
 }
+
+export interface HoleLength {
+    
+}

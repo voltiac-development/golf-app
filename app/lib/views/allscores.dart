@@ -35,22 +35,34 @@ class _RecentScoresState extends State<RecentScores> {
                         GestureDetector(
                           onTap: () => Navigator.of(context).pushNamed('roundinfo', arguments: e['roundId']),
                           child: Container(
+                            clipBehavior: Clip.hardEdge,
                             decoration: BoxDecoration(
                                 boxShadow: [BoxShadow(color: Colors.black45, offset: Offset.fromDirection(1), blurRadius: 2)],
                                 color: Theme.of(context).colorScheme.secondary,
                                 borderRadius: BorderRadius.circular(12)),
                             height: 50,
                             width: MediaQuery.of(context).size.width * 0.76,
-                            child: Padding(
-                              padding: EdgeInsets.all(15),
-                              child: Row(
-                                children: [
-                                  Text(Day.fromString(e['startsAt']).format('DD-MM-YYYY'),
-                                      style: TextStyle(color: Theme.of(context).colorScheme.onSecondary, fontWeight: FontWeight.bold)),
-                                  Spacer(),
-                                  getIconForPlayers(e)
-                                ],
-                              ),
+                            child: Row(
+                              children: [
+                                new Image.network(
+                                  e['image'],
+                                ),
+                                Padding(
+                                    padding: EdgeInsets.all(15),
+                                    child: SizedBox(
+                                      width: MediaQuery.of(context).size.width * 0.76 - 75,
+                                      child: Row(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(Day.fromString(e['startsAt']).format('DD-MM-YYYY'),
+                                              style: TextStyle(color: Theme.of(context).colorScheme.onSecondary, fontWeight: FontWeight.bold)),
+                                          Spacer(),
+                                          getIconForPlayers(e)
+                                        ],
+                                      ),
+                                    )),
+                              ],
                             ),
                           ),
                         ),

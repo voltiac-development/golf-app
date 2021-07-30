@@ -7,7 +7,7 @@ export async function retrieveRecentRounds(uid: string): Promise<{data: object, 
     let roundData = null, error = null;
 
     try {
-        roundData = await sql<RoundInfo>('rounds').select('*').where({playerOne: uid}).orWhere({playerTwo: uid}).orWhere({playerThree: uid}).orWhere({playerFour: uid})
+        roundData = await sql<RoundInfo>('rounds').select('rounds.*', 'courses.image').where({playerOne: uid}).orWhere({playerTwo: uid}).orWhere({playerThree: uid}).orWhere({playerFour: uid}).innerJoin('courses', 'rounds.courseId', 'courses.id')
     } catch (e) {
         error = e;
     }

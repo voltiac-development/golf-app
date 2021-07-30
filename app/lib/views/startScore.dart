@@ -249,20 +249,21 @@ class _StartScoreScreenState extends State<StartScoreScreen> {
     else
       this.tees[0] = this.chosenTee;
     List<String?> players = this.players.map((e) => e != null ? e.id : null).toList();
+    if (players.length == 0) this.qualifying = false;
 
-    dio
-        .post("/round/start",
-            data: {'courseId': this.chosenCourse.id, 'tees': this.tees, 'players': players, 'holeType': this.chosenHoleType, 'qualifying': this.qualifying})
-        .then((value) => print(value.data))
-        .catchError((e) {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text(
-              e.response.data['error'],
-              style: TextStyle(color: Theme.of(context).colorScheme.onError),
-            ),
-            backgroundColor: Theme.of(context).colorScheme.error,
-          ));
-        });
+    dio.post("/round/start",
+        data: {'courseId': this.chosenCourse.id, 'tees': this.tees, 'players': players, 'holeType': this.chosenHoleType, 'qualifying': this.qualifying}).then((value) {
+      print(value.data['msg']);
+      Navigator.of(context).pushReplacementNamed('roundinfo', arguments: value.data['msg']);
+    }).catchError((e) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+          e.response.data['error'],
+          style: TextStyle(color: Theme.of(context).colorScheme.onError),
+        ),
+        backgroundColor: Theme.of(context).colorScheme.error,
+      ));
+    });
   }
 
   List<CourseInfo> filterSearch(String pattern) {

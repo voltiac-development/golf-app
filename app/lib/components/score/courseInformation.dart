@@ -1,15 +1,32 @@
 import 'package:flutter/material.dart';
 
 class CourseInfo extends StatelessWidget {
-  CourseInfo({Key? key}) : super(key: key);
+  CourseInfo({Key? key, required this.white, required this.blue, required this.yellow, required this.red, required this.orange, required this.holes}) : super(key: key) {
+    if (this.white.length > 0) {
+      total += 50;
+    }
+    if (this.blue.length > 0) {
+      total += 50;
+    }
+    if (this.yellow.length > 0) {
+      total += 50;
+    }
+    if (this.red.length > 0) {
+      total += 50;
+    }
+    if (this.orange.length > 0) {
+      total += 50;
+    }
+  }
 
-  final int holes = 18;
+  final int holes;
 
-  final List<int> white = new List.filled(18, 200);
-  final List<int> blue = new List.filled(18, 175);
-  final List<int> yellow = new List.filled(18, 150);
-  final List<int> red = new List.filled(18, 125);
-  final List<int> orange = new List.filled(18, 100);
+  final List<int> white;
+  final List<int> blue;
+  final List<int> yellow;
+  final List<int> red;
+  final List<int> orange;
+  late int total = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +34,7 @@ class CourseInfo extends StatelessWidget {
       alignment: Alignment.center,
       children: [
         Container(
-          width: 300,
+          width: 50 + this.total.toDouble(),
           height: double.parse((45 * this.holes).toString()),
           decoration: BoxDecoration(
             border: Border.all(color: Colors.black),
@@ -33,7 +50,7 @@ class CourseInfo extends StatelessWidget {
           ),
         ),
         ClipRRect(
-          borderRadius: BorderRadius.circular(100),
+          borderRadius: BorderRadius.circular((325 - this.total).toDouble()),
           child: Column(
             children: [
               for (int x = 0; x < this.holes; x++)
@@ -52,69 +69,79 @@ class CourseInfo extends StatelessWidget {
                             Text((x + 1).toString()),
                           ])),
                     ),
-                    SizedBox(
-                      width: 50,
-                      height: 45,
-                      child: Container(
-                          decoration: BoxDecoration(border: getBorderType(x, 1)),
-                          child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.center, children: [
-                            Text(
-                              white[x].toString(),
-                            ),
-                          ])),
-                    ),
-                    SizedBox(
-                      width: 50,
-                      height: 45,
-                      child: Container(
-                          decoration: BoxDecoration(border: getBorderType(x, 2)),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(blue[x].toString()),
-                            ],
-                          )),
-                    ),
-                    SizedBox(
-                      width: 50,
-                      height: 45,
-                      child: Container(
-                          decoration: BoxDecoration(border: getBorderType(x, 2)),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(yellow[x].toString()),
-                            ],
-                          )),
-                    ),
-                    SizedBox(
-                      width: 50,
-                      height: 45,
-                      child: Container(
-                          decoration: BoxDecoration(border: getBorderType(x, 2)),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(red[x].toString()),
-                            ],
-                          )),
-                    ),
-                    SizedBox(
-                      width: 50,
-                      height: 45,
-                      child: Container(
-                          decoration: BoxDecoration(border: getBorderType(x, 2)),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(orange[x].toString()),
-                            ],
-                          )),
-                    ),
+                    this.white.length > 0
+                        ? SizedBox(
+                            width: 50,
+                            height: 45,
+                            child: Container(
+                                decoration: BoxDecoration(border: getBorderType(x, 1)),
+                                child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.center, children: [
+                                  Text(
+                                    white[x].toString(),
+                                  ),
+                                ])),
+                          )
+                        : SizedBox(),
+                    this.blue.length > 0
+                        ? SizedBox(
+                            width: 50,
+                            height: 45,
+                            child: Container(
+                                decoration: BoxDecoration(border: getBorderType(x, 2)),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Text(blue[x].toString()),
+                                  ],
+                                )),
+                          )
+                        : SizedBox(),
+                    this.yellow.length > 0
+                        ? SizedBox(
+                            width: 50,
+                            height: 45,
+                            child: Container(
+                                decoration: BoxDecoration(border: getBorderType(x, 2)),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Text(yellow[x].toString()),
+                                  ],
+                                )),
+                          )
+                        : SizedBox(),
+                    this.red.length > 0
+                        ? SizedBox(
+                            width: 50,
+                            height: 45,
+                            child: Container(
+                                decoration: BoxDecoration(border: getBorderType(x, 2)),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Text(red[x].toString()),
+                                  ],
+                                )),
+                          )
+                        : SizedBox(),
+                    this.orange.length > 0
+                        ? SizedBox(
+                            width: 50,
+                            height: 45,
+                            child: Container(
+                                decoration: BoxDecoration(border: getBorderType(x, 2)),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Text(orange[x].toString()),
+                                  ],
+                                )),
+                          )
+                        : SizedBox(),
                   ],
                 ),
             ],

@@ -52,11 +52,20 @@ class _LiveScoreScreenState extends State<LiveScoreScreen> {
     new List.filled(18, null),
   ];
 
+  int holes = 18;
+
+  List<int> white = [];
+  List<int> blue = [];
+  List<int> yellow = [];
+  List<int> red = [];
+  List<int> orange = [];
+
   _LiveScoreScreenState();
   @override
   Widget build(BuildContext context) {
     if (!callMade) {
       startSocket(ModalRoute.of(context)!.settings.arguments as String);
+      retrieveCourseInformation(ModalRoute.of(context)!.settings.arguments);
     }
 
     return DefaultTabController(
@@ -119,14 +128,20 @@ class _LiveScoreScreenState extends State<LiveScoreScreen> {
                                 child: TabBarView(children: [
                                   Column(
                                     children: [
-                                      CourseInfoHeader(),
+                                      CourseInfoHeader(
+                                        white: this.white.length > 0,
+                                        blue: this.blue.length > 0,
+                                        yellow: this.yellow.length > 0,
+                                        red: this.red.length > 0,
+                                        orange: this.orange.length > 0,
+                                      ),
                                       Expanded(
                                         child: ListView(
                                           children: [
                                             Padding(
                                               padding: EdgeInsets.all(5),
                                             ),
-                                            CourseInfo(),
+                                            CourseInfo(white: this.white, blue: this.blue, yellow: this.yellow, red: this.red, orange: this.orange, holes: this.holes),
                                             Padding(
                                               padding: EdgeInsets.all(5),
                                             ),
@@ -187,9 +202,17 @@ class _LiveScoreScreenState extends State<LiveScoreScreen> {
     setState(() {});
   }
 
-  void retrieveCourseInformation() async {
+  void retrieveCourseInformation(id) async {
     Dio dio = await AppUtils.getDio();
-    dio.get('/course/').then((value) => print(value.data)).catchError((e) {
+    Response<dynamic> courseInformation = await dio.get('/round/' + id);
+    dio.get('/course/length/' + courseInformation.data['courseId']).then((value) {
+      this.white = new List<int>.from(value.data['white']);
+      this.blue = new List<int>.from(value.data['blue']);
+      this.yellow = new List<int>.from(value.data['yellow']);
+      this.red = new List<int>.from(value.data['red']);
+      this.orange = new List<int>.from(value.data['orange']);
+      setState(() {});
+    }).catchError((e) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(
           e.response.data['error'],

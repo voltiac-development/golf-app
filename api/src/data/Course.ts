@@ -52,3 +52,19 @@ export async function fetchRoundTypes(courseId: string): Promise<{data: RoundTyp
         error
     }
 }
+
+export async function fetchHoleLengths(courseId: string): Promise<{data: object[], error: Error}> {
+    let courseData = null, error = null;
+
+    try {
+        courseData = await sql('holeLengths').select('*').where({courseId: courseId});
+    } catch (e) {
+        console.log(e);
+        error = e;
+    }
+
+    return {
+        data: courseData,
+        error
+    }
+}
