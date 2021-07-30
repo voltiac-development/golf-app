@@ -1,3 +1,4 @@
+import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:golfcaddie/components/appbar.dart';
@@ -26,6 +27,7 @@ class _FriendState extends State<FriendScreen> {
       backgroundColor: Theme.of(context).colorScheme.primary,
       appBar: DefaultAppBar(title: "VRIEND BEKIJKEN", person: true, back: true),
       body: Container(
+        clipBehavior: Clip.hardEdge,
         decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30))),
         child: Center(
             child: !this.callMade
@@ -33,7 +35,38 @@ class _FriendState extends State<FriendScreen> {
                     color: Theme.of(context).colorScheme.surface,
                   )
                 : Column(children: [
-                    Text(this.friend.name),
+                    ColumnSuper(
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(boxShadow: [BoxShadow(offset: Offset(1, 1), color: Colors.black26, blurRadius: 15)]),
+                          child: AspectRatio(
+                            aspectRatio: 2,
+                            child: Image.network(
+                              'https://cdn.bartverm.dev/golfcaddie/util/profile_background.jpg',
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          decoration: BoxDecoration(boxShadow: [BoxShadow(offset: Offset(-1, -1), color: Colors.black12, blurRadius: 15)]),
+                          child: ClipRRect(
+                            clipBehavior: Clip.hardEdge,
+                            borderRadius: BorderRadius.circular(100),
+                            child: Image.network(
+                              friend.image,
+                              width: 100,
+                              height: 100,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        )
+                      ],
+                      innerDistance: -50,
+                    ),
+                    Text(
+                      this.friend.name.toLowerCase(),
+                      style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+                    ),
                     Padding(
                       padding: EdgeInsets.all(2),
                     ),
