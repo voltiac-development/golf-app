@@ -1,9 +1,7 @@
-import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:golfcaddie/components/score/tableHeader.dart';
 
 class ScoreTable extends StatefulWidget {
   final List<int> holePhc;

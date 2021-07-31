@@ -175,10 +175,10 @@ class _StartScoreScreenState extends State<StartScoreScreen> {
                                 title: hole['roundVariation'],
                                 onTap: (value) {
                                   setState(() {
-                                    this.chosenHoleType = value;
+                                    this.chosenHoleType = hole['roundTypeId'];
                                   });
                                 },
-                                isSelected: this.chosenHoleType == hole['roundVariation'],
+                                isSelected: this.chosenHoleType == hole['roundTypeId'],
                               )
                           ],
                         ),

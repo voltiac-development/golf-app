@@ -40,7 +40,7 @@ export async function getSpecificFriend(uid: string, friendId: string): Promise<
         return {data: null, error: new HTTPError(401, "Verkeerde aanvraag.")}
     const { data, error } = await fetchAllFriends(uid);
     let friend = data.find((f) => f.id == friendId)
-    let roundsData = await retrieveRecentRounds(uid);
+    let roundsData = await retrieveRecentRounds(friendId);
 
     let response = {
         data: null,

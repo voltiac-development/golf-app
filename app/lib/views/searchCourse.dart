@@ -40,11 +40,16 @@ class SearchCourseState extends State<SearchCourseScreen> {
                           child: TextField(
                             controller: courseController,
                             decoration: InputDecoration(
-                              border: OutlineInputBorder(),
                               hintText: 'Baan',
-                              icon: Icon(Icons.track_changes_outlined),
+                              icon: Icon(
+                                Icons.track_changes_outlined,
+                                color: Colors.black,
+                              ),
                               contentPadding: EdgeInsets.all(8),
                               isDense: true,
+                              border: OutlineInputBorder(borderSide: BorderSide(color: Colors.black)),
+                              enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black)),
+                              focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black)),
                             ),
                             onChanged: (value) {
                               this.visibleCourses = [];
