@@ -27,3 +27,11 @@ enum TeeBoxes {
 export interface HoleLength {
     
 }
+
+export interface SiValues {
+    id: string,
+    courseId: string,
+    hole: number,
+    si: number,
+    par: number,
+}

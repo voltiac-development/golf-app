@@ -1,4 +1,4 @@
-import { Course, RoundTypes } from "../interfaces/Course.js";
+import { Course, RoundTypes, SiValues } from "../interfaces/Course.js";
 import { sql } from "./knex.js";
 
 export async function fetchAllCourses(): Promise<{data: [object], error: Error}> {
@@ -65,6 +65,21 @@ export async function fetchHoleLengths(courseId: string): Promise<{data: object[
 
     return {
         data: courseData,
+        error
+    }
+}
+
+export async function fetchHoleValues(courseId: string): Promise<{data: object[], error: Error}> {
+    let siData = null, error = null;
+
+    try {
+        siData = await sql<SiValues>('siValues').select('*').where({courseId: courseId});
+    } catch (e) {
+        error = e;
+    }
+
+    return {
+        data: siData,
         error
     }
 }

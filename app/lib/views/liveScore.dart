@@ -37,8 +37,8 @@ class _LiveScoreScreenState extends State<LiveScoreScreen> {
     new List.filled(18, 0),
   ];
 
-  List<int> si = [11, 9, 7, 15, 3, 1, 5, 17, 13, 11, 9, 7, 15, 3, 1, 5, 17, 13];
-  List<int> par = [5, 3, 4, 3, 4, 4, 4, 4, 5, 5, 3, 4, 3, 4, 4, 4, 4, 5];
+  List<int> si = new List.filled(18, -1);
+  List<int> par = new List.filled(18, -1);
   List<List<int>> holePhc = [
     new List.filled(18, 2),
     new List.filled(18, 2),
@@ -153,8 +153,8 @@ class _LiveScoreScreenState extends State<LiveScoreScreen> {
                                   for (int i = 0; i < players.length; i++)
                                     Column(
                                       children: [
-                                        SizedBox(
-                                          height: 5,
+                                        Padding(
+                                          padding: EdgeInsets.all(2.5),
                                         ),
                                         TableHeader(),
                                         Expanded(
@@ -212,6 +212,20 @@ class _LiveScoreScreenState extends State<LiveScoreScreen> {
       this.red = new List<int>.from(value.data['red']);
       this.orange = new List<int>.from(value.data['orange']);
       setState(() {});
+    }).catchError((e) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+          e.response.data['error'],
+          style: TextStyle(color: Theme.of(context).colorScheme.onError),
+        ),
+        backgroundColor: Theme.of(context).colorScheme.error,
+      ));
+    });
+    dio.get('/course/hole/' + courseInformation.data['courseId']).then((value) {
+      for (int i = 0; i < value.data.length; i++) {
+        this.si[value.data[i]['hole'] - 1] = value.data[i]['si'];
+        this.par[value.data[i]['hole'] - 1] = value.data[i]['par'];
+      }
     }).catchError((e) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(

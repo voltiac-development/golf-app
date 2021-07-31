@@ -1,5 +1,5 @@
 import express from 'express';
-import { getAllCourses, getHoleLengths, getSpecficCourse as getSpecificCourse } from '../app/Course.js';
+import { getAllCourses, getHoleLengths, getHoleValues, getSpecificCourse } from '../app/Course.js';
 var router = express.Router();
 
 /**
@@ -67,6 +67,29 @@ router.get('/info/:id', async (req, res, next) => {
  
 router.get('/length/:id', async (req, res, next) => {
     const { data, error } = await getHoleLengths(req.params.id);
+
+    if (error) {
+        res.status(error.getStatusCode());
+        res.json(error.getErrorMessage());
+        next()
+        return;
+    }
+
+    if (data) {
+        res.json(data);
+        next()
+        return;
+    }
+
+    res.status(500)
+    res.json({
+        error: "Unkown error"
+    })
+    next()
+});
+
+router.get('/hole/:id', async (req, res, next) => {
+    const { data, error } = await getHoleValues(req.params.id);
 
     if (error) {
         res.status(error.getStatusCode());
