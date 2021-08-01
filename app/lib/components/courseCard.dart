@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:golfcaddie/models/CourseInformation.dart';
+import 'package:golfcaddie/viewmodels/CourseInformation.dart';
 
 class CourseCard extends StatelessWidget {
   final CourseInfo info;
@@ -15,16 +15,13 @@ class CourseCard extends StatelessWidget {
           child: Material(
             child: Container(
                 constraints: BoxConstraints(minWidth: 200, maxWidth: 300),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    color: Theme.of(context).colorScheme.secondary,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey,
-                        blurRadius: 5.0,
-                        offset: Offset(0, 3),
-                      ),
-                    ]),
+                decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(10)), color: Theme.of(context).colorScheme.secondary, boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey,
+                    blurRadius: 5.0,
+                    offset: Offset(0, 3),
+                  ),
+                ]),
                 width: MediaQuery.of(context).size.width * .90,
                 height: 45,
                 padding: EdgeInsets.all(0),
@@ -53,12 +50,7 @@ class CourseCard extends StatelessWidget {
                                 children: [
                                   Text(
                                     info.getName,
-                                    style: TextStyle(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onSecondary,
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.bold),
+                                    style: TextStyle(color: Theme.of(context).colorScheme.onSecondary, fontSize: 17, fontWeight: FontWeight.bold),
                                   ),
                                 ],
                               ),
@@ -75,11 +67,7 @@ class CourseCard extends StatelessWidget {
                             ),
                             Text(
                               this.info.getHoles.toString(),
-                              style: TextStyle(
-                                  color:
-                                      Theme.of(context).colorScheme.onSecondary,
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.bold),
+                              style: TextStyle(color: Theme.of(context).colorScheme.onSecondary, fontSize: 17, fontWeight: FontWeight.bold),
                             ),
                             SizedBox(
                               width: 5,

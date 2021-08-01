@@ -3,7 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:golfcaddie/components/appbar.dart';
 import 'package:golfcaddie/components/courseCard.dart';
-import 'package:golfcaddie/models/CourseInformation.dart';
+import 'package:golfcaddie/viewmodels/CourseInformation.dart';
 
 import '../env.dart';
 

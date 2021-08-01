@@ -8,68 +8,32 @@ import 'package:golfcaddie/components/score/sendScore.dart';
 import 'package:golfcaddie/components/score/table.dart';
 import 'package:golfcaddie/components/score/tableHeader.dart';
 import 'package:golfcaddie/env.dart';
-import 'package:golfcaddie/models/Friend.dart';
+import 'package:golfcaddie/logic/liveScoreManager.dart';
+import 'package:golfcaddie/models/livescore.dart';
+import 'package:golfcaddie/viewmodels/Friend.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
 
 class LiveScoreScreen extends StatefulWidget {
   LiveScoreScreen({Key? key}) : super(key: key);
-
   @override
   _LiveScoreScreenState createState() => _LiveScoreScreenState();
 }
 
 class _LiveScoreScreenState extends State<LiveScoreScreen> {
-  String? roundId;
   bool callMade = false;
-  List<Friend> players = [
-    Friend('Bart Vermeulen', 39.9, '', ''),
-    Friend('Maartje Vermeulen', 39.9, '', ''),
-    Friend('Olivier Boekestijn', 39.9, '', ''),
-    Friend('Godelieve Boekestijn', 39.9, '', ''),
-  ];
   List<IconData> icons = [Icons.looks_one_outlined, Icons.looks_two_outlined, Icons.looks_3_outlined, Icons.looks_4_outlined];
-  late io.Socket socket;
+  LiveScoreManager manager = new LiveScoreManager();
+  LiveScore model = new LiveScore();
 
-  List<List<int>> scores = [
-    new List.filled(18, 0),
-    new List.filled(18, 0),
-    new List.filled(18, 0),
-    new List.filled(18, 0),
-  ];
-
-  List<int> si = new List.filled(18, -1);
-  List<int> par = new List.filled(18, -1);
-  List<List<int>> holePhc = [
-    new List.filled(18, 2),
-    new List.filled(18, 2),
-    new List.filled(18, 2),
-    new List.filled(18, 2),
-  ];
-  List<List<int?>> strokes = [
-    new List.filled(18, null),
-    new List.filled(18, null),
-    new List.filled(18, null),
-    new List.filled(18, null),
-  ];
-
-  int holes = 18;
-
-  List<int> white = [];
-  List<int> blue = [];
-  List<int> yellow = [];
-  List<int> red = [];
-  List<int> orange = [];
-
-  _LiveScoreScreenState();
   @override
   Widget build(BuildContext context) {
-    if (!callMade) {
-      startSocket(ModalRoute.of(context)!.settings.arguments as String);
-      retrieveCourseInformation(ModalRoute.of(context)!.settings.arguments);
+    if (!this.callMade) {
+      ModalRoute.of(context)!.settings.arguments as String;
+      delayedFunction(ModalRoute.of(context)!.settings.arguments, context);
     }
 
     return DefaultTabController(
-        length: players.length + 2,
+        length: this.model.players.length + 2,
         child: Scaffold(
           backgroundColor: Theme.of(context).colorScheme.primary,
           appBar: DefaultAppBar(
@@ -102,14 +66,14 @@ class _LiveScoreScreenState extends State<LiveScoreScreen> {
                                               Icons.sports_golf_outlined,
                                               color: Colors.black,
                                             )),
-                                        for (int i = 0; i < players.length; i++)
+                                        for (int i = 0; i < this.model.players.length; i++)
                                           Tab(
                                               child: Text(
-                                                players[i].name.split(' ')[0].toLowerCase(),
+                                                this.model.players[i].name.split(' ')[0].toLowerCase(),
                                                 style: TextStyle(color: Colors.black),
                                               ),
                                               icon: Icon(
-                                                icons[i],
+                                                this.icons[i],
                                                 color: Colors.black,
                                               )),
                                         Tab(
@@ -129,11 +93,11 @@ class _LiveScoreScreenState extends State<LiveScoreScreen> {
                                   Column(
                                     children: [
                                       CourseInfoHeader(
-                                        white: this.white.length > 0,
-                                        blue: this.blue.length > 0,
-                                        yellow: this.yellow.length > 0,
-                                        red: this.red.length > 0,
-                                        orange: this.orange.length > 0,
+                                        white: this.model.white.length > 0,
+                                        blue: this.model.blue.length > 0,
+                                        yellow: this.model.yellow.length > 0,
+                                        red: this.model.red.length > 0,
+                                        orange: this.model.orange.length > 0,
                                       ),
                                       Expanded(
                                         child: ListView(
@@ -141,7 +105,13 @@ class _LiveScoreScreenState extends State<LiveScoreScreen> {
                                             Padding(
                                               padding: EdgeInsets.all(5),
                                             ),
-                                            CourseInfo(white: this.white, blue: this.blue, yellow: this.yellow, red: this.red, orange: this.orange, holes: this.holes),
+                                            CourseInfo(
+                                                white: this.model.white,
+                                                blue: this.model.blue,
+                                                yellow: this.model.yellow,
+                                                red: this.model.red,
+                                                orange: this.model.orange,
+                                                holes: this.model.holes),
                                             Padding(
                                               padding: EdgeInsets.all(5),
                                             ),
@@ -150,7 +120,7 @@ class _LiveScoreScreenState extends State<LiveScoreScreen> {
                                       )
                                     ],
                                   ),
-                                  for (int i = 0; i < players.length; i++)
+                                  for (int i = 0; i < this.model.players.length; i++)
                                     Column(
                                       children: [
                                         Padding(
@@ -163,13 +133,13 @@ class _LiveScoreScreenState extends State<LiveScoreScreen> {
                                             Padding(
                                               padding: EdgeInsets.only(top: 15, bottom: 15),
                                               child: ScoreTable(
-                                                holePhc: this.holePhc[i],
-                                                par: this.par,
-                                                strokes: this.strokes[i],
-                                                score: scores[i],
-                                                si: this.si,
+                                                holePhc: this.model.holePhc[i],
+                                                par: this.model.par,
+                                                strokes: this.model.strokes[i],
+                                                score: this.model.scores[i],
+                                                si: this.model.si,
                                                 onScoreChanged: (value) => setState(() {
-                                                  this.strokes[i][value[0]] = value[0] == -1 ? null : value[1];
+                                                  this.model.strokes[i][value[0]] = value[0] == -1 ? null : value[1];
                                                 }),
                                               ),
                                             ),
@@ -186,54 +156,13 @@ class _LiveScoreScreenState extends State<LiveScoreScreen> {
         ));
   }
 
-  void startSocket(id) async {
-    print(id);
-    this.socket = await AppUtils.createSocket(context);
-    this.socket.emit('join_game', id);
-    this.socket.on('init', (data) => print(data));
-    this.callMade = true;
-
-    this.socket.emit('update_score', {'roundId': '9e055a93-c756-498c-93f3-d4e470d31c34'});
-
-    this.socket.on('update', (data) {
-      print(data);
-      print('UPDATE RECEIVEID');
-    });
-    setState(() {});
-  }
-
-  void retrieveCourseInformation(id) async {
-    Dio dio = await AppUtils.getDio();
-    Response<dynamic> courseInformation = await dio.get('/round/' + id);
-    dio.get('/course/length/' + courseInformation.data['courseId']).then((value) {
-      this.white = new List<int>.from(value.data['white']);
-      this.blue = new List<int>.from(value.data['blue']);
-      this.yellow = new List<int>.from(value.data['yellow']);
-      this.red = new List<int>.from(value.data['red']);
-      this.orange = new List<int>.from(value.data['orange']);
-      setState(() {});
-    }).catchError((e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(
-          e.response.data['error'],
-          style: TextStyle(color: Theme.of(context).colorScheme.onError),
-        ),
-        backgroundColor: Theme.of(context).colorScheme.error,
-      ));
-    });
-    dio.get('/course/hole/' + courseInformation.data['courseId']).then((value) {
-      for (int i = 0; i < value.data.length; i++) {
-        this.si[value.data[i]['hole'] - 1] = value.data[i]['si'];
-        this.par[value.data[i]['hole'] - 1] = value.data[i]['par'];
-      }
-    }).catchError((e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(
-          e.response.data['error'],
-          style: TextStyle(color: Theme.of(context).colorScheme.onError),
-        ),
-        backgroundColor: Theme.of(context).colorScheme.error,
-      ));
-    });
+  void delayedFunction(id, context) async {
+    await manager.startSocket(id, context).then((v) => {
+          manager.retrieveCourseInformation(id, context).then((model) {
+            this.model = model;
+            this.callMade = true;
+            setState(() {});
+          })
+        });
   }
 }

@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:golfcaddie/components/startScore/coPlayerCard.dart';
-import 'package:golfcaddie/models/Friend.dart';
+import 'package:golfcaddie/viewmodels/Friend.dart';
 import 'package:golfcaddie/vendor/heroDialogRoute.dart';
 
 class CoPlayer extends StatefulWidget {
   final String tees;
-  CoPlayer({Key? key, required this.tees, required this.callback})
-      : super(key: key);
+  CoPlayer({Key? key, required this.tees, required this.callback}) : super(key: key);
   final Function(List<dynamic>) callback;
 
   @override
@@ -17,18 +16,13 @@ class CoPlayer extends StatefulWidget {
 
 class _CoPlayerState extends State<CoPlayer> {
   String t;
-  final TextStyle annotation =
-      TextStyle(fontStyle: FontStyle.italic, fontWeight: FontWeight.w100);
+  final TextStyle annotation = TextStyle(fontStyle: FontStyle.italic, fontWeight: FontWeight.w100);
 
   Function(List<dynamic>) callback;
 
   List<Friend?> players = [null, null, null];
   List<int> tees = [-1, -1, -1];
-  List<IconData> iconPlayers = [
-    Icons.looks_one_outlined,
-    Icons.looks_two_outlined,
-    Icons.looks_3_outlined
-  ];
+  List<IconData> iconPlayers = [Icons.looks_one_outlined, Icons.looks_two_outlined, Icons.looks_3_outlined];
 
   _CoPlayerState({required this.t, required this.callback});
 
@@ -58,9 +52,7 @@ class _CoPlayerState extends State<CoPlayer> {
                         icon: Icon(
                           iconPlayers[i],
                           size: 30,
-                          color: this.players[i] == null
-                              ? Theme.of(context).colorScheme.surface
-                              : Colors.greenAccent,
+                          color: this.players[i] == null ? Theme.of(context).colorScheme.surface : Colors.greenAccent,
                         ),
                         onPressed: () {
                           Navigator.of(context).push(

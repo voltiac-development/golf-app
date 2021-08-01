@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:golfcaddie/components/friends/requestRow.dart';
 import 'package:golfcaddie/env.dart';
-import 'package:golfcaddie/models/Friend.dart';
+import 'package:golfcaddie/viewmodels/Friend.dart';
 
 class RequestsCard extends StatefulWidget {
   @override

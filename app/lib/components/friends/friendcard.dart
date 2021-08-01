@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:golfcaddie/models/Friend.dart';
+import 'package:golfcaddie/viewmodels/Friend.dart';
 
 class FriendCard extends StatelessWidget {
   final Friend friend;

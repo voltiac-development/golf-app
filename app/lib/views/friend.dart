@@ -3,7 +3,7 @@ import 'package:day/day.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:golfcaddie/components/appbar.dart';
-import 'package:golfcaddie/models/Friend.dart';
+import 'package:golfcaddie/viewmodels/Friend.dart';
 
 import '../env.dart';
 

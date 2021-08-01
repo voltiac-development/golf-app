@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:golfcaddie/env.dart';
-import 'package:golfcaddie/models/Friend.dart';
+import 'package:golfcaddie/viewmodels/Friend.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:golfcaddie/components/personalCard/customAnimation.dart';
 import 'package:golfcaddie/components/startScore/teeBoxes.dart';

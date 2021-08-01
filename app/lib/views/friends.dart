@@ -4,7 +4,7 @@ import 'package:golfcaddie/components/appbar.dart';
 import 'package:golfcaddie/components/friends/addFriendPopup.dart';
 import 'package:golfcaddie/components/friends/friendcard.dart';
 import 'package:golfcaddie/components/friends/requestFriendPopup.dart';
-import 'package:golfcaddie/models/Friend.dart';
+import 'package:golfcaddie/viewmodels/Friend.dart';
 import 'package:golfcaddie/vendor/heroDialogRoute.dart';
 
 import 'package:golfcaddie/env.dart';

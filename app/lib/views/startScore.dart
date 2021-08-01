@@ -8,8 +8,8 @@ import 'package:golfcaddie/components/startScore/coPlayer.dart';
 import 'package:golfcaddie/components/startScore/holeContainer.dart';
 import 'package:golfcaddie/components/startScore/qualifyingSwitch.dart';
 import 'package:golfcaddie/components/startScore/teeBoxes.dart';
-import 'package:golfcaddie/models/CourseInformation.dart';
-import 'package:golfcaddie/models/Friend.dart';
+import 'package:golfcaddie/viewmodels/CourseInformation.dart';
+import 'package:golfcaddie/viewmodels/Friend.dart';
 
 import 'package:dio/dio.dart';
 import '../env.dart';
