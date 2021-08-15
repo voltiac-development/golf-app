@@ -25,16 +25,16 @@ class LiveScoreManager {
     Dio dio = await AppUtils.getDio();
     Response<dynamic> v = await dio.get('/round/' + id);
     try {
-      this.model.players.add(Friend(v.data['playerOne'], v.data['oneHandicap'], v.data['oneId'], ''));
+      this.model.players.add(Friend(v.data['playerOne'], v.data['oneHandicap'], v.data['oneId'], '', ''));
     } catch (e) {}
     try {
-      this.model.players.add(Friend(v.data['playerTwo'], v.data['twoHandicap'], v.data['twoId'], ''));
+      this.model.players.add(Friend(v.data['playerTwo'], v.data['twoHandicap'], v.data['twoId'], '', ''));
     } catch (e) {}
     try {
-      this.model.players.add(Friend(v.data['playerThree'], v.data['threeHandicap'], v.data['threeId'], ''));
+      this.model.players.add(Friend(v.data['playerThree'], v.data['threeHandicap'], v.data['threeId'], '', ''));
     } catch (e) {}
     try {
-      this.model.players.add(Friend(v.data['playerFour'], v.data['fourHandicap'], v.data['fourId'], ''));
+      this.model.players.add(Friend(v.data['playerFour'], v.data['fourHandicap'], v.data['fourId'], '', ''));
     } catch (e) {}
 
     return dio;

@@ -1,5 +1,3 @@
-import 'package:dio/dio.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:golfcaddie/components/appbar.dart';
 import 'package:golfcaddie/components/score/courseInfoHeader.dart';
@@ -7,11 +5,8 @@ import 'package:golfcaddie/components/score/courseInformation.dart';
 import 'package:golfcaddie/components/score/sendScore.dart';
 import 'package:golfcaddie/components/score/table.dart';
 import 'package:golfcaddie/components/score/tableHeader.dart';
-import 'package:golfcaddie/env.dart';
 import 'package:golfcaddie/logic/liveScoreManager.dart';
 import 'package:golfcaddie/models/livescore.dart';
-import 'package:golfcaddie/viewmodels/Friend.dart';
-import 'package:socket_io_client/socket_io_client.dart' as io;
 
 class LiveScoreScreen extends StatefulWidget {
   LiveScoreScreen({Key? key}) : super(key: key);
@@ -92,6 +87,9 @@ class _LiveScoreScreenState extends State<LiveScoreScreen> {
                                 child: TabBarView(children: [
                                   Column(
                                     children: [
+                                      Padding(
+                                        padding: EdgeInsets.all(2.5),
+                                      ),
                                       CourseInfoHeader(
                                         white: this.model.white.length > 0,
                                         blue: this.model.blue.length > 0,

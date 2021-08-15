@@ -31,6 +31,7 @@ class DashboardScreen extends StatelessWidget {
                 BtnWidget(text: "SCORES BEKIJKEN", icon: Icons.golf_course_sharp, routeTo: 'allscores'),
                 BtnWidget(text: "BAAN OPZOEKEN", icon: Icons.track_changes, routeTo: 'searchcourse'),
                 BtnWidget(text: "VRIENDEN", icon: Icons.people_alt_outlined, routeTo: 'friends'),
+                BtnWidget(text: "DEBUG", icon: Icons.developer_board, routeTo: 'testView'),
               ],
             ),
           ),

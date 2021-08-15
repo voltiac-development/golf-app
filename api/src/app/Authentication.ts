@@ -32,7 +32,7 @@ export async function login(email: string, password: string): Promise<LoginRespo
     return response;
 }
 
-export async function register(email: string, username: string, password: string, password_verify: string, favcourse: string): Promise<RegisterResponse> {
+export async function register(email: string, username: string, password: string, password_verify: string, favcourse: string, gender: string): Promise<RegisterResponse> {
     if(password !== password_verify){
         return {
             data: null,
@@ -49,15 +49,16 @@ export async function register(email: string, username: string, password: string
     if (data) {
         response.error = new HTTPError(409, "Een gebuiker bestaat al met dit e-mail.");
     } else {
-        const account = await createProfile(email, username, password, favcourse);
-
-        if ((await addUserToDatabase(account)).data) {
+        const account = await createProfile(email, username, password, favcourse, gender);
+        let addObj = await addUserToDatabase(account);
+        if (addObj.data) {
             let jwt = await generateJWT(account);
             response.data = {
                 jwtToken: jwt,
                 userData: clean(account)
             }
         } else {
+            console.log(addObj.error)
             response.error = new HTTPError(500, "Probleem met de server. Probeer later opnieuw.");
         }
     }

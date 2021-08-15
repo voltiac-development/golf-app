@@ -4,6 +4,7 @@ import cors from 'cors';
 import path from 'path';
 import chalk from 'chalk';
 import cookieParser from 'cookie-parser';
+import bodyParser from 'body-parser';
 
 const app = express();
 const whitelist = ['http://localhost:8081']
@@ -21,7 +22,7 @@ var corsOptions = {
 }
 
 app.use(cors(corsOptions))
-app.use(express.json())
+app.use(express.json({limit: '5mb'}))
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
@@ -29,6 +30,7 @@ app.use(cookieParser());
 import { getCurrentUserDetails } from './app/Profile.js';
 
 app.use(async (req, res, next) => {
+    console.log(req.header('gc-auth'))
     try{
         req['user'] = (await getCurrentUserDetails(req.header('gc-auth'))).data;
     }catch(e){}
@@ -49,6 +51,23 @@ app.use('/profile', profile);
 app.use('/course', course);
 app.use('/friend', friend);
 app.use('/round', round);
+
+// import multer from 'multer'
+// import MyCustomStorage from './app/CustomStorage.js'
+
+// var storage = MyCustomStorage({
+//     destination: function (req, file, cb) {
+//       cb(null, 'uploads/' + file.originalname)
+//     }
+//   })
+
+// const upload = multer({ storage: storage })
+
+// app.post('/test', upload.single('file') , async (req, res, next) => {
+//     console.log(req['file'])
+//     await example(req['file']);
+//     res.send('OK');
+// })
 
 /**
  * @api {get} / Request Server Status

@@ -8,7 +8,6 @@ export async function generateJWT(account: Account): Promise<string> {
     let sessionId = uuid()
     await addSessionToDatabase(sessionId, account.id, Date.now())
     return jwt.sign({
-        exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24 * 30),
         iat: Date.now(),
         jti: sessionId,
         iss: "Voltiac",
@@ -26,6 +25,7 @@ export function validateJWT(jwtToken: string): { data: JWTToken, error: Error } 
     try {
         r.data = jwt.verify(jwtToken, process.env.JWT_KEY);
     } catch (e) {
+        console.log(e)
         r.error = e;
     }
 

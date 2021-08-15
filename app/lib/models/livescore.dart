@@ -20,9 +20,9 @@ class LiveScore {
   ];
   List<List<int>> holePhc = [
     new List.filled(18, 2),
-    new List.filled(18, 2),
-    new List.filled(18, 2),
-    new List.filled(18, 2),
+    new List.filled(18, 1),
+    new List.filled(18, 4),
+    new List.filled(18, 3),
   ];
   List<List<int?>> strokes = [
     new List.filled(18, null),

@@ -1,9 +1,9 @@
 import bcrypt from 'bcrypt';
 import { v4 as uuid } from 'uuid';
-import { Account } from '../interfaces/Authentication';
+import { Account, genderType } from '../interfaces/Authentication';
 import jwt from 'jsonwebtoken';
 
-export async function createProfile(email: string, name: string, password: string, favcourse: string): Promise<Account> {
+export async function createProfile(email: string, name: string, password: string, favcourse: string, gender: string): Promise<Account> {
     return {
         id: uuid(),
         email: email,
@@ -12,7 +12,7 @@ export async function createProfile(email: string, name: string, password: strin
         created_on: Date.now(),
         last_access: Date.now(),
         verified: false,
-        phone_number: "",
+        gender: gender as genderType,
         role: "USER",
         favcourse: favcourse,
         handicap: 54.0
@@ -35,6 +35,7 @@ export function clean(account: Account) {
         role: account.role,
         verified: account.verified,
         handicap: account.handicap,
-        course: account.favcourse
+        course: account.favcourse,
+        gender: account.gender
     }
 }

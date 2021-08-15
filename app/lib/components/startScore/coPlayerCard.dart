@@ -82,7 +82,7 @@ class _CoPlayerCardState extends State<CoPlayerCard> {
                           controller: playerController,
                           decoration: InputDecoration(
                             isDense: true,
-                            focusColor: Theme.of(context).primaryColor,
+                            focusColor: Theme.of(context).colorScheme.primary,
                             contentPadding: EdgeInsets.all(8),
                             border: OutlineInputBorder(borderSide: BorderSide(color: Colors.white, width: 1)),
                             enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.white, width: 1)),
@@ -151,7 +151,7 @@ class _CoPlayerCardState extends State<CoPlayerCard> {
                               return;
                             }
                             this.teeCallback(this.chosenIndex);
-                            this.returnedFriend(new Friend(playerController.text, chosenIndex.toDouble(), this.chosen, ''));
+                            this.returnedFriend(new Friend(playerController.text, chosenIndex.toDouble(), this.chosen, '', ''));
                             Navigator.of(context).pop();
                           },
                           style: ElevatedButton.styleFrom(primary: Colors.green),

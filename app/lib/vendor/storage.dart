@@ -17,12 +17,21 @@ class Storage {
 
   Future<void> setItem(String item, String value) async {
     if (!AppUtils.development)
-      await new FlutterSecureStorage()
-          .write(key: "caddie_" + item, value: value);
+      await new FlutterSecureStorage().write(key: "caddie_" + item, value: value);
     else {
       final LocalStorage storage = new LocalStorage('golfcaddie');
       await storage.ready;
       storage.setItem(item, value);
+    }
+  }
+
+  Future<void> delItem(String item) async {
+    if (!AppUtils.development)
+      await new FlutterSecureStorage().delete(key: "caddie_" + item);
+    else {
+      final LocalStorage storage = new LocalStorage('golfcaddie');
+      await storage.ready;
+      storage.deleteItem(item);
     }
   }
 }

@@ -3,6 +3,7 @@ class Friend {
   double handicap;
   String id;
   String image;
+  String gender;
 
   String get getName => this.name;
 
@@ -20,7 +21,11 @@ class Friend {
 
   set setImage(String image) => this.image = image;
 
-  Friend(this.name, this.handicap, this.id, this.image);
+  Friend(this.name, this.handicap, this.id, this.image, this.gender) {
+    if (this.gender == "MALE") this.gender = 'male';
+    if (this.gender == "FEMALE") this.gender = 'female';
+    if (this.gender == "UNSPECIFIED") this.gender = 'human';
+  }
 }
 
 class UserRequest {

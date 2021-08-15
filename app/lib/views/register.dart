@@ -17,6 +17,7 @@ class LoginState extends State<RegisterScreen> {
   final passwordController = TextEditingController();
   final passwordControllerVerify = TextEditingController();
   final nameController = TextEditingController();
+  String gender = "MALE";
   String favCourse = "";
   String? errorHint;
   List<dynamic> courses = [];
@@ -39,7 +40,7 @@ class LoginState extends State<RegisterScreen> {
         person: false,
         back: true,
       ),
-      backgroundColor: Theme.of(context).primaryColor,
+      backgroundColor: Theme.of(context).colorScheme.primary,
       body: Container(
         decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30))),
         child: Column(
@@ -124,10 +125,39 @@ class LoginState extends State<RegisterScreen> {
                   value: favCourse,
                   decoration: InputDecoration(
                     isDense: true,
-                    focusColor: Theme.of(context).primaryColor,
+                    focusColor: Theme.of(context).colorScheme.primary,
                     contentPadding: EdgeInsets.all(8),
                     icon: Icon(Icons.track_changes),
-                    border: new OutlineInputBorder(borderSide: BorderSide(color: Theme.of(context).primaryColor, width: 2, style: BorderStyle.solid)),
+                    border: OutlineInputBorder(borderSide: BorderSide(color: Colors.black, width: 1)),
+                    enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black, width: 1)),
+                    filled: false,
+                  ),
+                )),
+            SizedBox(height: 10),
+            SizedBox(
+                width: max(250, MediaQuery.of(context).size.width * 0.50),
+                child: DropdownButtonFormField(
+                  isDense: true,
+                  items: [{'title': "Man", 'val': "MALE"}, {'title': "Vrouw", 'val': "FEMALE"}, {'title': "Overig", 'val': "UNSPECIFIED"}].map<DropdownMenuItem<String>>((dynamic value) {
+                    return DropdownMenuItem<String>(
+                      value: value['val'],
+                      child: Text(
+                        value['title'],
+                        style: TextStyle(fontSize: 15),
+                      ),
+                    );
+                  }).toList(),
+                  onChanged: (newValue) {
+                    // do other stuff with _category
+                  },
+                  value: gender,
+                  decoration: InputDecoration(
+                    isDense: true,
+                    focusColor: Theme.of(context).colorScheme.primary,
+                    contentPadding: EdgeInsets.all(8),
+                    icon: Icon(Icons.male_outlined),
+                    border: OutlineInputBorder(borderSide: BorderSide(color: Colors.black, width: 1)),
+                    enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black, width: 1)),
                     filled: false,
                   ),
                 )),
@@ -155,7 +185,8 @@ class LoginState extends State<RegisterScreen> {
       'password': passwordController.text,
       'name': nameController.text,
       'password_verify': passwordControllerVerify.text,
-      'fav_course': favCourse
+      'fav_course': favCourse,
+      'gender': gender
     }).then((value) async {
       Storage().setItem('jwt', value.data['jwtToken']);
       Navigator.of(context).pushNamed('dashboard');

@@ -7,7 +7,7 @@ export async function fetchAllFriends(uid: string): Promise<{data: [Friend], err
     let friendData = null, error = null;
 
     try {
-        friendData = await sql('friends').select('accounts.id', 'accounts.name', 'accounts.handicap', 'accounts.image', 'accounts.email').where({'friends.id': uid}).innerJoin('accounts', 'friends.friendId', '=', 'accounts.id')
+        friendData = await sql('friends').select('accounts.id', 'accounts.name', 'accounts.handicap', 'accounts.image', 'accounts.email', 'accounts.gender').where({'friends.id': uid}).innerJoin('accounts', 'friends.friendId', '=', 'accounts.id')
     } catch (e) {
         error = e;
     }
@@ -103,7 +103,7 @@ export async function retrieveFriend(uid: string, friendId: string): Promise<{da
     let requestData = null, error = null, data = null;
 
     try {
-        requestData = await sql('friends').select('accounts.id', 'accounts.name', 'accounts.handicap', 'accounts.image').where({'friends.id': uid, 'friends.friendId': friendId}).innerJoin('accounts', 'friends.friendId', '=', 'accounts.id')
+        requestData = await sql('friends').select('accounts.id', 'accounts.name', 'accounts.handicap', 'accounts.image', 'accounts.gender').where({'friends.id': uid, 'friends.friendId': friendId}).innerJoin('accounts', 'friends.friendId', '=', 'accounts.id')
         if(requestData.length > 0){
             data = requestData[0];
         }

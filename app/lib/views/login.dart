@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:golfcaddie/components/appbar.dart';
 import 'package:golfcaddie/components/login/voltiac.dart';
 import '../env.dart';
 import '../vendor/storage.dart';
@@ -26,7 +27,6 @@ class LoginState extends State<LoginScreen> {
   }
 
   Future<void> doSomeLongRunningCalculation() async {
-    print('f');
     String? item = await new Storage().getItem('jwt');
     if (item != null && item != "" && item != 'null') {
       Navigator.of(context).pushReplacementNamed('dashboard');
@@ -45,13 +45,10 @@ class LoginState extends State<LoginScreen> {
     );
     return Scaffold(
         backgroundColor: Theme.of(context).colorScheme.primary,
-        appBar: AppBar(
-          title: Center(
-              child: Text(
-            "GOLFCADDIE",
-            style: TextStyle(fontWeight: FontWeight.w200, color: Colors.white),
-          )),
-          elevation: 0,
+        appBar: DefaultAppBar(
+          title: "GOLFCADDIE",
+          back: false,
+          person: false,
         ),
         body: Container(
           decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30))),

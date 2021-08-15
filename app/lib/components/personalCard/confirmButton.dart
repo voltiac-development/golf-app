@@ -10,6 +10,7 @@ class WhiteConfirmButton extends StatelessWidget {
   final TextEditingController newPassword;
   final TextEditingController newVerifiedPassword;
   final TextEditingController handicap;
+  final String gender;
   final ValueChanged<String> onError;
 
   WhiteConfirmButton(
@@ -20,6 +21,7 @@ class WhiteConfirmButton extends StatelessWidget {
       required this.newPassword,
       required this.newVerifiedPassword,
       required this.handicap,
+      required this.gender,
       required this.onError})
       : super(key: key);
 
@@ -27,10 +29,10 @@ class WhiteConfirmButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: 135,
-      child: OutlinedButton.icon(
+      child: OutlinedButton(
           style: style,
-          icon: Icon(Icons.save_alt_outlined),
-          label: Text(
+          // icon: Icon(Icons),
+          child: Text(
             'Bijwerken',
             textAlign: TextAlign.center,
           ),
@@ -49,6 +51,7 @@ class WhiteConfirmButton extends StatelessWidget {
       "newPassword": newPassword.text,
       "verifiedPassword": newVerifiedPassword.text,
       "handicap": handicap.text,
+      "gender": gender
     }).then((value) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(

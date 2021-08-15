@@ -81,7 +81,7 @@ class _StartScoreScreenState extends State<StartScoreScreen> {
                               controller: courseController,
                               decoration: InputDecoration(
                                 isDense: true,
-                                focusColor: Theme.of(context).primaryColor,
+                                focusColor: Theme.of(context).colorScheme.primary,
                                 contentPadding: EdgeInsets.all(8),
                                 border: OutlineInputBorder(borderSide: BorderSide(color: Colors.black, width: 1)),
                                 enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black, width: 1)),

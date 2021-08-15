@@ -118,7 +118,7 @@ class FriendsState extends State<FriendsScreen> {
     Dio dio = await AppUtils.getDio();
     dio.get("/friend/all").then((value) {
       List<dynamic>.from(value.data['friends']).forEach((e) {
-        this.friends.add(Friend(e['name'], e['handicap'], e['id'], e['image']));
+        this.friends.add(Friend(e['name'], e['handicap'], e['id'], e['image'], e['gender']));
       });
       setState(() {});
     }).catchError((e) {

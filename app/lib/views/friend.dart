@@ -18,6 +18,7 @@ class _FriendState extends State<FriendScreen> {
   bool callMade = false;
   late Friend friend;
   List<dynamic> rounds = [];
+  late Image test = new Image.network('https://cdn.bartverm.dev/voltiac/transparentBlack.png');
 
   @override
   Widget build(BuildContext context) {
@@ -53,12 +54,7 @@ class _FriendState extends State<FriendScreen> {
                           child: ClipRRect(
                             clipBehavior: Clip.hardEdge,
                             borderRadius: BorderRadius.circular(100),
-                            child: Image.network(
-                              friend.image,
-                              width: 100,
-                              height: 100,
-                              fit: BoxFit.cover,
-                            ),
+                            child: Image.network('https://eu.ui-avatars.com/api/?name=' + friend.name.replaceAll(' ', '+')),
                           ),
                         )
                       ],
@@ -150,9 +146,9 @@ class _FriendState extends State<FriendScreen> {
 
   void getFriendInformation(id) async {
     Dio dio = await AppUtils.getDio();
-    dio.get("/friend/get/" + id).then((value) {
+    dio.get("/friend/get/" + id).then((value) async {
       Map<String, dynamic> friend = value.data['friend'];
-      this.friend = Friend(friend['name'], friend['handicap'], friend['id'], friend['image']);
+      this.friend = Friend(friend['name'], friend['handicap'], friend['id'], friend['image'], friend['gender']);
       this.rounds = friend['rounds'];
       this.callMade = true;
       setState(() {});

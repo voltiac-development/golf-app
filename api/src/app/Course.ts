@@ -1,8 +1,10 @@
 import { fetchAllCourses, fetchHoleLengths, fetchRoundTypes, fetchHoleValues, fetchSpecificCourse } from "../data/Course.js";
 import { HTTPError } from "../errors/HTTPError.js";
+import { example } from "../data/FTP.js";
 
 export async function getAllCourses(): Promise<{data: Object, error: HTTPError}> {
     let { data, error } = await fetchAllCourses();
+    // await example();
     for(let i = 0; i < data.length; i++){
         data[i]['roundTypes'] = (await fetchRoundTypes(data[i]['id'])).data
     }

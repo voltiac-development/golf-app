@@ -1,6 +1,6 @@
 import { getUserFromId, updateUserData } from "../data/Authentication.js";
 import { HTTPError } from "../errors/HTTPError.js";
-import { Account } from "../interfaces/Authentication.js";
+import { Account, genderType } from "../interfaces/Authentication.js";
 import { clean, encrypt, verifyPassword } from "./Account.js";
 import { validateJWT, GetIdFromSession } from "./Session.js";
 
@@ -25,14 +25,13 @@ export async function getCurrentUserDetails(cookie: string): Promise<{ data: obj
                 let d = await getUserFromId(id.data);
                 r.data = clean(d.data);
             }
-
         }
     }
 
     return r;
 }
 
-export async function editCurrentUserDetails(cookie: string, name: string, email: string, newPassword: string, newVerifiedPassword: string, currentPassword: string, handicap: number): Promise<{data: object, error: HTTPError}> {
+export async function editCurrentUserDetails(cookie: string, name: string, email: string, newPassword: string, newVerifiedPassword: string, currentPassword: string, handicap: number, gender: string): Promise<{data: object, error: HTTPError}> {
     let r = {
         data: null,
         error: null,
@@ -65,6 +64,8 @@ export async function editCurrentUserDetails(cookie: string, name: string, email
                 }
             }
 
+            console.log(gender)
+
             let newAccount: Account = {
                 id: id.data,
                 email: email,
@@ -73,7 +74,7 @@ export async function editCurrentUserDetails(cookie: string, name: string, email
                 created_on: account.created_on,
                 verified: account.verified,
                 last_access: Date.now(),
-                phone_number: account.phone_number,
+                gender: gender as genderType,
                 role: account.role,
                 favcourse: account.favcourse,
                 handicap: handicap

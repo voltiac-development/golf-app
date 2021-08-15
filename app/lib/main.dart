@@ -3,6 +3,7 @@ import 'package:golfcaddie/views/friend.dart';
 import 'package:golfcaddie/views/liveScore.dart';
 import 'package:golfcaddie/views/roundInfo.dart';
 import 'package:golfcaddie/views/startScore.dart';
+import 'package:golfcaddie/views/test.dart';
 
 //Custom screens
 import 'views/login.dart';
@@ -50,6 +51,7 @@ class MyApp extends StatelessWidget {
         'roundinfo': (_) => RoundInfo(),
         'friend': (_) => FriendScreen(),
         'liveRound': (_) => LiveScoreScreen(),
+        'testView': (_) => TestView(),
       },
     );
   }

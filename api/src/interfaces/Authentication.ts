@@ -1,6 +1,7 @@
 import { HTTPError } from "../errors/HTTPError";
 
 export type roles = "USER" | "ADMIN";
+export type genderType = "MALE" | "FEMALE" | "UNSPECIFIED";
 
 export interface Account {
     id: string,
@@ -10,7 +11,7 @@ export interface Account {
     created_on: number,
     last_access: number,
     verified: boolean,
-    phone_number: string,
+    gender: genderType,
     role: roles,
     favcourse: string,
     handicap: number,
