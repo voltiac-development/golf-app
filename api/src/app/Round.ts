@@ -4,10 +4,14 @@ import { RoundInfo } from "../interfaces/Round.js";
 
 export async function startNewRound(uid: string, course: string, tees: number[], players: string[], holeType: string, qualifying: boolean): Promise<{data: object, error: HTTPError}> {
     players.unshift(uid);
-    //* * REMOVE THIS FOR PRODUCTION AFTER TEST
+    //* REMOVE THIS FOR PRODUCTION AFTER TEST
     if(course != "ad039a90-857d-4a9b-ada7-f7458ac3deb3")
         return {data: null, error: new HTTPError(400, 'Deze golfbaan is uitgeschakeld.')};
-    let { data, error } = await createNewRound(players, tees, course, holeType, qualifying);
+    let phcs = await getPlayingHandicaps(players);
+    console.log(players.length);
+    if(players[1] == null && players[2] == null && players[3] == null)
+        qualifying = false;
+    let { data, error } = await createNewRound(players, tees, course, holeType, qualifying, phcs);
 
     let response = {
         data: null,
@@ -15,6 +19,7 @@ export async function startNewRound(uid: string, course: string, tees: number[],
     }
 
     if (error) {
+        console.log(error)
         response.error = new HTTPError(404, "Er is een probleem met de database.");
     }else
         response.data = {'msg': data};
@@ -87,4 +92,8 @@ export async function getSpecificCourseRounds(uid: string, courseId: string): Pr
     }
 
     return response;
+}
+
+async function getPlayingHandicaps(players: string[]) {
+    return [0, 1, null, null]
 }

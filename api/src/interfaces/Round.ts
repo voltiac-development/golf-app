@@ -11,5 +11,9 @@ export interface RoundInfo {
     teeThree: number,
     teeFour: number,
     startsAt: Date,
-    qualifying: number
+    qualifying: number,
+    phcOne: number,
+    phcTwo: number,
+    phcThree: number,
+    phcFour: number,
 }

@@ -193,7 +193,7 @@ class _RoundInfoState extends State<RoundInfo> {
       this.roundInformation = value.data;
       this.callMade = true;
       DateTime date = DateTime.parse(value.data['startsAt'] as String);
-      this.gameInformation[0]['title'] = this.roundInformation['holeTypeId'];
+      this.gameInformation[0]['title'] = this.roundInformation['roundVariation'];
       this.gameInformation[1]['title'] = this.roundInformation['qualifying'] == 1 ? "Ja" : "Nee";
       this.gameInformation[2]['title'] =
           date.day.toString() + "-" + date.month.toString() + "-" + date.year.toString() + " (" + date.hour.toString() + ":" + date.minute.toString() + ")";

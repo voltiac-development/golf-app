@@ -25,9 +25,6 @@ class CourseInfoManager {
     Dio dio = await AppUtils.getDio();
     Response r = await dio.get('/course/hours/' + id);
     List<dynamic> hours = r.data as List<dynamic>;
-    print(hours.map((element) {
-      print(element);
-    }));
     this.model.openingHours = hours;
     return model;
   }
