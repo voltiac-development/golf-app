@@ -86,3 +86,21 @@ export async function editCurrentUserDetails(cookie: string, name: string, email
 
     return r;
 }
+
+export async function getSpecificProfile(uid: string): Promise<{data: Account, error: HTTPError}> {
+    let r = {
+        data: null,
+        error: null,
+    }
+
+    if (!uid) {
+        r.error = new HTTPError(401, "Probleem met de aanvraag.");
+    } else {
+        let { data, error} = await getUserFromId(uid);
+
+        if(error) return {data: null, error: new HTTPError(404, "Account is niet gevonden.")}
+        r.data = data;
+    }
+
+    return r;
+}

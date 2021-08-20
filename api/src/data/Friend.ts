@@ -3,7 +3,7 @@ import { Friend, FriendDatabase, FriendRequest } from "../interfaces/Friend.js";
 import { sql } from "./knex.js";
 import { v4 } from 'uuid';
 
-export async function fetchAllFriends(uid: string): Promise<{data: [Friend], error: HTTPError}> {
+export async function fetchAllFriends(uid: string): Promise<{data: Friend[], error: HTTPError}> {
     let friendData = null, error = null;
 
     try {

@@ -1,17 +1,18 @@
 import { createNewRound, fetchSpecificRound, retrieveRecentCourseRounds, retrieveRecentRounds } from "../data/Round.js";
 import { HTTPError } from "../errors/HTTPError.js";
 import { RoundInfo } from "../interfaces/Round.js";
+import { getAllPlayingHandicaps } from "./PHC.js";
 
 export async function startNewRound(uid: string, course: string, tees: number[], players: string[], holeType: string, qualifying: boolean): Promise<{data: object, error: HTTPError}> {
     players.unshift(uid);
     //* REMOVE THIS FOR PRODUCTION AFTER TEST
     if(course != "ad039a90-857d-4a9b-ada7-f7458ac3deb3")
         return {data: null, error: new HTTPError(400, 'Deze golfbaan is uitgeschakeld.')};
-    let phcs = await getPlayingHandicaps(players);
-    console.log(players.length);
-    if(players[1] == null && players[2] == null && players[3] == null)
-        qualifying = false;
-    let { data, error } = await createNewRound(players, tees, course, holeType, qualifying, phcs);
+    let phcs = await getAllPlayingHandicaps(holeType, players, tees);
+    if(phcs.error) return {data: null, error: phcs.error};
+    let quali = qualifying;
+    if(players[1] == null && players[2] == null && players[3] == null) quali = false;
+    let { data, error } = await createNewRound(players, tees, course, holeType, quali, phcs.data);
 
     let response = {
         data: null,
@@ -19,7 +20,7 @@ export async function startNewRound(uid: string, course: string, tees: number[],
     }
 
     if (error) {
-        console.log(error)
+        // console.log(error)
         response.error = new HTTPError(404, "Er is een probleem met de database.");
     }else
         response.data = {'msg': data};
