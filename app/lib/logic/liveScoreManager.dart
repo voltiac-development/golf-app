@@ -24,6 +24,7 @@ class LiveScoreManager {
   Future<Dio> retrieveRoundInformation(id, context) async {
     Dio dio = await AppUtils.getDio();
     Response<dynamic> v = await dio.get('/round/' + id);
+    print(v.data);
     try {
       this.model.players.add(Friend(v.data['playerOne'], v.data['oneHandicap'], v.data['oneId'], '', ''));
     } catch (e) {}
