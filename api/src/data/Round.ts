@@ -55,3 +55,17 @@ export async function fetchSpecificRound(roundId: string): Promise<{data: object
         error
     }
 }
+
+export async function retrieveRecentCourseRounds(uid: string, courseId: string): Promise<{data: object, error: Error}> {
+    let roundData = null, error = null;
+
+    try {
+        roundData = await sql<RoundInfo>('rounds').select('*').where({playerOne: uid}).andWhere({courseId: courseId}).orWhere({playerTwo: uid}).andWhere({courseId: courseId}).orWhere({playerThree: uid}).andWhere({courseId: courseId}).orWhere({playerFour: uid}).andWhere({courseId: courseId})
+    } catch (e) {
+        error = e;
+    }
+    return {
+        data: roundData,
+        error
+    }
+}

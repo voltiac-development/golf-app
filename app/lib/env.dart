@@ -52,4 +52,14 @@ class AppUtils {
     dio.options.headers = headers;
     return dio;
   }
+
+  static void callSnackbar(context, error) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(
+        error,
+        style: TextStyle(color: Theme.of(context).colorScheme.onError),
+      ),
+      backgroundColor: Theme.of(context).colorScheme.error,
+    ));
+  }
 }

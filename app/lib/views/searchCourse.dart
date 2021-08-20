@@ -76,7 +76,7 @@ class SearchCourseState extends State<SearchCourseScreen> {
     Dio dio = await AppUtils.getDio();
     dio.get('/course/all').then((value) {
       List<dynamic>.from(value.data['courses']).forEach((e) {
-        this.courses.add(CourseInfo(e['name'], e['holes'], e['id'], e['image'], [], ''));
+        this.courses.add(CourseInfo.filled(e['name'], e['holes'], e['id'], e['image'], [], ''));
       });
       setState(() {
         this.visibleCourses = this.courses;

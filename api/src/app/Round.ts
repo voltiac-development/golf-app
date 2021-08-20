@@ -1,4 +1,4 @@
-import { createNewRound, fetchSpecificRound, retrieveRecentRounds } from "../data/Round.js";
+import { createNewRound, fetchSpecificRound, retrieveRecentCourseRounds, retrieveRecentRounds } from "../data/Round.js";
 import { HTTPError } from "../errors/HTTPError.js";
 import { RoundInfo } from "../interfaces/Round.js";
 
@@ -67,6 +67,23 @@ export async function getSpecificRound(uid: string, roundId: string): Promise<{d
             response.data.key = "playerFour";
             roundIsOwned = true;
         }
+    }
+
+    return response;
+}
+
+export async function getSpecificCourseRounds(uid: string, courseId: string): Promise<{data: object, error: HTTPError}> {
+    let { data, error } = await retrieveRecentCourseRounds(uid, courseId);
+
+    let response = {
+        data: null,
+        error: null
+    }
+
+    if (error) {
+        response.error = new HTTPError(404, "Er is een probleem met de database.");
+    }else{
+        response.data = data;
     }
 
     return response;

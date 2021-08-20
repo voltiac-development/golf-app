@@ -11,7 +11,7 @@ class CourseCard extends StatelessWidget {
     return Padding(
         padding: EdgeInsets.only(top: 7),
         child: GestureDetector(
-          onTap: () => print(this.info.getId),
+          onTap: () => Navigator.of(context).pushNamed('courseInfo', arguments: this.info.getId),
           child: Material(
             child: Container(
                 constraints: BoxConstraints(minWidth: 200, maxWidth: 300),

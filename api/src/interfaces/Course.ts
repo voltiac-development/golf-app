@@ -6,6 +6,8 @@ export interface Course {
     image: string,
     roundTypes: RoundTypes[],
     teeBoxes: TeeBoxes,
+    website: string,
+    background: string,
 }
 
 export interface RoundTypes {
@@ -34,4 +36,12 @@ export interface SiValues {
     hole: number,
     si: number,
     par: number,
+}
+
+export interface BusinessHours {
+    id: string,
+    courseId: string,
+    day: string,
+    open?: string,
+    close?: string
 }

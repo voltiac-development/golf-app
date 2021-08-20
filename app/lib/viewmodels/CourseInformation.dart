@@ -1,10 +1,14 @@
 class CourseInfo {
-  String name;
-  int holes;
-  String id;
-  String image;
-  List<dynamic> roundTypes;
-  String teeBoxes;
+  String name = "";
+  int holes = 0;
+  String id = "";
+  String image = "";
+  List<dynamic> roundTypes = [];
+  String teeBoxes = "";
+  String website = "";
+  List<dynamic> rounds = [];
+  String background = "";
+  List<dynamic> openingHours = [];
 
   int get getHoles {
     return this.holes;
@@ -38,8 +42,9 @@ class CourseInfo {
     this.image = image;
   }
 
-  CourseInfo(this.name, this.holes, this.id, this.image, this.roundTypes,
-      this.teeBoxes);
+  CourseInfo.filled(this.name, this.holes, this.id, this.image, this.roundTypes, this.teeBoxes);
+  CourseInfo.fullInfo(this.name, this.holes, this.id, this.image, this.roundTypes, this.teeBoxes, this.website, this.background);
+  CourseInfo();
 }
 
 class RoundType {
@@ -49,6 +54,5 @@ class RoundType {
   int startHole;
   int endHole;
 
-  RoundType(this.courseId, this.roundTypeId, this.roundVariation,
-      this.startHole, this.endHole);
+  RoundType(this.courseId, this.roundTypeId, this.roundVariation, this.startHole, this.endHole);
 }

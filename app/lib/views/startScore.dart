@@ -27,7 +27,7 @@ class _StartScoreScreenState extends State<StartScoreScreen> {
   List<dynamic> visibleCourses = [];
   bool _toggle = false;
   List<dynamic> availableHoleTypes = [];
-  CourseInfo chosenCourse = new CourseInfo('name', 0, '', '', [], '');
+  CourseInfo chosenCourse = new CourseInfo.filled('name', 0, '', '', [], '');
   int chosenTee = -1;
   String chosenHoleType = "";
   bool called = false;
@@ -219,7 +219,7 @@ class _StartScoreScreenState extends State<StartScoreScreen> {
     Dio dio = await AppUtils.getDio();
     dio.get("/course/all").then((value) {
       dynamic c = value.data['courses'][0];
-      this.chosenCourse = new CourseInfo(c['name'], c['holes'], c['id'], c['image'], c['roundTypes'], c['teeboxes']);
+      this.chosenCourse = new CourseInfo.filled(c['name'], c['holes'], c['id'], c['image'], c['roundTypes'], c['teeboxes']);
       this.courses = value.data['courses'];
     }).catchError((e) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -236,7 +236,7 @@ class _StartScoreScreenState extends State<StartScoreScreen> {
 
   void retrieveCourseInfo() {
     dynamic course = this.courses.firstWhere((element) => element['id'] == this.chosenCourse.id);
-    CourseInfo c = new CourseInfo(course['name'], course['holes'], course['id'], course['image'], course['roundTypes'], course['teeboxes']);
+    CourseInfo c = new CourseInfo.filled(course['name'], course['holes'], course['id'], course['image'], course['roundTypes'], course['teeboxes']);
     setState(() {
       this.chosenCourse = c;
     });
@@ -270,7 +270,7 @@ class _StartScoreScreenState extends State<StartScoreScreen> {
     List<CourseInfo> returnedCourses = [];
     this.courses.forEach((element) {
       if ((element['name'] as String).toLowerCase().contains(pattern.toLowerCase()))
-        returnedCourses.add(CourseInfo(element['name'], element['holes'], element['id'], element['image'], [], element['teeboxes']));
+        returnedCourses.add(CourseInfo.filled(element['name'], element['holes'], element['id'], element['image'], [], element['teeboxes']));
     });
     return returnedCourses;
   }

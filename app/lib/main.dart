@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:golfcaddie/views/courseInformation.dart';
 import 'package:golfcaddie/views/friend.dart';
 import 'package:golfcaddie/views/liveScore.dart';
 import 'package:golfcaddie/views/roundInfo.dart';
@@ -51,6 +52,7 @@ class MyApp extends StatelessWidget {
         'roundinfo': (_) => RoundInfo(),
         'friend': (_) => FriendScreen(),
         'liveRound': (_) => LiveScoreScreen(),
+        'courseInfo': (_) => CourseInformation(),
         'testView': (_) => TestView(),
       },
     );

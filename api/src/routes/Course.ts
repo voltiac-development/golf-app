@@ -1,5 +1,6 @@
 import express from 'express';
-import { getAllCourses, getHoleLengths, getHoleValues, getSpecificCourse } from '../app/Course.js';
+import { getAllCourses, getBusinessHours, getHoleLengths, getHoleValues, getSpecificCourse } from '../app/Course.js';
+import { getSpecificCourseRounds } from '../app/Round.js';
 var router = express.Router();
 
 /**
@@ -90,6 +91,52 @@ router.get('/length/:id', async (req, res, next) => {
 
 router.get('/hole/:id', async (req, res, next) => {
     const { data, error } = await getHoleValues(req.params.id);
+
+    if (error) {
+        res.status(error.getStatusCode());
+        res.json(error.getErrorMessage());
+        next()
+        return;
+    }
+
+    if (data) {
+        res.json(data);
+        next()
+        return;
+    }
+
+    res.status(500)
+    res.json({
+        error: "Unkown error"
+    })
+    next()
+});
+
+router.get('/rounds/:courseId', async (req, res, next) => {
+    const { data, error } = await getSpecificCourseRounds(req['user'].id, req.params.courseId);
+
+    if (error) {
+        res.status(error.getStatusCode());
+        res.json(error.getErrorMessage());
+        next()
+        return;
+    }
+
+    if (data) {
+        res.json(data);
+        next()
+        return;
+    }
+
+    res.status(500)
+    res.json({
+        error: "Unkown error"
+    })
+    next()
+});
+
+router.get('/hours/:courseId', async (req, res, next) => {
+    const { data, error } = await getBusinessHours(req.params.courseId);
 
     if (error) {
         res.status(error.getStatusCode());
