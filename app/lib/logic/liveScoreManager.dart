@@ -21,28 +21,31 @@ class LiveScoreManager {
     return model;
   }
 
-  Future<Dio> retrieveRoundInformation(id, context) async {
-    Dio dio = await AppUtils.getDio();
+  Future<LiveScore> retrieveRoundInformation(id, context, dio) async {
     Response<dynamic> v = await dio.get('/round/' + id);
-    print(v.data);
+    int amountOfHoles = v.data['endHole'] - v.data['startHole'] + 1;
     try {
       this.model.players.add(Friend(v.data['playerOne'], v.data['oneHandicap'], v.data['oneId'], '', ''));
+      this.model.holePhc[0] = _getPlayingHandicapPerHole(amountOfHoles, v.data['phcOne'], v.data['startHole'], v.data['endHole']);
     } catch (e) {}
     try {
       this.model.players.add(Friend(v.data['playerTwo'], v.data['twoHandicap'], v.data['twoId'], '', ''));
+      this.model.holePhc[1] = _getPlayingHandicapPerHole(amountOfHoles, v.data['phcTwo'], v.data['startHole'], v.data['endHole']);
     } catch (e) {}
     try {
       this.model.players.add(Friend(v.data['playerThree'], v.data['threeHandicap'], v.data['threeId'], '', ''));
+      this.model.holePhc[2] = _getPlayingHandicapPerHole(amountOfHoles, v.data['phcThree'], v.data['startHole'], v.data['endHole']);
     } catch (e) {}
     try {
       this.model.players.add(Friend(v.data['playerFour'], v.data['fourHandicap'], v.data['fourId'], '', ''));
+      this.model.holePhc[3] = _getPlayingHandicapPerHole(amountOfHoles, v.data['phcFour'], v.data['startHole'], v.data['endHole']);
     } catch (e) {}
 
-    return dio;
+    return model;
   }
 
   Future<LiveScore> retrieveCourseInformation(id, context) async {
-    Dio dio = await retrieveRoundInformation(id, context);
+    Dio dio = await AppUtils.getDio();
     Response<dynamic> courseInformation = await dio.get('/round/' + id);
     dio.get('/course/length/' + courseInformation.data['courseId']).then((value) {
       this.model.white = new List<int>.from(value.data['white']);
@@ -81,6 +84,21 @@ class LiveScoreManager {
       this.model.si[value.data[i]['hole'] - 1] = value.data[i]['si'];
       this.model.par[value.data[i]['hole'] - 1] = value.data[i]['par'];
     }
+    await retrieveRoundInformation(id, context, dio);
     return model;
+  }
+
+  List<int> _getPlayingHandicapPerHole(amountOfHoles, phc, startHole, endHole) {
+    List<int> finalSi = new List.filled(18, (phc / amountOfHoles).floor());
+    List<List<int>> siValues = [];
+    for (int i = startHole - 1; i < endHole; i++) {
+      siValues.add([i, this.model.si[i]]);
+    }
+    siValues.sort((a, b) => b[1].compareTo(a[1]));
+    int leftOver = phc % amountOfHoles;
+    for (int i = 0; i < leftOver; i++) {
+      finalSi[siValues[i][0]] += 1;
+    }
+    return finalSi;
   }
 }

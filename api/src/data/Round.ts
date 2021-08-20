@@ -42,7 +42,7 @@ export async function fetchSpecificRound(roundId: string): Promise<{data: object
         roundData = await sql<RoundInfo>('rounds').select('a.name as playerOne', 'a.id as oneId', 'a.handicap as oneHandicap', 'ac.name as playerTwo', 
         'ac.handicap as twoHandicap', 'ac.id as twoId', 'acc.name as playerThree', 'acc.handicap as threeHandicap',
         'acc.id as threeId', 'acco.name as playerFour', 'acco.id as fourId', 'acco.handicap as fourHandicap', 'teeOne', 'teeTwo', 'teeThree', 'teeFour', 'holeTypeId', 
-        'c.name as courseName', 'c.id as courseId', 'startsAt', 'qualifying', 'roundTypes.roundVariation', 'phcOne', 'phcTwo', 'phcThree', 'phcFour')
+        'c.name as courseName', 'c.id as courseId', 'startsAt', 'qualifying', 'roundTypes.roundVariation', 'roundTypes.startHole', 'roundTypes.endHole', 'phcOne', 'phcTwo', 'phcThree', 'phcFour')
         .where({roundId: roundId})
         .leftJoin('accounts as a','rounds.playerOne', 'a.id')
         .leftJoin('accounts as ac', 'rounds.playerTwo', 'ac.id')
