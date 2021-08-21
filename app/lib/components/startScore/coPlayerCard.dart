@@ -78,9 +78,11 @@ class _CoPlayerCardState extends State<CoPlayerCard> {
                       padding: EdgeInsets.all(5),
                     ),
                     TypeAheadField(
+                      suggestionsBoxDecoration: SuggestionsBoxDecoration(color: Theme.of(context).colorScheme.surface),
                       textFieldConfiguration: TextFieldConfiguration(
                           controller: playerController,
                           decoration: InputDecoration(
+                            fillColor: Theme.of(context).colorScheme.surface,
                             isDense: true,
                             focusColor: Theme.of(context).colorScheme.primary,
                             contentPadding: EdgeInsets.all(8),
@@ -102,8 +104,11 @@ class _CoPlayerCardState extends State<CoPlayerCard> {
                         UserRequest u = suggestion as UserRequest;
                         return ListTile(
                           dense: true,
-                          title: Text(u.name),
-                          subtitle: Text(u.email),
+                          title: Text(
+                            u.name,
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          subtitle: Text(u.email, style: TextStyle(color: Colors.white70)),
                         );
                       },
                       onSuggestionSelected: (suggestion) {
