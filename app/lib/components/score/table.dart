@@ -11,12 +11,25 @@ class ScoreTable extends StatefulWidget {
   final List<int> si;
   final ValueChanged<List<int>> onScoreChanged;
 
-  ScoreTable({Key? key, required this.holePhc, required this.par, required this.score, required this.strokes, required this.si, required this.onScoreChanged})
-      : super(key: key);
+  ScoreTable({
+    Key? key,
+    required this.holePhc,
+    required this.par,
+    required this.score,
+    required this.strokes,
+    required this.si,
+    required this.onScoreChanged,
+  }) : super(key: key);
 
   @override
-  _ScoreTableState createState() =>
-      _ScoreTableState(holePhc: this.holePhc, par: this.par, score: this.score, strokes: this.strokes, si: this.si, onScoreChanged: onScoreChanged);
+  _ScoreTableState createState() => _ScoreTableState(
+        holePhc: this.holePhc,
+        par: this.par,
+        score: this.score,
+        strokes: this.strokes,
+        si: this.si,
+        onScoreChanged: this.onScoreChanged,
+      );
 }
 
 class _ScoreTableState extends State<ScoreTable> {
@@ -30,7 +43,6 @@ class _ScoreTableState extends State<ScoreTable> {
   int holes = 18;
 
   @override
-  @override
   void initState() {
     super.initState();
     this.controllers = [];
@@ -42,7 +54,14 @@ class _ScoreTableState extends State<ScoreTable> {
     }
   }
 
-  _ScoreTableState({required this.holePhc, required this.par, required this.score, required this.strokes, required this.si, required this.onScoreChanged});
+  _ScoreTableState({
+    required this.holePhc,
+    required this.par,
+    required this.score,
+    required this.strokes,
+    required this.si,
+    required this.onScoreChanged,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -127,6 +146,7 @@ class _ScoreTableState extends State<ScoreTable> {
                               keyboardType: TextInputType.number,
                               decoration: InputDecoration(isDense: true, focusedBorder: InputBorder.none),
                               inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                              textInputAction: TextInputAction.next,
                             ),
                           ])),
                     ),

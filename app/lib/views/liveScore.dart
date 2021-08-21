@@ -139,7 +139,10 @@ class _LiveScoreScreenState extends State<LiveScoreScreen> {
                                                 score: this.model.scores[i],
                                                 si: this.model.si,
                                                 onScoreChanged: (value) => setState(() {
-                                                  this.model.scores[i][value[0]] = max(0, value[1] - (this.model.holePhc[i][value[0]] + this.model.par[value[0]]) + 2);
+                                                  if (value[1] != -1)
+                                                    this.model.scores[i][value[0]] = max(0, (this.model.holePhc[i][value[0]] + this.model.par[value[0]]) - value[1] + 2);
+                                                  else
+                                                    this.model.scores[i][value[0]] = 0;
                                                   this.model.strokes[i][value[0]] = value[0] == -1 ? null : value[1];
                                                 }),
                                               ),
