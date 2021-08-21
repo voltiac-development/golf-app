@@ -37,7 +37,7 @@ class FriendCard extends StatelessWidget {
                           children: [
                             Container(
                               child: new Image.network(
-                                this.friend.getImage,
+                                'https://eu.ui-avatars.com/api/?name=' + this.friend.name.replaceAll(' ', '+'),
                                 height: 45,
                               ),
                               color: Theme.of(context).colorScheme.secondary,

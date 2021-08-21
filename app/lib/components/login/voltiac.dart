@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:golfcaddie/env.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class VoltiacLogin extends StatelessWidget {
   @override
@@ -13,7 +15,7 @@ class VoltiacLogin extends StatelessWidget {
         ),
         GestureDetector(
           onTap: () {
-            print('voltiac pressed');
+            goToVoltiac(context);
           },
           child: Container(
             child: Container(
@@ -25,8 +27,8 @@ class VoltiacLogin extends StatelessWidget {
                   width: 55,
                 ),
               ),
-              decoration:
-                  BoxDecoration(border: Border.all(color: Theme.of(context).colorScheme.primary), borderRadius: BorderRadius.all(Radius.circular(25)), color: Colors.white),
+              decoration: BoxDecoration(
+                  border: Border.all(color: Theme.of(context).colorScheme.primary), borderRadius: BorderRadius.all(Radius.circular(25)), color: Colors.white),
             ),
             decoration: BoxDecoration(
               boxShadow: [
@@ -37,5 +39,13 @@ class VoltiacLogin extends StatelessWidget {
         )
       ],
     );
+  }
+
+  void goToVoltiac(context) async {
+    if (await canLaunch('https://portal.voltiac.dev')) {
+      await launch('https://portal.voltiac.dev');
+    } else {
+      AppUtils.callSnackbar(context, "De website \"https://portal.voltiac.dev\" kan niet geopend worden.");
+    }
   }
 }

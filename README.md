@@ -1,16 +1,37 @@
-# flutter_golf
 
-A new Flutter project.
+# Golfcaddie
 
-## Getting Started
+Golfcaddie is a app for iOS and Android where golfers in the Netherlands can keep track of their scores and live update their scores during the game.
 
-This project is a starting point for a Flutter application.
+So when you are starting a round you create a round of the golfcaddie app with your friends. Where you then can see eachother's scores and strokes.
 
-A few resources to get you started if this is your first Flutter project:
+When you update a players strokes, it updates on everyone's screen.
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+## Deployment
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Golfcaddie is available on iOS and Android.
+
+  
+## Tech Stack
+
+**Client:** Flutter
+
+**Server:** Node, Express
+## Support
+
+If there are any problems, you can contact Voltiac Development: info@voltiac.dev
+
+  
+## Screenshots
+
+![App Screenshot](https://cdn.bartverm.dev/voltiac/examples/golfcaddie.png)
+
+  
+## Roadmap
+
+  
+## Authors
+
+- [@bartverm779](https://www.github.com/bartverm779)
+
+  
