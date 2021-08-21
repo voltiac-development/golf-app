@@ -1,5 +1,5 @@
 import express from 'express';
-import { login, processForgot, register, requestForgot } from '../app/Authentication.js';
+import { isNotAuthenticated, login, processForgot, register, requestForgot } from '../app/Authentication.js';
 var router = express.Router();
 
 /**
@@ -65,7 +65,7 @@ router.post("/login", async (req, res, next) => {
  *         "error": "A user exists with your email."
  *      }
  */
-router.post("/register", async (req, res, next) => {
+router.post("/register", isNotAuthenticated, async (req, res, next) => {
     let { data, error } = await register(req.body["email"], req.body["name"], req.body["password"], req.body["password_verify"], req.body["fav_course"], req.body['gender']);
 
     if (error) {
@@ -88,7 +88,7 @@ router.post("/register", async (req, res, next) => {
     next()
 })
 
-router.post('/forgot', async (req, res, next) => {
+router.post('/forgot', isNotAuthenticated, async (req, res, next) => {
     let { data, error } = await requestForgot(req.body['email']);
 
     if (error) {
@@ -111,7 +111,7 @@ router.post('/forgot', async (req, res, next) => {
     next()
 })
 
-router.patch('/forgot:id', async (req, res, next) => {
+router.patch('/forgot:id', isNotAuthenticated, async (req, res, next) => {
     let { data, error } = await processForgot(req.params['id'], req.body['uid'], req.body['password']);
 
     if (error) {

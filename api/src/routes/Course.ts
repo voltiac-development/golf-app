@@ -1,4 +1,5 @@
 import express from 'express';
+import { isAuthenticated } from '../app/Authentication.js';
 import { getAllCourses, getBusinessHours, getHoleLengths, getHoleValues, getSpecificCourse } from '../app/Course.js';
 import { getSpecificCourseRounds } from '../app/Round.js';
 var router = express.Router();
@@ -112,7 +113,7 @@ router.get('/hole/:id', async (req, res, next) => {
     next()
 });
 
-router.get('/rounds/:courseId', async (req, res, next) => {
+router.get('/rounds/:courseId', isAuthenticated, async (req, res, next) => {
     const { data, error } = await getSpecificCourseRounds(req['user'].id, req.params.courseId);
 
     if (error) {

@@ -1,4 +1,5 @@
 import express from 'express';
+import { isAuthenticated } from '../app/Authentication.js';
 import { editCurrentUserDetails, getCurrentUserDetails } from '../app/Profile.js';
 var router = express.Router();
 
@@ -27,7 +28,7 @@ var router = express.Router();
  *         "error": "'VOLTIAC.AUTH' cookie is not valid."
  *      }
  */
-router.get("/me", async (req, res, next) => {
+router.get("/me", isAuthenticated, async (req, res, next) => {
     console.log(req['user'])
     let { data, error } = await getCurrentUserDetails(req.header('gc-auth'));
 
@@ -51,7 +52,7 @@ router.get("/me", async (req, res, next) => {
     next()
 });
 
-router.post('/me', async (req, res, next) => {
+router.post('/me', isAuthenticated, async (req, res, next) => {
     let { data, error } = await editCurrentUserDetails(req.header('gc-auth'), req.body['name'], req.body['email'], req.body['newPassword'], req.body['verifiedPassword'], req.body['currentPassword'], req.body['handicap'], req.body['gender']);
 
     if (error) {

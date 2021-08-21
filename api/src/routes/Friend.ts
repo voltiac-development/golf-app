@@ -1,4 +1,5 @@
 import express from 'express';
+import { isAuthenticated } from '../app/Authentication.js';
 import { acceptRequest, declineRequest, deleteFriend, getAllFriends, getAllRequests, getSpecificFriend, requestNewFriend } from '../app/Friend.js';
 import { HTTPError } from '../errors/HTTPError.js';
 var router = express.Router();
@@ -21,7 +22,7 @@ var router = express.Router();
  *          ],
  *      }
  */
-router.get("/all", async (req, res, next) => {
+router.get("/all", isAuthenticated, async (req, res, next) => {
     let { data, error } = await getAllFriends(req['user'].id);
 
     if (error) {
@@ -44,7 +45,7 @@ router.get("/all", async (req, res, next) => {
     next()
 });
 
-router.get('/incoming', async (req, res, next) => {
+router.get('/incoming', isAuthenticated, async (req, res, next) => {
     let { data, error } = await getAllRequests(req['user'].id);
 
     if (error) {
@@ -67,7 +68,7 @@ router.get('/incoming', async (req, res, next) => {
     next()
 });
 
-router.get('/get/:id', async (req, res, next) => {
+router.get('/get/:id', isAuthenticated, async (req, res, next) => {
     let { data, error } = await getSpecificFriend(req['user'].id, req['params'].id);
 
     if (error) {
@@ -90,7 +91,7 @@ router.get('/get/:id', async (req, res, next) => {
     next()
 });
 
-router.post('/accept', async (req, res, next) => {
+router.post('/accept', isAuthenticated, async (req, res, next) => {
     let { data, error } = await acceptRequest(req['user'].id, req['body'].friendId);
 
     if (error) {
@@ -113,7 +114,7 @@ router.post('/accept', async (req, res, next) => {
     next()
 });
 
-router.post('/decline', async (req, res, next) => {
+router.post('/decline', isAuthenticated, async (req, res, next) => {
     let { data, error } = await declineRequest(req['user'].id, req['body'].friendId);
 
     if (error) {
@@ -136,7 +137,7 @@ router.post('/decline', async (req, res, next) => {
     next()
 });
 
-router.post('/add', async (req, res, next) => {
+router.post('/add', isAuthenticated, async (req, res, next) => {
     console.log(req['body'])
     let { data, error } = await requestNewFriend(req['user'].id, req['body'].friend);
 
@@ -160,7 +161,7 @@ router.post('/add', async (req, res, next) => {
     next()
 });
 
-router.delete('/remove', async (req, res, next) => {
+router.delete('/remove', isAuthenticated, async (req, res, next) => {
     let { data, error } = await deleteFriend(req['user'].id, req['body'].friendId);
 
     if (error) {

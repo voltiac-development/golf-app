@@ -95,3 +95,13 @@ export async function processForgot(keyId: string, uid: string, newpassword: str
 
     return response;
 }
+
+export async function isAuthenticated(req, res, next) {
+    if(req['user']) next();
+    else res.status(401).send({error: "NOT_AUTHENTICATED"})
+}
+
+export async function isNotAuthenticated(req, res, next) {
+    if(!req['user']) next();
+    else res.status(401).send({error: "NOT_AUTHENTICATED"})
+}
